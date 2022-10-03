@@ -1,5 +1,6 @@
 <template>
-  <div>
-    <NuxtWelcome />
+  <Gradient />
+  <div id="app">
+    <NuxtPage />
   </div>
 </template>

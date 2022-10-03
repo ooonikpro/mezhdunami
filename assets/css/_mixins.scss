@@ -1,0 +1,9 @@
+@mixin gradient {
+    background: radial-gradient(
+      189.6% 84.52% at 161.27% 135.59%,
+      #e64b3f 0%,
+      rgba(228, 151, 145, 0) 97.92%
+    ),
+    linear-gradient(188.24deg, #fff8f4 75.8%, #fce3dc 99.19%);
+  transform: matrix(1, 0, 0, -1, 0, 0);
+}
