@@ -9,28 +9,43 @@
 </template>
 
 <script lang="ts" setup>
+const { setAnimate } = usePageAnimation();
+const setBodyColor = useBodyBg();
 const { withGradient } = defineProps({
   withGradient: {
     type: Boolean,
     default: false,
   },
 });
+
+onBeforeMount(() => {
+  if (withGradient) {
+    setBodyColor("#F3BAB3");
+  } else {
+    setBodyColor("white");
+  }
+});
+
+onMounted(() => {
+  setTimeout(() => setAnimate(false), 500);
+});
 </script>
 
 <style lang="scss" scoped>
 .layout {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  background-color: $color-pink-100;
+  position: absolute;
+  inset: 0;
+  background-color: $color-white;
+  overflow: hidden;
+  z-index: 2;
 
   &::before,
   &::after {
+    top: -5rem;
     content: "";
     position: absolute;
     z-index: 1;
     display: block;
-    opacity: 0.5;
     mix-blend-mode: multiply;
     background-size: 100%;
     background-position: center;
@@ -38,21 +53,18 @@ const { withGradient } = defineProps({
   }
 
   &:before {
-    top: -5rem;
-    left: 0;
+    left: -5rem;
     width: 23rem;
     height: 43rem;
     background-image: url("@/assets/img/pero-1.png");
-    animation: layout-1 10s ease infinite;
+    opacity: 0.7;
   }
 
   &::after {
-    top: 0;
-    right: 0;
+    right: -5rem;
     width: 23rem;
     height: 39rem;
     background-image: url("@/assets/img/pero-2.png");
-    animation: layout-2 10s ease infinite;
   }
 }
 
@@ -67,26 +79,6 @@ const { withGradient } = defineProps({
   &::-webkit-scrollbar {
     width: 0;
     opacity: 0;
-  }
-}
-
-@keyframes layout-1 {
-  50% {
-    transform: translate(-1rem, 1rem) rotate(10deg);
-  }
-
-  to {
-    transform: translate(0, 0);
-  }
-}
-
-@keyframes layout-2 {
-  50% {
-    transform: translate(1rem, -1rem) rotate(-10deg);
-  }
-
-  to {
-    transform: translate(0, 0);
   }
 }
 </style>

@@ -1,37 +1,47 @@
 <template>
   <NuxtLayout with-gradient>
-    <div class="home-page">
+    <Container class="home-page">
       <Logo class="logo" />
 
       <nav>
-        <a href="#" class="media-btn h-64 telegram"></a>
-        <a href="#" class="media-btn h-64 instagram"></a>
-        <a href="#" class="media-btn h-64 whats-app"></a>
+        <a href="https:/t.me/lensem" class="media-btn h-64 telegram"></a>
+        <a
+          href="https://www.instagram.com/cosmo.kld"
+          class="media-btn h-64 instagram"
+        ></a>
+        <a
+          href="https://wa.me/79141939603"
+          class="media-btn h-64 whats-app"
+        ></a>
 
         <a href="#" class="media-btn h-64 full-width">
-          <span class="caption">Процедуры</span>
-          <span class="footnotes">Цены</span>
+          <span class="h3">Процедуры</span>
+          <span class="h5">Цены</span>
         </a>
 
-        <a href="#" class="media-btn h-64 full-width action-btn i-calendar">
-          <span class="caption large">Записаться</span>
+        <a
+          href="/form"
+          class="media-btn h-64 full-width action-btn i-calendar"
+          @click.prevent="goTo('/form')"
+        >
+          <span class="h2">Записаться</span>
         </a>
 
         <a href="#" class="media-btn h-128 full-width action-btn i-catalog">
-          <span class="caption">
+          <span class="h3">
             Профессиональная <br />
             косметика
           </span>
         </a>
 
         <a href="#" class="media-btn h-64 full-width">
-          <span class="caption">Рекомендации</span>
-          <span class="footnotes">После процедур</span>
+          <span class="h3">Рекомендации</span>
+          <span class="h5">После процедур</span>
         </a>
 
         <a href="#" class="media-btn h-64 full-width">
-          <span class="caption">Обо мне</span>
-          <span class="footnotes">Сертификаты Контакты</span>
+          <span class="h3">Обо мне</span>
+          <span class="h5">Дипломы Контакты</span>
         </a>
       </nav>
 
@@ -44,18 +54,29 @@
         />
 
         <div class="profile-details">
-          <span class="footnotes">Твой доктор</span>
-          <p class="caption">Овечкина</p>
+          <span class="h6">Врач-косметолог</span>
+          <p class="h3">Овечкина</p>
           <p>Елена Максимовна</p>
         </div>
       </div>
-    </div>
+    </Container>
   </NuxtLayout>
 </template>
+
+<script lang="ts" setup>
+const router = useAnimatedRouter();
+
+const goTo = (path) => router.push({ path });
+</script>
 
 <style lang="scss" scoped>
 .home-page {
   padding: 3.5rem 2.7rem 10rem 2.7rem;
+
+  @include fullscreen {
+    padding-top: 2rem;
+    padding-bottom: 3.5rem;
+  }
 }
 
 .logo {
@@ -71,8 +92,8 @@ nav {
 
 .media-btn {
   flex: 1 1 auto;
-  border-radius: 4px;
-  border: 1px solid rgba($color-pink-300, 0.5);
+  border-radius: 8px;
+  border: 1px solid rgba($color-pink-400, 0.2);
   outline: none;
   text-decoration: none;
   background-repeat: no-repeat;
@@ -127,23 +148,8 @@ nav {
   }
 }
 
-.caption {
-  &:not(.large) {
-    font-size: 2.4rem;
-    font-weight: 300;
-    line-height: 1.1;
-  }
-
-  &.large {
-    font-size: 3.2rem;
-    font-weight: 300;
-  }
-}
-
-.footnotes {
-  font-size: 1.4rem;
-  font-weight: 200;
-  line-height: 1.1;
+.h6 {
+  font-size: 1.1rem;
 }
 
 .profile {
@@ -154,6 +160,8 @@ nav {
 
 .photo {
   width: 12.8rem;
+  height: 12.8rem;
+  border-radius: 12.8rem;
 }
 
 .profile-details {

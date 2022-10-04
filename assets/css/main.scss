@@ -1,6 +1,8 @@
-@import '@/assets/font';
+@import './font.scss';
 
 :root {
+    --bg-color: #F3BAB3;
+
     font-size: 62.5%;
 }
 
@@ -9,30 +11,52 @@ html, body {
 }
 
 body {
-    background: $color-pink-100;
-    font-family: 'Neue Machina';
-    font-weight: 300;
-    color: $color-pink-700;
+    background: var(--bg-color);
 }
 
 a {
-    color: $color-pink-700;
+    text-decoration: none;
 }
 
 * {
     &,
     &::before,
     &::after {
+        color: $color-pink-700;
+        font-family: 'Neue Machina';
+        font-weight: 300;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
     }
 }
 
 #app {
+    position: relative;
     min-width: 360px;
     max-width: 480px;
     margin: auto;
     height: 100vh;
     overflow: hidden;
+}
+
+.page-animate {
+    body,
+    .page-enter-active,
+    .page-leave-active {
+        @include transition;
+    }
+
+    .page-enter-active {
+        box-shadow: -100px 0 100px rgba(0,0,0, .1);
+    }
+
+    .page-enter-from {
+        transform: translateX(100%);
+    }
+
+    .page-leave-to {
+        transform: translateX(-10rem);
+    }
 }
