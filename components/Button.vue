@@ -1,11 +1,15 @@
 <template>
-  <button type="button" :class="rootClasses" :disabled="disabled" class="h3">
+  <button type="button" :class="rootClasses" :disabled="disabled">
     <slot />
   </button>
 </template>
 
 <script lang="ts" setup>
-const { outline, disabled } = defineProps({
+const { outline, disabled, small } = defineProps({
+  small: {
+    type: Boolean,
+    default: false,
+  },
   outline: {
     type: Boolean,
     default: false,
@@ -18,7 +22,9 @@ const { outline, disabled } = defineProps({
 });
 
 const rootClasses = computed(() => ({
+  small,
   outline,
+  h3: true,
 }));
 </script>
 
@@ -28,6 +34,7 @@ button {
   height: 6.4rem;
   border: none;
   background-color: $color-pink-700;
+  border: 1px solid $color-pink-700;
   color: $color-white;
   outline: none;
   border-radius: 4px;
@@ -36,7 +43,21 @@ button {
   cursor: pointer;
 
   &.outline {
+    background-color: transparent;
+    color: $color-pink-700;
+  }
+
+  &.small {
+    padding-top: 0;
+    padding-bottom: 0;
     height: 4.6rem;
+  }
+
+  &.disabled,
+  &:disabled,
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 }
 </style>

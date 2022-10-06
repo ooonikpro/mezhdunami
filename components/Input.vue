@@ -98,7 +98,6 @@ label {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 2.4rem;
   height: 8rem;
   border: 1px solid rgba($color-pink-700, 0.25);
   border-radius: 4px;
