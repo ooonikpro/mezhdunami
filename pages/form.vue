@@ -40,7 +40,11 @@
         Напомнить за 2 часа до
       </Checkbox>
 
-      <Switcher v-model="form.typeOfNotify" />
+      <Switcher
+        v-model="form.typeOfNotify"
+        :options="options"
+        class="control"
+      />
 
       <Button class="button" disabled>Записаться</Button>
       <Button outline small>Отмена</Button>
@@ -57,6 +61,17 @@ const form = reactive({
   notify: false,
   typeOfNotify: 1,
 });
+
+const options = computed(() => [
+  {
+    label: "SMS",
+    value: 1,
+  },
+  {
+    label: "Мессенжер",
+    value: 2,
+  },
+]);
 </script>
 
 <style lang="scss" scoped>

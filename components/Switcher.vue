@@ -25,6 +25,30 @@ const setActive = (value: any) => emit("update:modelValue", value);
 .switcher {
   display: flex;
   gap: 0.4rem;
-  border: 1px solid rgba($color-pink-700, 0.5);
+  border: 1px solid rgba($color-pink-700, 0.25);
+  height: 6.4rem;
+  border-radius: 4px;
+  padding: 0.4rem;
+  overflow: hidden;
+}
+
+.option {
+  position: relative;
+  display: flex;
+  flex: 1 1 50%;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  @include transition;
+
+  &.active {
+    background-color: $color-pink-700;
+    cursor: auto;
+
+    span {
+      color: $color-white;
+    }
+  }
 }
 </style>
