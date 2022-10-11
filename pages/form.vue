@@ -2,53 +2,53 @@
     <NuxtLayout>
         <Head />
 
-        <h2>Записаться</h2>
+        <h2 class="mb-24">Записаться</h2>
 
         <Input
             label="Твое имя"
             placeholder="Например, Зоя"
             v-model="form.name"
-            class="control"
+            class="mb-16"
         />
         <Input
             type="tel"
             label="Номер телефона"
             placeholder="+7 9XX XXX XXXX"
             v-model="form.phone"
-            class="control"
+            class="mb-16"
         />
         <Input
             type="select"
             label="Процедуры"
             placeholder="Выберите процедуру"
             v-model="form.procedure"
-            class="control"
+            class="mb-16"
         />
         <Input
             type="select"
             label="Дата и время"
             placeholder="Выберите удобное время"
             v-model="form.date"
-            class="control"
+            class="mb-16"
         />
 
-        <Checkbox class="control" v-model="form.notify">
+        <Checkbox class="mb-16" v-model="form.notify">
             Напомнить за 2 часа до
         </Checkbox>
 
         <Switcher
             v-model="form.typeOfNotify"
             :options="options"
-            class="control"
+            class="mb-24"
         />
 
-        <Button class="button" @click="isOpenModal = true">Записаться</Button>
+        <Button class="mb-16" @click="isOpenModal = true">Записаться</Button>
         <Button outline small @click="router.push('/')">Отмена</Button>
 
-        <Modal :is-open="isOpenModal">
-            <Head />
-            <Button outline small @click="isOpenModal = false">Закрыть</Button>
-        </Modal>
+        <ProcedureListModal
+            :is-open="isOpenModal"
+            @close="isOpenModal = false"
+        />
     </NuxtLayout>
 </template>
 
@@ -77,17 +77,3 @@ const options = computed(() => [
     },
 ]);
 </script>
-
-<style lang="scss" scoped>
-.control {
-    margin-bottom: 2.4rem;
-}
-
-.button {
-    margin-bottom: 1.6rem;
-}
-
-h2 {
-    margin-bottom: 2.4rem;
-}
-</style>

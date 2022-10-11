@@ -1,63 +1,55 @@
 <template>
-  <button type="button" :class="rootClasses" :disabled="disabled">
-    <slot />
-  </button>
+    <button type="button" :class="rootClasses" :disabled="disabled">
+        <slot />
+    </button>
 </template>
 
 <script lang="ts" setup>
-const { outline, disabled, small } = defineProps({
-  small: {
-    type: Boolean,
-    default: false,
-  },
-  outline: {
-    type: Boolean,
-    default: false,
-  },
+interface Props {
+    outline?: boolean;
+    disabled?: boolean;
+    small?: boolean;
+}
 
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-});
+const { outline, disabled, small } = defineProps<Props>();
 
 const rootClasses = computed(() => ({
-  small,
-  outline,
-  h3: true,
+    small,
+    outline,
+    h3: true,
 }));
 </script>
 
 <style lang="scss" scoped>
 button {
-  width: 100%;
-  height: 6.4rem;
-  border: none;
-  background-color: $color-pink-700;
-  border: 1px solid $color-pink-700;
-  color: $color-white;
-  outline: none;
-  border-radius: 4px;
-  text-align: left;
-  padding: 2.4rem 1.2rem 1rem;
-  cursor: pointer;
+    width: 100%;
+    height: 6.4rem;
+    border: none;
+    background-color: $color-pink-700;
+    border: 1px solid $color-pink-700;
+    color: $color-white;
+    outline: none;
+    border-radius: 4px;
+    text-align: left;
+    padding: 2.4rem 1.2rem 1rem;
+    cursor: pointer;
 
-  &.outline {
-    background-color: transparent;
-    color: $color-pink-700;
-  }
+    &.outline {
+        background-color: transparent;
+        color: $color-pink-700;
+    }
 
-  &.small {
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 4.6rem;
-  }
+    &.small {
+        padding-top: 0;
+        padding-bottom: 0;
+        height: 4.6rem;
+    }
 
-  &.disabled,
-  &:disabled,
-  &[disabled] {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
+    &.disabled,
+    &:disabled,
+    &[disabled] {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
 }
 </style>

@@ -57,7 +57,7 @@ onMounted(() => {
         width: 23rem;
         height: 43rem;
         background-image: url("@/assets/img/pero-1.png");
-        opacity: 0.7;
+        opacity: 0.3;
     }
 
     &::after {
@@ -65,6 +65,7 @@ onMounted(() => {
         width: 23rem;
         height: 39rem;
         background-image: url("@/assets/img/pero-2.png");
+        opacity: 0.5;
     }
 }
 
@@ -75,7 +76,7 @@ onMounted(() => {
     z-index: 2;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    padding: 2.4rem 1.2rem;
+    padding: 2.4rem 1.2rem 7rem;
 
     &::-webkit-scrollbar {
         width: 0;
