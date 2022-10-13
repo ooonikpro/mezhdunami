@@ -113,6 +113,7 @@ label {
 }
 
 input {
+    flex: 1 1 auto;
     border: 0;
     outline: none;
     color: $color-pink-700;

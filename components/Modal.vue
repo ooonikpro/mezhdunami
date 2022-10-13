@@ -4,7 +4,17 @@
             <transition name="slide-down" appear>
                 <div v-if="isOpen" class="modal">
                     <NuxtLayout>
-                        <slot />
+                        <template #before-title>
+                            <slot name="before-title" />
+                        </template>
+
+                        <template #default>
+                            <slot />
+                        </template>
+
+                        <template #title>
+                            <slot name="title" />
+                        </template>
                     </NuxtLayout>
                 </div>
             </transition>

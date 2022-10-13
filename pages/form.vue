@@ -18,13 +18,7 @@
 
         <ProcedureInput v-model="form.procedures" />
 
-        <Input
-            type="select"
-            label="Дата и время"
-            placeholder="Выберите удобное время"
-            v-model="form.date"
-            class="mb-16"
-        />
+        <DateInput />
 
         <Checkbox class="mb-16" v-model="form.notify">
             Напомнить за 2 часа до
