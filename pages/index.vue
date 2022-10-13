@@ -1,7 +1,5 @@
 <template>
     <NuxtLayout with-gradient>
-        <Logo class="logo" />
-
         <nav>
             <a href="https:/t.me/lensem" class="media-btn h-64 telegram"></a>
             <a
@@ -75,10 +73,6 @@ const goTo = (path) => router.push({ path });
         padding-top: 2rem;
         padding-bottom: 3.5rem;
     }
-}
-
-.logo {
-    margin-bottom: 2.4rem;
 }
 
 nav {

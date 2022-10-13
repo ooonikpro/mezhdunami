@@ -3,6 +3,20 @@
         <Gradient v-if="withGradient" />
 
         <div class="layout-container">
+            <template v-if="withGradient">
+                <Logo class="logo" />
+            </template>
+
+            <template v-else>
+                <Head />
+
+                <slot name="before-title" />
+
+                <h2 class="mb-24">
+                    <slot name="title" />
+                </h2>
+            </template>
+
             <slot />
         </div>
     </div>

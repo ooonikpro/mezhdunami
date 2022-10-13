@@ -1,8 +1,6 @@
 <template>
     <NuxtLayout>
-        <Head />
-
-        <h2 class="mb-24">Записаться</h2>
+        <template #title>Записаться</template>
 
         <Input
             label="Твое имя"

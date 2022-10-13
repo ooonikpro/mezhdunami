@@ -1,9 +1,10 @@
 <template>
     <Modal :is-open="isOpen">
-        <Head />
-        <Button class="mb-24" outline small @click="close"> Назад </Button>
+        <template #before-title>
+            <Button class="mb-24" outline small @click="close"> Назад </Button>
+        </template>
 
-        <h2 class="mb-24">Выберите процедуру</h2>
+        <template #title>Выберите процедуру</template>
 
         <div class="mb-24">
             <div
