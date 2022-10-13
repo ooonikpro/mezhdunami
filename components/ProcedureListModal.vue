@@ -8,13 +8,17 @@
 
         <div class="mb-24">
             <div
-                v-for="option in options"
-                :key="option.key"
+                v-for="option in procedures"
+                :key="option.id"
                 class="procedure mb-24"
                 @click="toggle(option.id)"
             >
                 <div class="procedure-checkbox">
-                    <Checkbox :value="isActive(option.id)" />
+                    <Checkbox
+                        :modelValue="isActive(option.id)"
+                        @update:modelValue="toggle(option.id)"
+                        @click.stop
+                    />
                 </div>
                 <div class="procedure-head mb-24">
                     <h3 class="procedure-name mb-16">{{ option.name }}</h3>
@@ -46,61 +50,26 @@
 </template>
 
 <script lang="ts" setup>
-interface Emits {
-    (event: "close"): void;
-    (event: "confirm", ids: Array<number>): void;
-}
+const { isOpen, modelValue } =
+    defineProps<{ isOpen: boolean; modelValue: number[] }>();
+const emit = defineEmits(["close", "update:modelValue"]);
+const { procedures } = useProcedures();
 
-const { isOpen } = defineProps<{ isOpen: boolean }>();
-const emit = defineEmits<Emits>();
-
-const selected = ref([]);
-
-const options = readonly([
-    {
-        id: 1,
-        name: "Пилинг",
-        footnote: "GIGI или Renew System",
-        price: "1 500 — 3 000",
-        duration: "от 1 часа",
-        description: [
-            "Мультипиллинг Acnon",
-            "Молочный Nutri-Peptide",
-            "Миндальный Ester C",
-            "Срединный отбеливающий",
-            "Срединный Акнепил",
-            "Срединный Дермапил",
-        ],
-    },
-    {
-        id: 2,
-        name: "Пилинг",
-        footnote: "GIGI или Renew System",
-        price: "1 500 — 3 000",
-        duration: "от 1 часа",
-        description: [
-            "Мультипиллинг Acnon",
-            "Молочный Nutri-Peptide",
-            "Миндальный Ester C",
-            "Срединный отбеливающий",
-            "Срединный Акнепил",
-            "Срединный Дермапил",
-        ],
-    },
-]);
+const selected = ref(modelValue);
 
 const close = () => emit("close");
-const confirm = () => emit("confirm", selected);
+const confirm = () => {
+    emit("update:modelValue", selected);
+    close();
+};
 
 const isActive = (id: number) => selected.value.includes(id);
 
-const toggle = (procedure: typeof options[0]) => {
-    const isSelected = isActive(procedure.id);
-
-    if (isSelected) {
-        selected.value = selected.value.filter((item) => item !== procedure.id);
+const toggle = (id: number) => {
+    if (isActive(id)) {
+        selected.value = selected.value.filter((item) => item !== id);
     } else {
-        selected.value.push(procedure.id);
+        selected.value.push(id);
     }
 };
 </script>

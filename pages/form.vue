@@ -15,13 +15,9 @@
             v-model="form.phone"
             class="mb-16"
         />
-        <Input
-            type="select"
-            label="Процедуры"
-            placeholder="Выберите процедуру"
-            v-model="form.procedure"
-            class="mb-16"
-        />
+
+        <ProcedureInput v-model="form.procedures" />
+
         <Input
             type="select"
             label="Дата и время"
@@ -34,44 +30,31 @@
             Напомнить за 2 часа до
         </Checkbox>
 
-        <Switcher
-            v-model="form.typeOfNotify"
-            :options="options"
-            class="mb-24"
-        />
+        <NotificationSwitcher v-model="form.typeOfNotify" class="mb-24" />
 
-        <Button class="mb-16" @click="isOpenModal = true">Записаться</Button>
+        <Button class="mb-16">Записаться</Button>
         <Button outline small @click="router.push('/')">Отмена</Button>
-
-        <ProcedureListModal
-            :is-open="isOpenModal"
-            @close="isOpenModal = false"
-        />
     </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
+interface FormState {
+    name: string;
+    phone: string;
+    procedures: number[];
+    date: string;
+    notify: boolean;
+    typeOfNotify: 1 | 2;
+}
+
 const router = useRouter();
 
-const form = reactive({
+const form = reactive<FormState>({
     name: "",
     phone: "",
-    procedure: "",
+    procedures: [],
     date: "",
     notify: false,
     typeOfNotify: 1,
 });
-
-const isOpenModal = ref(false);
-
-const options = computed(() => [
-    {
-        label: "SMS",
-        value: 1,
-    },
-    {
-        label: "Мессенжер",
-        value: 2,
-    },
-]);
 </script>

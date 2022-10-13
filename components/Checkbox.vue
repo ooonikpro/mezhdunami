@@ -1,6 +1,10 @@
 <template>
     <label>
-        <input type="checkbox" v-model="value" />
+        <input
+            type="checkbox"
+            :checked="props.modelValue"
+            @change="emit('update:modelValue', !props.modelValue)"
+        />
         <span class="checkbox">
             <svg
                 width="20"
@@ -25,17 +29,7 @@
 
 <script lang="ts" setup>
 const props = defineProps<{ modelValue: boolean }>();
-const { modelValue } = toRefs(props);
 const emit = defineEmits(["update:modelValue"]);
-const value = computed({
-    get() {
-        return modelValue.value;
-    },
-
-    set(value: boolean) {
-        emit("update:modelValue", value);
-    },
-});
 </script>
 
 <style lang="scss" scoped>

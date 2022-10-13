@@ -1,13 +1,13 @@
 <template>
-    <label :class="{ disabled, focused, select: isSelect }">
-        <span class="label h5">{{ label }}</span>
+    <label :class="{ disabled: props.disabled, focused, select: isSelect }">
+        <span class="label h5">{{ props.label }}</span>
 
         <span v-if="isSelect" class="triangle" />
 
         <input
             :type="inputType"
             :placeholder="placeholder"
-            :disabled="disabled"
+            :disabled="props.disabled"
             :readonly="isSelect"
             :maxlength="maxlength"
             @focus="onFocus"
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-interface Props {
+interface InputProps {
     type?: "text" | "select" | "tel";
     label: string;
     placeholder?: string;
@@ -26,25 +26,20 @@ interface Props {
     modelValue?: string;
 }
 
-const { label, placeholder, type, ...props } = defineProps<Props>();
-const { disabled, modelValue } = toRefs(props);
+const props = defineProps<InputProps>();
 
 const emit = defineEmits(["update:modelValue"]);
 
-const isSelect = computed(() => type === "select");
+const isSelect = computed(() => props.type === "select");
 const focused = ref(false);
-
-const _value = ref(modelValue.value || "");
 
 const value = computed({
     get() {
-        return _value.value;
+        return props.modelValue;
     },
 
     set(val: string) {
-        _value.value = val;
-
-        emit("update:modelValue", _value.value);
+        emit("update:modelValue", val);
     },
 });
 
@@ -55,7 +50,7 @@ const onFocus = () => {
 const onBlur = () => {
     focused.value = false;
 
-    if (type === "tel" && value.value) {
+    if (props.type === "tel" && value.value) {
         value.value = value.value
             .replace(/\D/g, "")
             .split("")
@@ -64,13 +59,13 @@ const onBlur = () => {
 };
 
 const inputType = computed(() => {
-    if (type === "select") return "text";
+    if (props.type === "select") return "text";
 
-    return type;
+    return props.type;
 });
 
 const maxlength = computed(() => {
-    if (type === "tel") return 12;
+    if (props.type === "tel") return 12;
 
     return null;
 });
