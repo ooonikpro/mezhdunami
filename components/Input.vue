@@ -4,7 +4,19 @@
 
         <span v-if="isSelect" class="triangle" />
 
+        <textarea
+            v-if="inputType === 'textarea'"
+            :placeholder="placeholder"
+            :disabled="props.disabled"
+            :readonly="isSelect"
+            :maxlength="maxlength"
+            @focus="onFocus"
+            @blur="onBlur"
+            v-model="value"
+        />
+
         <input
+            v-else
             :type="inputType"
             :placeholder="placeholder"
             :disabled="props.disabled"
@@ -78,11 +90,11 @@ label {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    height: 8rem;
     border: 1px solid rgba($color-pink-700, 0.25);
     border-radius: 4px;
-    padding: 1rem 1.2rem;
+    padding: 1rem 0 0 1.2rem;
     background-color: rgba($color-white, 0.2);
+    margin-bottom: 2.4rem;
     @include transition;
 
     &.focused {
@@ -112,19 +124,30 @@ label {
     margin-bottom: 1.2rem;
 }
 
+textarea,
 input {
     flex: 1 1 auto;
     border: 0;
     outline: none;
     color: $color-pink-700;
-    height: 2.4rem;
     background: none;
     font-size: 1.8rem;
-    line-height: 2.4rem;
+    padding-bottom: 1rem;
+    padding-right: 1.2rem;
+    box-sizing: content-box;
 
     &::placeholder {
         color: rgba($color-pink-700, 0.5);
     }
+}
+
+input {
+    height: 2.4rem;
+    line-height: 2.4rem;
+}
+
+textarea {
+    min-height: 2.4rem;
 }
 
 .triangle {

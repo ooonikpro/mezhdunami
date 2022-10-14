@@ -26,8 +26,8 @@
                     <span class="h4">{{ option.duration }}</span>
                 </div>
                 <div class="procedure-body h4 mb-24">
-                    <span v-for="desc in option.description" :key="desc">
-                        {{ desc }}
+                    <span>
+                        {{ option.description }}
                     </span>
                 </div>
                 <div class="procedure-footer">
