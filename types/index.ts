@@ -23,7 +23,7 @@ declare global {
             name: string
             footnote: string
             price: string
-            description: string
+            description: string[]
             duration: string
         }
     }

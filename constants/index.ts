@@ -6,5 +6,3 @@ export const PROCEDURE: Record<keyof typeof Cosmo.Procedure, Cosmo.Procedure> = 
     LipPlastic: 5,
     FacePlastic: 6
 }
-
-export const useConst = () => {PROCEDURE};

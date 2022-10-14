@@ -22,12 +22,19 @@
                 </div>
                 <div class="procedure-head mb-24">
                     <h3 class="procedure-name mb-16">{{ option.name }}</h3>
-                    <span class="h4">{{ option.footnote }}</span>
-                    <span class="h4">{{ option.duration }}</span>
+                    <span class="procedure-footnote h4">
+                        {{ option.footnote }}
+                    </span>
+                    <span class="procedure-duration h4">
+                        {{ option.duration }}
+                    </span>
                 </div>
                 <div class="procedure-body h4 mb-24">
-                    <span>
-                        {{ option.description }}
+                    <span
+                        v-for="(item, $index) in option.description"
+                        :key="$index"
+                    >
+                        {{ item }}
                     </span>
                 </div>
                 <div class="procedure-footer">
@@ -82,7 +89,8 @@ const toggle = (id: number) => {
         "checkbox head"
         "checkbox body"
         "checkbox body"
-        "checkbox footer";
+        "footer footer";
+    grid-template-columns: 4.4rem 1fr;
     padding-bottom: 0.8rem;
 
     &:not(:last-child) {
@@ -91,27 +99,39 @@ const toggle = (id: number) => {
 }
 
 .procedure-checkbox {
+    width: 4.4rem;
     grid-area: checkbox;
 }
 
 .procedure-head {
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: 2.4rem;
+    display: grid;
     justify-content: space-between;
     grid-area: head;
+    grid-template-areas:
+        "name name"
+        "footnote duration";
+    grid-template-columns: 2fr 1fr;
+}
+
+.procedure-footnote {
+    grid-area: footnote;
 }
 
 .procedure-name {
-    width: 100%;
+    grid-area: name;
+}
+
+.procedure-duration {
+    grid-area: duration;
+    text-align: right;
 }
 
 .procedure-body {
+    max-width: 80%;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
     grid-area: body;
-    padding-right: 10rem;
 }
 
 .procedure-footer {
