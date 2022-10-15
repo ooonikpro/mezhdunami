@@ -46,7 +46,7 @@
             :formData="formData"
             :isOpen="isOpenFinalModal"
             @close="isOpenFinalModal = false"
-            @after-leave="goBack"
+            @after-leave="afterLeave"
         />
     </NuxtLayout>
 </template>
@@ -97,4 +97,6 @@ const onSubmit = () => {
 };
 
 const goBack = () => router.pushBack("/");
+
+const afterLeave = () => setTimeout(() => goBack(), 250);
 </script>
