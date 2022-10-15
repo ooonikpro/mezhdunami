@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 const props = defineProps<{ modelValue: number[] }>();
 const emit = defineEmits(["update:modelValue"]);
-const { procedures } = useProcedures();
+const { procedures, getNames } = useProcedures();
 
 const isOpenProcedureModal = ref(false);
 
@@ -32,10 +32,5 @@ const selectedProcedures = computed({
     },
 });
 
-const procedureLabel = computed(() =>
-    procedures.value
-        .filter((item) => selectedProcedures.value.includes(item.id))
-        .map((item) => item.name)
-        .join(", ")
-);
+const procedureLabel = computed(() => getNames(selectedProcedures.value));
 </script>

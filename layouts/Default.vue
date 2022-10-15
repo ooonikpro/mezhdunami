@@ -25,6 +25,7 @@
 <script lang="ts" setup>
 const { setAnimate } = usePageAnimation();
 const setBodyColor = useBodyBg();
+const statusBar = useStatusBar();
 const { withGradient } = defineProps({
     withGradient: {
         type: Boolean,
@@ -35,8 +36,10 @@ const { withGradient } = defineProps({
 onBeforeMount(() => {
     if (withGradient) {
         setBodyColor("#F3BAB3");
+        statusBar.setWhite();
     } else {
         setBodyColor("white");
+        statusBar.setBlack();
     }
 });
 

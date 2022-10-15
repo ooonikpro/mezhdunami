@@ -1,4 +1,5 @@
-import { PROCEDURE } from '@/constants';
+import { PROCEDURE_PRICE } from './../constants/index';
+import { PROCEDURE, PROCEDURE_DURATION } from '@/constants';
 
 export const useProcedures = () => {
     const procedures = computed<Cosmo.ProcedureEl[]>(() => [
@@ -6,7 +7,7 @@ export const useProcedures = () => {
             id: PROCEDURE.Peeling,
             name: 'Пиллинг',
             footnote: 'GIGI или Renew System',
-            duration: 'от 1 часа',
+            duration: '~ 1 час',
             description: [
                 'Мультипиллинг Acnon',
                 'Молочный Nutri-Peptide',
@@ -22,7 +23,7 @@ export const useProcedures = () => {
             id: PROCEDURE.Cleaning,
             name: 'Чистка',
             footnote: 'Лицо, спина',
-            duration: 'от 2 часов',
+            duration: '~ 2 часа',
             description: [
                 'Демакияж',
                 'Глубокое очищение',
@@ -34,13 +35,13 @@ export const useProcedures = () => {
                 'Крем по типу кожи',
                 'Крем с SPF защитой',
             ],
-            price: '3 000 — 3 500'
+            price: '3 000'
         },
         {
             id: PROCEDURE.Bio,
             name: 'Биоревитализация',
             footnote: '',
-            duration: 'от 2 часов',
+            duration: '~ 1 час',
             description: [
                 'Revi Style , Strong, Silk, Eye',
                 'Hyalual',
@@ -55,12 +56,12 @@ export const useProcedures = () => {
             id: PROCEDURE.Mezo,
             name: 'Мезотерапия',
             footnote: 'Лицо, голова, липолитики',
-            duration: 'от 2 часов',
+            duration: '~ 1 час',
             description: [
                 'Индивидуальный состав',
                 'Анестезия и поспроцедурный уход включен в стоимость',
             ],
-            price: '2 000 — 2 500'
+            price: '2 500'
         },
         {
             id: PROCEDURE.LipPlastic,
@@ -86,8 +87,44 @@ export const useProcedures = () => {
         },
     ]);
 
+    const getNames = (ids: Array<Cosmo.Procedure>) => {
+        return procedures.value
+            .filter((item) => ids.includes(item.id))
+            .map((item) => item.name)
+            .join(", ")
+    };
+
+    const getTotalDuration = (ids: Array<Cosmo.Procedure>) => {
+        return ids.reduce(
+            (sum: number, id: Cosmo.Procedure) => sum + PROCEDURE_DURATION[id],
+            0
+        );
+    };
+
+    const getTotalDurationLocalized = (ids: Array<Cosmo.Procedure>) => {
+        let label = 'час';
+        const hours = Math.ceil(getTotalDuration(ids) / 3600000);
+
+        if (hours > 1 && hours < 5) {
+            label += 'а';
+        }
+
+        if (hours >= 5) {
+            label += 'ов'
+        }
+
+        return `${hours} ${label}`;
+    }
+
+    const getTotalPrice = (ids: Array<Cosmo.Procedure>) => {
+        return ids.reduce((sum, id) => sum + PROCEDURE_PRICE[id], 0);
+    }
 
     return {
-        procedures
+        procedures,
+        getNames,
+        getTotalDuration,
+        getTotalDurationLocalized,
+        getTotalPrice
     }
 }

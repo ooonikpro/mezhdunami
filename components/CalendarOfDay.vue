@@ -3,11 +3,10 @@
         <div class="calendar-content">
             <div v-for="date in calendar" :key="date" class="calendar-column">
                 <span class="h4">
-                    <b>{{ getLocalizedDayOfWeek(date) }}</b>
+                    <b>{{ getLocalizedWeekday(date) }}</b>
                 </span>
                 <span class="h4 mb-8">
-                    {{ getNumericDate(date) }}
-                    {{ getLocalizedMonth(date) }}
+                    {{ getLocalizedDate(date) }}
                 </span>
 
                 <div class="calendar-slots">
@@ -15,12 +14,17 @@
                         v-for="(slot, $j) in timeSlots"
                         :key="$j"
                         class="calendar-slot"
+                        :class="{
+                            selected: isSelected(date, slot),
+                        }"
                     >
-                        <div class="calendar-slot-time h4">{{ slot }}</div>
+                        <div class="calendar-slot-time h4">{{ slot }}:00</div>
                         <div class="calendar-slot-status">
-                            <button class="calendar-slot-status-free h4">
-                                Свободно
-                            </button>
+                            <CalendarSlotBtn
+                                v-if="isFree(date, slot)"
+                                :isSelected="isSelected(date, slot)"
+                                @click="select(date, slot)"
+                            />
                         </div>
                     </div>
                 </div>
@@ -30,22 +34,40 @@
 </template>
 
 <script lang="ts" setup>
-const {
-    getCalendarMonth,
-    getLocalizedDayOfWeek,
-    getLocalizedMonth,
-    getNumericDate,
-} = useCaledar();
+interface CalendarOfDayProps {
+    disabledDates?: Array<Date>;
+    selectedProcedures: Array<Cosmo.Procedure>;
+    modelValue: Date | null;
+}
+
+const { getCalendarMonth, getLocalizedWeekday, getLocalizedDate, createDate } =
+    useCalendar();
 const timeSlots = readonly([10, 11, 12, 13, 14, 15, 16, 17, 18]);
 const calendar = computed(() => getCalendarMonth());
+const props = defineProps<CalendarOfDayProps>();
+const refProps = toRefs(props);
+const emit = defineEmits(["update:modelValue"]);
+
+const isFree = (date: Date, hour: number) => {
+    const slotDate = createDate(date, hour);
+
+    return true;
+};
+
+const selectedValue = ref(props.modelValue);
+
+const isSelected = (date: Date, hour: number) => {
+    return selectedValue.value?.getTime() === createDate(date, hour).getTime();
+};
+
+const select = (date: Date, hour: number) => {
+    selectedValue.value = createDate(date, hour);
+    emit("update:modelValue", selectedValue.value);
+};
 </script>
 
 
 <style lang="scss" scoped>
-.calendar {
-    width: 100%;
-}
-
 .calendar-container {
     width: auto;
     height: calc(100% + 17px);
@@ -82,8 +104,16 @@ const calendar = computed(() => getCalendarMonth());
     display: flex;
     height: 5rem;
 
+    &:not(:first-child) {
+        border-top: 1px solid rgba($color-pink-700, 0.25);
+    }
+
     &:not(:last-child) {
         border-bottom: 1px solid rgba($color-pink-700, 0.25);
+    }
+
+    &.selected {
+        background-color: rgba($color-pink-700, 0.25);
     }
 }
 
@@ -91,10 +121,11 @@ const calendar = computed(() => getCalendarMonth());
     display: flex;
     align-items: flex-end;
     flex: 0 0 auto;
-    width: 5rem;
+    width: 6rem;
     height: 5rem;
     color: rgba($color-pink-700, 0.5);
     padding: 0.4rem;
+    @include transition;
 }
 
 .calendar-slot-status {
@@ -102,21 +133,8 @@ const calendar = computed(() => getCalendarMonth());
     padding: 0.4rem;
 
     &:empty {
+        cursor: not-allowed;
         background-color: rgba($color-pink-700, 0.1);
     }
-}
-
-.calendar-slot-status-free {
-    width: calc(100% + 1rem);
-    height: 100%;
-    background-color: $color-pink-700;
-    border: none;
-    color: $color-white;
-    border-radius: 4px;
-    text-align: left;
-    display: flex;
-    align-items: flex-end;
-    padding: 0.4rem 0.8rem;
-    opacity: 0.8;
 }
 </style>

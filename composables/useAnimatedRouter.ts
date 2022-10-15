@@ -10,5 +10,10 @@ export const useAnimatedRouter = () => {
             setAnimate(true);
             return originalPush.apply(router, args);
         },
+
+        pushBack: (...args) => {
+            setAnimate(true, true);
+            return originalPush.apply(router, args);
+        }
     }
 }

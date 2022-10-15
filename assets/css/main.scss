@@ -12,7 +12,7 @@ html, body {
 
 body {
     background: var(--bg-color);
-    line-height: 1.4;
+    line-height: 1.2;
 }
 
 a {
@@ -49,17 +49,37 @@ a {
         @include transition;
     }
 
-    .page-enter-active {
-        box-shadow: -100px 0 100px rgba(0,0,0, .1);
+    &:not(.reversed) {
+        .page-enter-active {
+            box-shadow: -100px 0 100px rgba(0,0,0, .1);
+        }
+
+        .page-enter-from {
+            transform: translateX(100%);
+        }
+
+        .page-leave-to {
+            transform: translateX(-10rem);
+        }
     }
 
-    .page-enter-from {
-        transform: translateX(100%);
-    }
+    &.reversed {
+        .page-leave-active {
+            box-shadow: -100px 0 100px rgba(0,0,0, .1);
+        }
 
-    .page-leave-to {
-        transform: translateX(-10rem);
+        .page-enter-from {
+            transform: translateX(-100%);
+        }
+
+        .page-leave-to {
+            transform: translateX(100%);
+        }
     }
+}
+
+.mb-32 {
+    margin-bottom: 3.2rem;
 }
 
 .mb-24 {

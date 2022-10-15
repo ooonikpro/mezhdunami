@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-const { isAnimate } = usePageAnimation();
+const { isAnimate, isReverse } = usePageAnimation();
 
 onBeforeMount(() => {
     watch(
@@ -17,6 +17,18 @@ onBeforeMount(() => {
                 document.documentElement.classList.add("page-animate");
             } else {
                 document.documentElement.classList.remove("page-animate");
+            }
+        },
+        { immediate: true }
+    );
+
+    watch(
+        isReverse,
+        () => {
+            if (isReverse.value) {
+                document.documentElement.classList.add("reversed");
+            } else {
+                document.documentElement.classList.remove("reversed");
             }
         },
         { immediate: true }

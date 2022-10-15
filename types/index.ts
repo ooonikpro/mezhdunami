@@ -2,9 +2,23 @@ export { };
 
 declare global {
     namespace Tech {
+        enum TypeOfNotify {
+            SMS = 1,
+            MESSENGER = 2
+        }
+
         interface LabelValue<T extends any> {
             label: string
             value: T
+        }
+
+        interface PatientFormData {
+            name: string;
+            phone: string;
+            date: Date;
+            procedures: Array<Cosmo.Procedure>
+            notify: boolean
+            typeOfNotify: TypeOfNotify
         }
     }
 
@@ -16,15 +30,6 @@ declare global {
             Mezo = 4,
             LipPlastic = 5,
             FacePlastic = 6
-        }
-
-        interface ProcedureEl {
-            id?: Procedure
-            name: string
-            footnote: string
-            price: string
-            description: string[]
-            duration: string
         }
     }
 }

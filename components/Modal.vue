@@ -1,8 +1,12 @@
 <template>
     <ClientOnly>
         <Teleport to=".modals">
-            <transition name="slide-down" appear>
-                <div v-if="isOpen" class="modal">
+            <transition
+                name="slide-down"
+                @after-leave="emit('after-leave')"
+                appear
+            >
+                <div v-if="props.isOpen" class="modal">
                     <NuxtLayout>
                         <template #before-title>
                             <slot name="before-title" />
@@ -23,7 +27,8 @@
 </template>
 
 <script lang="ts" setup>
-const { isOpen } = defineProps<{ isOpen: boolean }>();
+const props = defineProps<{ isOpen: boolean }>();
+const emit = defineEmits(["after-leave"]);
 </script>
 
 <style lang="scss" scoped>

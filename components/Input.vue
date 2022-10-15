@@ -27,7 +27,6 @@ interface InputProps {
 }
 
 const props = defineProps<InputProps>();
-
 const emit = defineEmits(["update:modelValue"]);
 
 const isSelect = computed(() => props.type === "select");
@@ -130,6 +129,7 @@ input {
     background: none;
     font-size: 1.8rem;
     padding: 4.5rem 1.2rem 1rem 1.2rem;
+    text-overflow: ellipsis;
 
     &::placeholder {
         color: rgba($color-pink-700, 0.5);

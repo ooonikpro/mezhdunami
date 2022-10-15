@@ -44,13 +44,11 @@
             </div>
         </div>
 
-        <Button
-            class="mb-16"
-            :disabled="selected.length === 0"
-            @click="confirm"
-        >
-            Подтвердить
-        </Button>
+        <StickyBottom :isSticky="isSticky">
+            <Button :disabled="selected.length === 0" @click="confirm">
+                Подтвердить
+            </Button>
+        </StickyBottom>
 
         <Button outline small @click="close">Отмена</Button>
     </Modal>
@@ -63,11 +61,13 @@ const emit = defineEmits(["close", "update:modelValue"]);
 const { procedures } = useProcedures();
 
 const selected = ref(modelValue);
+const isSticky = ref(false);
 
 const close = () => emit("close");
 const confirm = () => {
     emit("update:modelValue", selected);
     close();
+    isSticky.value = false;
 };
 
 const isActive = (id: number) => selected.value.includes(id);
@@ -78,6 +78,8 @@ const toggle = (id: number) => {
     } else {
         selected.value.push(id);
     }
+
+    isSticky.value = true;
 };
 </script>
 
@@ -110,7 +112,7 @@ const toggle = (id: number) => {
     grid-template-areas:
         "name name"
         "footnote duration";
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
 }
 
 .procedure-footnote {
