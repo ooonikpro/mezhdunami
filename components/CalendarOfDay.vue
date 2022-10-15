@@ -1,15 +1,14 @@
 <template>
     <div class="calendar-container">
         <div class="calendar-content">
-            <div
-                v-for="day in calendar"
-                :key="day.localizedDate"
-                class="calendar-column"
-            >
+            <div v-for="date in calendar" :key="date" class="calendar-column">
                 <span class="h4">
-                    <b>{{ day.dayOfWeek }}</b>
+                    <b>{{ getLocalizedDayOfWeek(date) }}</b>
                 </span>
-                <span class="h4 mb-8">{{ day.localizedDate }}</span>
+                <span class="h4 mb-8">
+                    {{ getNumericDate(date) }}
+                    {{ getLocalizedMonth(date) }}
+                </span>
 
                 <div class="calendar-slots">
                     <div
@@ -31,7 +30,14 @@
 </template>
 
 <script lang="ts" setup>
+const {
+    getCalendarMonth,
+    getLocalizedDayOfWeek,
+    getLocalizedMonth,
+    getNumericDate,
+} = useCaledar();
 const timeSlots = readonly([10, 11, 12, 13, 14, 15, 16, 17, 18]);
+const calendar = computed(() => getCalendarMonth());
 </script>
 
 
@@ -58,6 +64,13 @@ const timeSlots = readonly([10, 11, 12, 13, 14, 15, 16, 17, 18]);
     width: 20rem;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: content-box;
+
+    &:last-child {
+        margin-right: 10rem;
+        padding-right: 2rem;
+    }
 }
 
 .calendar-slots {

@@ -1,9 +1,9 @@
 <template>
     <Modal :isOpen="props.isOpen">
         <template #before-title>
-            <Button outline small class="mb-24" @click="emit('close')"
-                >Назад</Button
-            >
+            <Button outline small class="mb-24" @click="emit('close')">
+                Назад
+            </Button>
         </template>
 
         <template #title>Выберите удобные день и время</template>
@@ -18,4 +18,6 @@
 <script lang="ts" setup>
 const props = defineProps<{ isOpen: boolean }>();
 const emit = defineEmits(["close"]);
+
+const confirm = () => {};
 </script>

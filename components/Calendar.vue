@@ -1,11 +1,6 @@
 <template>
     <div class="calendar">
-        <Switcher
-            v-model="typeOfCalendar"
-            :options="calendarTypes"
-            small
-            class="mb-24"
-        />
+        <CalendarOfDay />
     </div>
 </template>
 
@@ -24,8 +19,6 @@ const calendarTypes = computed(() => [
         value: 3,
     },
 ]);
-
-const typeOfCalendar = ref(calendarTypes.value[0].value);
 </script>
 
 
