@@ -4,19 +4,7 @@
 
         <span v-if="isSelect" class="triangle" />
 
-        <textarea
-            v-if="inputType === 'textarea'"
-            :placeholder="placeholder"
-            :disabled="props.disabled"
-            :readonly="isSelect"
-            :maxlength="maxlength"
-            @focus="onFocus"
-            @blur="onBlur"
-            v-model="value"
-        />
-
         <input
-            v-else
             :type="inputType"
             :placeholder="placeholder"
             :disabled="props.disabled"
@@ -66,7 +54,7 @@ const onBlur = () => {
         value.value = value.value
             .replace(/\D/g, "")
             .split("")
-            .reduce((p, n) => p.replace("x", n), "+x (xxx) xxx xx-xx");
+            .reduce((p, n) => p.replace("x", n), "+x xxx xxx xx-xx");
     }
 };
 
@@ -87,12 +75,12 @@ const maxlength = computed(() => {
 label {
     position: relative;
     width: 100%;
+    height: 8rem;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     border: 1px solid rgba($color-pink-700, 0.25);
     border-radius: 4px;
-    padding: 1rem 0 0 1.2rem;
     background-color: rgba($color-white, 0.2);
     margin-bottom: 2.4rem;
     @include transition;
@@ -105,6 +93,10 @@ label {
         &,
         * {
             cursor: pointer;
+        }
+
+        input {
+            padding-left: 3.2rem;
         }
     }
 
@@ -119,38 +111,35 @@ label {
 }
 
 .label {
+    position: absolute;
+    top: 1rem;
+    left: 1.2rem;
     width: 100%;
     font-weight: 300;
     margin-bottom: 1.2rem;
 }
 
-textarea,
 input {
+    display: flex;
+    align-items: flex-end;
     flex: 1 1 auto;
+    height: 100%;
     border: 0;
     outline: none;
     color: $color-pink-700;
     background: none;
     font-size: 1.8rem;
-    padding-bottom: 1rem;
-    padding-right: 1.2rem;
-    box-sizing: content-box;
+    padding: 4.5rem 1.2rem 1rem 1.2rem;
 
     &::placeholder {
         color: rgba($color-pink-700, 0.5);
     }
 }
 
-input {
-    height: 2.4rem;
-    line-height: 2.4rem;
-}
-
-textarea {
-    min-height: 2.4rem;
-}
-
 .triangle {
+    position: absolute;
+    bottom: 2rem;
+    left: 1.2rem;
     width: 1.2rem;
     height: 0.8rem;
     margin-right: 0.8rem;
