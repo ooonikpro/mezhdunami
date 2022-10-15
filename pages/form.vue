@@ -20,11 +20,15 @@
 
         <DateInput />
 
-        <Checkbox class="mb-16" v-model="form.notify">
+        <Checkbox v-if="false" class="mb-16" v-model="form.notify">
             Напомнить за 2 часа до
         </Checkbox>
 
-        <NotificationSwitcher v-model="form.typeOfNotify" class="mb-24" />
+        <NotificationSwitcher
+            v-if="form.notify"
+            v-model="form.typeOfNotify"
+            class="mb-24"
+        />
 
         <Button class="mb-16">Записаться</Button>
         <Button outline small @click="router.push('/')">Отмена</Button>
