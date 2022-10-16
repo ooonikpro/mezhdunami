@@ -62,15 +62,9 @@ interface FormState {
 }
 
 const router = useAnimatedRouter();
+const { addPatientToProcedure } = useFirebase();
 
-const formData = ref({
-    name: "Елена",
-    phone: "+7 999 888 77 66",
-    procedures: [1, 2, 3],
-    date: new Date(),
-    notify: false,
-    typeOfNotify: 1,
-});
+const formData = ref();
 const form = reactive<FormState>({
     name: "",
     phone: "",
@@ -88,12 +82,19 @@ const isDisabledSubmitBtn = computed(() => {
 
 const isOpenFinalModal = ref(false);
 
-const onSubmit = () => {
+const onSubmit = async () => {
     formData.value = {
         ...form,
         procedures: form.procedures.slice(),
     };
-    isOpenFinalModal.value = true;
+
+    try {
+        await addPatientToProcedure(formData.value);
+
+        isOpenFinalModal.value = true;
+    } catch (e) {
+        console.error(e);
+    }
 };
 
 const goBack = () => router.pushBack("/");
