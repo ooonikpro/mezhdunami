@@ -37,7 +37,7 @@
             <Button type="submit" class="mb-16" :disabled="isDisabledSubmitBtn">
                 Записаться
             </Button>
-            <Button type="button" outline small @click="goBack">
+            <Button type="button" outline small @click="goToBack('/')">
                 Отмена
             </Button>
         </form>
@@ -61,8 +61,7 @@ interface FormState {
     typeOfNotify: 1 | 2;
 }
 
-const router = useAnimatedRouter();
-const { addPatientToProcedure } = useFirebase();
+const { goToBack } = useAnimatedRouter();
 
 const formData = ref();
 const form = reactive<FormState>({
@@ -88,16 +87,8 @@ const onSubmit = async () => {
         procedures: form.procedures.slice(),
     };
 
-    try {
-        await addPatientToProcedure(formData.value);
-
-        isOpenFinalModal.value = true;
-    } catch (e) {
-        console.error(e);
-    }
+    isOpenFinalModal.value = true;
 };
 
-const goBack = () => router.pushBack("/");
-
-const afterLeave = () => setTimeout(() => goBack(), 250);
+const afterLeave = () => setTimeout(() => goToBack("/"), 250);
 </script>

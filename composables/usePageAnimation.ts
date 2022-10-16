@@ -7,9 +7,26 @@ export const usePageAnimation = () => {
         isReverse.value = reverse;
     }
 
+    const turnOnAnimation = ({ reverse } = { reverse: false }) => setAnimate(true, reverse);
+
+    const turnOffAnimation = () => {
+        let timeout = null;
+
+        return () => {
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+
+            timeout = setTimeout(() => {
+                setAnimate(false, false);
+            }, 600);
+        }
+    }
+
     return {
         isAnimate: readonly(isAnimate),
         isReverse: readonly(isReverse),
-        setAnimate
+        turnOnAnimation,
+        turnOffAnimation: turnOffAnimation()
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <NuxtLayout>
-        <template #title>Процедуры и цены</template>
+        <template #title>Рекомендации после процедур</template>
 
         <Button outline @click="goToBack('/')">Назад</Button>
     </NuxtLayout>

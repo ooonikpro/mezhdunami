@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-const { setAnimate } = usePageAnimation();
+const { turnOffAnimation } = usePageAnimation();
 const setBodyColor = useBodyBg();
 const statusBar = useStatusBar();
 const { withGradient } = defineProps({
@@ -43,9 +43,7 @@ onBeforeMount(() => {
     }
 });
 
-onMounted(() => {
-    setTimeout(() => setAnimate(false), 500);
-});
+onMounted(turnOffAnimation);
 </script>
 
 <style lang="scss" scoped>
@@ -99,5 +97,9 @@ onMounted(() => {
         width: 0;
         opacity: 0;
     }
+}
+
+h2 {
+    text-align: center;
 }
 </style>

@@ -11,7 +11,11 @@
                 class="media-btn h-64 whats-app"
             ></a>
 
-            <a href="#" class="media-btn h-64 full-width">
+            <a
+                href="#"
+                class="media-btn h-64 full-width"
+                @click.prevent="goTo('/price-list')"
+            >
                 <span class="h3">Процедуры</span>
                 <span class="h5">Цены</span>
             </a>
@@ -26,17 +30,25 @@
 
             <a href="#" class="media-btn h-128 full-width action-btn i-catalog">
                 <span class="h3">
-                    Профессиональная <br />
-                    косметика
+                    Заказать <br />
+                    домашний уход
                 </span>
             </a>
 
-            <a href="#" class="media-btn h-64 full-width">
+            <a
+                href="#"
+                class="media-btn h-64 full-width"
+                @click.prevent="goTo('/recommendations')"
+            >
                 <span class="h3">Рекомендации</span>
                 <span class="h5">После процедур</span>
             </a>
 
-            <a href="#" class="media-btn h-64 full-width">
+            <a
+                href="#"
+                class="media-btn h-64 full-width"
+                @click.prevent="goTo('/about')"
+            >
                 <span class="h3">Обо мне</span>
                 <span class="h5">Дипломы Контакты</span>
             </a>
@@ -60,9 +72,7 @@
 </template>
 
 <script lang="ts" setup>
-const router = useAnimatedRouter();
-
-const goTo = (path) => router.push({ path });
+const { goTo } = useAnimatedRouter();
 </script>
 
 <style lang="scss" scoped>

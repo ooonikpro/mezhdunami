@@ -43,10 +43,13 @@ a {
 }
 
 .page-animate {
-    body,
+    body {
+        @include transition;
+    }
+
     .page-enter-active,
     .page-leave-active {
-        @include transition;
+        transition: transform 300ms ease;
     }
 
     &:not(.reversed) {
@@ -64,12 +67,17 @@ a {
     }
 
     &.reversed {
+        .page-enter-active {
+            z-index: 1;
+        }
+
         .page-leave-active {
             box-shadow: -100px 0 100px rgba(0,0,0, .1);
+            z-index: 2;
         }
 
         .page-enter-from {
-            transform: translateX(-100%);
+            transform: translateX(-10rem);
         }
 
         .page-leave-to {

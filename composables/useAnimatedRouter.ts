@@ -1,19 +1,21 @@
 export const useAnimatedRouter = () => {
     const router = useRouter();
-    const { setAnimate } = usePageAnimation();
+    const { turnOnAnimation } = usePageAnimation();
 
     const originalPush = router.push;
 
-    return {
-        ...router,
-        push: (...args) => {
-            setAnimate(true);
-            return originalPush.apply(router, args);
-        },
+    const goTo = (...args) => {
+        turnOnAnimation();
+        return originalPush.apply(router, args);
+    }
 
-        pushBack: (...args) => {
-            setAnimate(true, true);
-            return originalPush.apply(router, args);
-        }
+    const goToBack = (...args) => {
+        turnOnAnimation({ reverse: true });
+        return originalPush.apply(router, args);
+    }
+
+    return {
+        goTo,
+        goToBack
     }
 }
