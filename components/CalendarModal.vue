@@ -8,7 +8,7 @@
 
         <template #title>Выберите удобные день и время</template>
 
-        <div class="calendar`">
+        <div class="calendar">
             <CalendarOfDay
                 :modelValue="props.modelValue"
                 :selectedProcedures="props.selectedProcedures"
