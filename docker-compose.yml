@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  # nginx:
+  #   image: macbre/nginx-brotli:latest
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   container_name: proxy_nginx
+  #   volumes:
+  #     - ./nginx:/etc/nginx/conf.d
+  #     - ./logs:/var/log/nginx/
+  # mongo:
+  #   image: mongo
+  #   restart: always
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: root
+  nuxt:
+    build: .
+    container_name: nuxt_app
+    ports:
+      - "3000:3000"
