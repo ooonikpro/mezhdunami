@@ -12,20 +12,13 @@ html, body {
 
 body {
     background: var(--bg-color);
-    line-height: 1.2;
-}
-
-a {
-    text-decoration: none;
+    color: $color-pink-700;
 }
 
 * {
     &,
     &::before,
     &::after {
-        color: $color-pink-700;
-        font-family: 'Neue Machina';
-        font-weight: 300;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
