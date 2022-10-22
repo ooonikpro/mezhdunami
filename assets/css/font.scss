@@ -29,7 +29,7 @@ b, strong {
     font-weight: 500;
 }
 
-body {
+* {
     @extend .h4;
     line-height: 1.2;
     font-weight: 300;

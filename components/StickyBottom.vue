@@ -18,7 +18,11 @@ const props = defineProps<{ isSticky: boolean }>();
 
     &.sticky {
         position: sticky;
-        bottom: -7rem;
+        bottom: -10rem;
+
+        @include fullscreen {
+            bottom: 0rem;
+        }
     }
 }
 </style>
