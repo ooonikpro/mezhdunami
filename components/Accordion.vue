@@ -1,6 +1,6 @@
 <template>
-    <div class="accordion">
-        <div class="accordion-head h2" @click="toggle">
+    <div class="accordion" :class="{ open: isOpen }">
+        <div class="accordion-head h3" @click="toggle">
             <div class="accordion-title">
                 <slot name="title" />
             </div>
@@ -36,13 +36,17 @@ const toggle = () => (isOpen.value = !isOpen.value);
     width: 100%;
     display: flex;
     flex-direction: column;
-    min-height: 1;
     @include transition;
     gap: 1.6rem;
-    padding: 2.4rem;
+    padding: 2.4rem 5.2rem 2.4rem 2.4rem;
     color: $color-green-700;
     background-color: $color-green-200;
     border-radius: 4px;
+    max-height: 15rem;
+
+    &.open {
+        max-height: 500rem;
+    }
 }
 
 .accordion-head {
@@ -52,22 +56,37 @@ const toggle = () => (isOpen.value = !isOpen.value);
 }
 
 .accordion-title {
-    margin-right: 2.4rem;
+    padding-right: 1rem;
 }
 
 .angle {
     position: absolute;
-    top: 50%;
-    right: 0;
+    top: 0;
+    bottom: 0;
+    right: -2.7rem;
+    margin: auto;
     transform-origin: center;
     @include transition;
 
     &.down {
-        transform: scale(0.8) translateY(-50%) rotate(90deg);
+        transform: scale(0.6) rotate(90deg);
     }
 
     &.up {
-        transform: scale(0.8) translateY(-50%) rotate(-90deg);
+        transform: scale(0.6) rotate(-90deg);
+    }
+}
+
+.accordion-body {
+    &.expand-enter-active,
+    &.expand-leave-active {
+        @include transition;
+    }
+
+    &.expand-enter-from,
+    &.expand-leave-to {
+        opacity: 0;
+        transform: translateY(-1rem);
     }
 }
 </style>
