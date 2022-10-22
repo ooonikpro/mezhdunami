@@ -91,7 +91,11 @@ onMounted(turnOffAnimation);
     z-index: 2;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    padding: 2.4rem 1.2rem 7rem;
+    padding: 2.4rem 1.2rem 10rem;
+
+    @include fullscreen {
+        padding-bottom: 2.4rem;
+    }
 
     &::-webkit-scrollbar {
         width: 0;
