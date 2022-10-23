@@ -62,6 +62,7 @@ interface FormState {
 }
 
 const { goToBack } = useAnimatedRouter();
+const { addToSchedule } = useSchedule();
 
 const formData = ref();
 const form = reactive<FormState>({
@@ -86,6 +87,8 @@ const onSubmit = async () => {
         ...form,
         procedures: form.procedures.slice(),
     };
+
+    await addToSchedule(formData.value);
 
     isOpenFinalModal.value = true;
 };

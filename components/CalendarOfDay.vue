@@ -42,6 +42,11 @@ interface CalendarOfDayProps {
 
 const { getCalendarMonth, getLocalizedWeekday, getLocalizedDate, createDate } =
     useCalendar();
+
+const { getCurrentSchedule } = useSchedule();
+
+const schedule = ref([]);
+
 const timeSlots = readonly([10, 11, 12, 13, 14, 15, 16, 17, 18]);
 const calendar = computed(() => getCalendarMonth());
 const props = defineProps<CalendarOfDayProps>();
@@ -51,7 +56,7 @@ const emit = defineEmits(["update:modelValue"]);
 const isFree = (date: Date, hour: number) => {
     const slotDate = createDate(date, hour);
 
-    return true;
+    return !schedule.value.includes(slotDate.getTime());
 };
 
 const selectedValue = ref(props.modelValue);
@@ -64,6 +69,10 @@ const select = (date: Date, hour: number) => {
     selectedValue.value = createDate(date, hour);
     emit("update:modelValue", selectedValue.value);
 };
+
+onBeforeMount(async () => {
+    schedule.value = await getCurrentSchedule();
+});
 </script>
 
 

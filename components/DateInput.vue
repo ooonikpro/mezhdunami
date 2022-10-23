@@ -31,11 +31,11 @@ const isOpenCalendarModal = ref(false);
 
 const value = computed({
     get() {
-        return props.modelValue;
+        return props.modelValue ? new Date(props.modelValue) : null;
     },
 
     set(val: Date) {
-        emit("update:modelValue", val);
+        emit("update:modelValue", val.getTime());
     },
 });
 

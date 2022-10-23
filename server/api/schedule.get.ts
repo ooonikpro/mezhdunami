@@ -1,9 +1,3 @@
-import { main } from '../utils/db';
+import { getCurrentSchedule } from "../services/ScheduleService";
 
-export default defineEventHandler(async () => {
-    try {
-        return await main();
-    } catch (e) {
-        return e;
-    }
-});
+export default defineEventHandler(getCurrentSchedule);

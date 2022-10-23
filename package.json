@@ -4,8 +4,8 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "start": "nuxt preview",
-    "start-mongo": "docker compose -f ./docker/docker-compose.yml run mongo_db",
-    "docker-start": "docker compose -f ./docker/docker-compose.yml down && docker compose -f ./docker/docker-compose.yml build && docker compose -f ./docker/docker-compose.yml up"
+    "mongo": "docker compose -f ./docker/docker-compose.yml run mongo_db",
+    "docker": "docker compose -f ./docker/docker-compose.yml down && docker compose -f ./docker/docker-compose.yml build && docker compose -f ./docker/docker-compose.yml up"
   },
   "devDependencies": {
     "@nuxtjs/pwa": "^3.3.5",
