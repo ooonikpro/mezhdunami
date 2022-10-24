@@ -20,6 +20,12 @@ declare global {
             notify: boolean
             typeOfNotify: TypeOfNotify
         }
+
+        interface ResponseAPI<T> {
+            data: T;
+            success: boolean;
+            message?: string;
+        }
     }
 
     namespace Cosmo {

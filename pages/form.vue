@@ -45,8 +45,7 @@
         <FormFinalStepModal
             :formData="formData"
             :isOpen="isOpenFinalModal"
-            @close="isOpenFinalModal = false"
-            @after-leave="afterLeave"
+            @close="close"
         />
     </NuxtLayout>
 </template>
@@ -62,10 +61,13 @@ interface FormState {
 }
 
 const { goToBack } = useAnimatedRouter();
-const { addToSchedule } = useSchedule();
+const {
+    addToSchedule,
+    refresh: refreshSchedule,
+    execute: fetchSchedule,
+} = useSchedules();
 
-const formData = ref();
-const form = reactive<FormState>({
+const getInitialFormState = (): FormState => ({
     name: "",
     phone: "",
     procedures: [],
@@ -73,6 +75,8 @@ const form = reactive<FormState>({
     notify: false,
     typeOfNotify: 1,
 });
+const formData = ref();
+let form = reactive<FormState>(getInitialFormState());
 
 const isDisabledSubmitBtn = computed(() => {
     return (
@@ -88,10 +92,17 @@ const onSubmit = async () => {
         procedures: form.procedures.slice(),
     };
 
-    await addToSchedule(formData.value);
+    try {
+        await addToSchedule(formData.value);
 
-    isOpenFinalModal.value = true;
+        isOpenFinalModal.value = true;
+    } catch (e) {
+        refreshSchedule();
+        alert(e.message);
+    }
 };
 
-const afterLeave = () => setTimeout(() => goToBack("/"), 250);
+const close = () => goToBack("/");
+
+onBeforeMount(fetchSchedule);
 </script>

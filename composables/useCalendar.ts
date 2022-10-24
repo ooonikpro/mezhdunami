@@ -3,7 +3,7 @@ const getUppercase = (str: string) => str[0].toUpperCase() + str.slice(1);
 export const useCalendar = () => {
     const today = new Date();
     const year = today.getFullYear();
-    const month = today.getMonth() + 1;
+    const month = today.getMonth();
     const day = today.getDate();
 
     const getDaysInMonth = (mm: number = month) => new Date(year, mm, 0, 0, 0, 0, 0).getDate();
@@ -17,7 +17,7 @@ export const useCalendar = () => {
 
         return new Array(futureDays)
             .fill(today)
-            .map((date: Date, offset: number) => new Date(date.setDate(day + offset + 1)));
+            .map((_, offset: number) => new Date(year, month, day + offset + 1));
     };
 
     const getLocalizedWeekday = (date: Date): string => {
@@ -47,12 +47,16 @@ export const useCalendar = () => {
         return newDate;
     }
 
+    const getTomorrow = () => {
+        return createDate(new Date(year, month, day + 1), 0);
+    }
 
     return {
         getCalendarMonth,
         getLocalizedWeekday,
         getLocalizedDate,
         getLocalizedFullDate,
+        getTomorrow,
         createDate,
     }
 }

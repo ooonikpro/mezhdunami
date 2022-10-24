@@ -1,15 +1,17 @@
-import { getCollection } from "../clients/DataBaseClient";
+import { getCollection } from "../mongo";
+import { useCalendar } from "~~/composables/useCalendar";
 
 const collection = getCollection('schedule');
+const { getTomorrow } = useCalendar();
 
-export const getCurrentSchedule = async (): Promise<Array<any>> => {
+export const getCurrentSchedule = async (): Promise<number[]> => {
     const schedule = await collection;
 
     const result = await schedule.find({
         date: {
-            $gt: new Date().getTime()
+            $gt: getTomorrow().getTime()
         }
-    }).toArray();
+    }).sort({ date: 1 }).toArray();
 
     return await result.map((item) => item.date);
 }
@@ -17,16 +19,14 @@ export const getCurrentSchedule = async (): Promise<Array<any>> => {
 export const findOne = async (date: number): Promise<number | undefined> => {
     const schedule = await collection;
 
-    const result = await schedule.find({ date }).toArray();
-
-    return result[0];
+    return await schedule.findOne({ date });
 }
 
 export const addToSchedule = async (data: Tech.PatientFormData) => {
     const schedule = await collection;
 
     if (await findOne(data.date)) {
-        return createError({ statusCode: 400, message: 'Это время занято. Выберите пожалуйста другое', data });
+        return false;
     }
 
     schedule.insertOne(data);
