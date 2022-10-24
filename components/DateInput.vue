@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 interface DateInputProps {
-    modelValue: Date | null;
+    modelValue: number | null;
     selectedProcedures: Array<Cosmo.Procedure>;
 }
 
@@ -31,17 +31,17 @@ const isOpenCalendarModal = ref(false);
 
 const value = computed({
     get() {
-        return props.modelValue ? new Date(props.modelValue) : null;
+        return props.modelValue;
     },
 
-    set(val: Date) {
-        emit("update:modelValue", val.getTime());
+    set(val: number) {
+        emit("update:modelValue", val);
     },
 });
 
 const localizedDate = computed(() => {
     if (value.value) {
-        return getLocalizedFullDate(value.value);
+        return getLocalizedFullDate(new Date(value.value));
     }
 
     return "";

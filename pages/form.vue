@@ -66,6 +66,7 @@ const {
     refresh: refreshSchedule,
     execute: fetchSchedule,
 } = useSchedules();
+const { init: initCalendar } = useCalendar();
 
 const getInitialFormState = (): FormState => ({
     name: "",
@@ -105,4 +106,5 @@ const onSubmit = async () => {
 const close = () => goToBack("/");
 
 onBeforeMount(fetchSchedule);
+onMounted(initCalendar);
 </script>

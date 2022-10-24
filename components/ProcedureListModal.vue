@@ -45,7 +45,11 @@
         </div>
 
         <StickyBottom :isSticky="isSticky">
-            <Button :disabled="selected.length === 0" @click="confirm">
+            <Button
+                type="button"
+                :disabled="selected.length === 0"
+                @click="confirm"
+            >
                 Подтвердить
             </Button>
         </StickyBottom>
@@ -55,17 +59,24 @@
 </template>
 
 <script lang="ts" setup>
-const { isOpen, modelValue } =
-    defineProps<{ isOpen: boolean; modelValue: number[] }>();
+const props = defineProps<{ isOpen: boolean; modelValue: number[] }>();
 const emit = defineEmits(["close", "update:modelValue"]);
 const { procedures } = useProcedures();
 
-const selected = ref(modelValue);
+const selected = ref();
 const isSticky = ref(false);
+
+watch(
+    props.modelValue,
+    () => {
+        selected.value = props.modelValue;
+    },
+    { immediate: true }
+);
 
 const close = () => emit("close");
 const confirm = () => {
-    emit("update:modelValue", selected);
+    emit("update:modelValue", selected.value);
     close();
     isSticky.value = false;
 };

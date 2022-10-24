@@ -1,7 +1,7 @@
 export const useSchedules = () => {
     const URL = '/api/schedules';
 
-    const { data: schedule, ...resultFetch } = useFetch(URL);
+    const { data: schedule, ...resultFetch } = useFetch<Tech.ResponseAPI<Tech.ScheduleItem[]>>(URL);
 
     const addToSchedule = async (formData: Tech.PatientFormData) => {
         const { data, execute } = useFetch(URL, {
@@ -17,8 +17,6 @@ export const useSchedules = () => {
 
         return true
     };
-
-
 
     return {
         ...resultFetch,

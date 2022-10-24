@@ -12,11 +12,14 @@ declare global {
             value: T
         }
 
-        interface PatientFormData {
+        interface ScheduleItem {
+            date: number
+            procedures: Array<Cosmo.Procedure>
+        }
+
+        interface PatientFormData extends ScheduleItem {
             name: string;
             phone: string;
-            date: number;
-            procedures: Array<Cosmo.Procedure>
             notify: boolean
             typeOfNotify: TypeOfNotify
         }

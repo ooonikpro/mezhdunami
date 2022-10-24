@@ -16,25 +16,10 @@
 const props = defineProps<{ isSelected: boolean }>();
 
 const button = ref<HTMLButtonElement | null>(null);
-const isMounted = ref(false);
 
-onMounted(() => (isMounted.value = true));
-
-const unwatch = watch([isMounted], () => {
-    if (isMounted.value && props.isSelected) {
+onMounted(() => {
+    if (props.isSelected) {
         button.value.scrollIntoView({ inline: "center", block: "nearest" });
-
-        unwatch();
-    }
-});
-
-watch([props], () => {
-    if ((isMounted.value, props.isSelected)) {
-        button.value.scrollIntoView({
-            inline: "center",
-            block: "nearest",
-            behavior: "smooth",
-        });
     }
 });
 </script>

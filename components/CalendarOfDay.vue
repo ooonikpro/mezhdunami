@@ -1,32 +1,28 @@
 <template>
     <div class="calendar-container">
         <div class="calendar-content">
-            <div v-for="date in calendar" :key="date" class="calendar-column">
+            <div
+                v-for="item in calendar"
+                :key="item.date"
+                class="calendar-column"
+            >
                 <span class="h4">
-                    <b>{{ getLocalizedWeekday(date) }}</b>
+                    <b>{{ getLocalizedWeekday(item.date) }}</b>
                 </span>
                 <span class="h4 mb-8">
-                    {{ getLocalizedDate(date) }}
+                    {{ getLocalizedDate(item.date) }}
                 </span>
 
                 <div class="calendar-slots">
-                    <div
-                        v-for="(slot, $j) in timeSlots"
+                    <CalendarSlot
+                        v-for="(slot, $j) in item.slots"
                         :key="$j"
-                        class="calendar-slot"
-                        :class="{
-                            selected: isSelected(date, slot),
-                        }"
+                        :isFree="isFree(slot.date)"
+                        :isSelected="isSelected(slot.date)"
+                        @select="select(slot.date)"
                     >
-                        <div class="calendar-slot-time h4">{{ slot }}:00</div>
-                        <div class="calendar-slot-status">
-                            <CalendarSlotBtn
-                                v-if="isFree(date, slot)"
-                                :isSelected="isSelected(date, slot)"
-                                @click="select(date, slot)"
-                            />
-                        </div>
-                    </div>
+                        {{ slot.time }}
+                    </CalendarSlot>
                 </div>
             </div>
         </div>
@@ -35,27 +31,62 @@
 
 <script lang="ts" setup>
 interface CalendarOfDayProps {
-    disabledDates?: Array<Date>;
+    disabledDates?: Array<number>;
     selectedProcedures: Array<Cosmo.Procedure>;
-    modelValue: Date | null;
+    modelValue: number | null;
 }
 
 const { getCalendarMonth, getLocalizedWeekday, getLocalizedDate, createDate } =
     useCalendar();
 
+const { getTotalDuration } = useProcedures();
+
 const { data: schedule } = useSchedules();
 
-const timeSlots = readonly([10, 11, 12, 13, 14, 15, 16, 17, 18]);
 const calendar = computed(() => getCalendarMonth());
 const props = defineProps<CalendarOfDayProps>();
 const refProps = toRefs(props);
 const emit = defineEmits(["update:modelValue"]);
 
-const isFree = (date: Date, hour: number) => {
-    const slotDate = createDate(date, hour);
+const slotDuration = computed(() => getTotalDuration(props.selectedProcedures));
+
+const isFree = (slot: number) => {
+    const slotStart = slot;
+    const hour = new Date(slot).getHours();
+
+    const slotEnd = slotStart + slotDuration.value;
+
+    // Если продолжительность больше 1 часа в последний слот
+    if (18 === hour && slotDuration.value / 3600 / 1000 > 1) {
+        return false;
+    }
 
     if (Array.isArray(schedule.value)) {
-        return !schedule.value.includes(slotDate.getTime());
+        for (let i = 0; i < schedule.value.length; i++) {
+            const item = schedule.value[i];
+            const itemStart = item.date;
+            const itemEnd = itemStart + getTotalDuration(item.procedures);
+
+            // Если время начала слота пересекается со временем другого пациента
+            if (slotStart >= itemStart && slotStart <= itemEnd) {
+                return false;
+            }
+
+            const nextItem = schedule.value[i + 1];
+
+            if (!nextItem) continue;
+
+            const nextItemStart = nextItem.date;
+            const nextItemEnd =
+                nextItemStart + getTotalDuration(nextItem.procedures);
+
+            // Если время конца слота пересекается со временем другого пациента
+            if (slotEnd >= nextItemStart && slotEnd <= nextItemEnd) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     return false;
@@ -63,13 +94,13 @@ const isFree = (date: Date, hour: number) => {
 
 const selectedValue = ref(props.modelValue);
 
-const isSelected = (date: Date, hour: number) => {
-    return selectedValue.value?.getTime() === createDate(date, hour).getTime();
+const isSelected = (date: number) => {
+    return selectedValue.value === date;
 };
 
-const select = (date: Date, hour: number) => {
-    selectedValue.value = createDate(date, hour);
-    emit("update:modelValue", selectedValue.value);
+const select = (date: number) => {
+    selectedValue.value = date;
+    emit("update:modelValue", date);
 };
 </script>
 
@@ -105,43 +136,5 @@ const select = (date: Date, hour: number) => {
 .calendar-slots {
     border-radius: 4px;
     border: 1px solid rgba($color-pink-700, 0.25);
-}
-
-.calendar-slot {
-    display: flex;
-    height: 5rem;
-
-    &:not(:first-child) {
-        border-top: 1px solid rgba($color-pink-700, 0.25);
-    }
-
-    &:not(:last-child) {
-        border-bottom: 1px solid rgba($color-pink-700, 0.25);
-    }
-
-    &.selected {
-        background-color: rgba($color-pink-700, 0.25);
-    }
-}
-
-.calendar-slot-time {
-    display: flex;
-    align-items: flex-end;
-    flex: 0 0 auto;
-    width: 6rem;
-    height: 5rem;
-    color: rgba($color-pink-700, 0.5);
-    padding: 0.4rem;
-    @include transition;
-}
-
-.calendar-slot-status {
-    flex: 1 1 auto;
-    padding: 0.4rem;
-
-    &:empty {
-        cursor: not-allowed;
-        background-color: rgba($color-pink-700, 0.1);
-    }
 }
 </style>
