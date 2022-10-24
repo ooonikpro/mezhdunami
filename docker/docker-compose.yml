@@ -9,7 +9,6 @@ services:
       - "443:443"
     volumes:
       - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
-      - ./logs:/var/log/nginx/
     environment:
       PORT: 80
       SERVER_NAME: localhost
@@ -35,14 +34,15 @@ services:
     build:
       context: ../
       dockerfile: ./docker/Dockerfile
+    restart: always
     container_name: nuxt_container
     ports:
       - "3000:3000"
     environment:
       PORT: 3000
-      MONGO_URI: mongodb://mongo_container:27017
+      MONGO_URI: mongodb://root:example@mongo_db
       DB_NAME: mezhdunami
     depends_on:
       - mongo_db
 volumes:
-  mongo_db: {}
+  mongo_db:
