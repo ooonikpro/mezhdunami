@@ -4,8 +4,9 @@
         label="Процедуры"
         placeholder="Выберите процедуры"
         :modelValue="procedureLabel"
+        :disabled="props.disabled"
         class="mb-16"
-        @click="isOpenProcedureModal = true"
+        @click="isOpenProcedureModal = !props.disabled"
     />
 
     <ProcedureListModal
@@ -16,9 +17,9 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{ modelValue: number[] }>();
+const props = defineProps<{ modelValue: number[]; disabled: boolean; }>();
 const emit = defineEmits(["update:modelValue"]);
-const { procedures, getNames } = useProcedures();
+const { getNames } = useProcedures();
 
 const isOpenProcedureModal = ref(false);
 

@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 const props = defineProps<{ isOpen: boolean }>();
-const emit = defineEmits(["after-leave"]);
+const emit = defineEmits(["after-leave", "close"]);
 </script>
 
 <style lang="scss" scoped>

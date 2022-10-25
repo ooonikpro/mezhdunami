@@ -4,9 +4,9 @@
         label="Дата и время"
         placeholder="Выберите удобное время"
         class="mb-16"
-        :disabled="props.selectedProcedures.length === 0"
+        :disabled="isDisabled"
         :modelValue="localizedDate"
-        @click="isOpenCalendarModal = true"
+        @click="isOpenCalendarModal = !isDisabled"
     />
 
     <CalendarModal
@@ -21,6 +21,7 @@
 interface DateInputProps {
     modelValue: number | null;
     selectedProcedures: Array<Cosmo.Procedure>;
+    disabled?: boolean;
 }
 
 const { getLocalizedFullDate } = useCalendar();
@@ -46,4 +47,6 @@ const localizedDate = computed(() => {
 
     return "";
 });
+
+const isDisabled = computed(() => props.disabled || props.selectedProcedures.length === 0);
 </script>
