@@ -94,8 +94,8 @@ nav {
 
 .media-btn {
     flex: 1 1 auto;
-    border-radius: 8px;
-    border: 1px solid rgba($color-pink-400, 0.2);
+    border-radius: 4px;
+    border: 1px solid rgba($color-pink-300, 0.6);
     outline: none;
     text-decoration: none;
     background-repeat: no-repeat;

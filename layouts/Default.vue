@@ -68,19 +68,17 @@ onMounted(turnOffAnimation);
     }
 
     &:before {
-        left: -5rem;
+        left: -8rem;
         width: 23rem;
         height: 43rem;
         background-image: url("@/assets/img/pero-1.png");
-        opacity: 0.3;
     }
 
     &::after {
-        right: -5rem;
+        right: -7rem;
         width: 23rem;
         height: 39rem;
         background-image: url("@/assets/img/pero-2.png");
-        opacity: 0.5;
     }
 }
 
@@ -91,7 +89,7 @@ onMounted(turnOffAnimation);
     z-index: 2;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    padding: 2.4rem 1.2rem 10rem;
+    padding: 2.4rem 1.2rem 0rem;
 
     @include fullscreen {
         padding-bottom: 2.4rem;
