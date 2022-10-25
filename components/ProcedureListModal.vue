@@ -59,17 +59,17 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{ isOpen: boolean; modelValue: number[] }>();
+const props = defineProps<{ isOpen: boolean; modelValue: number[] | null }>();
 const emit = defineEmits(["close", "update:modelValue"]);
 const { procedures } = useProcedures();
 
-const selected = ref();
+const selected = ref([]);
 const isSticky = ref(false);
 
 watch(
     props.modelValue,
     () => {
-        selected.value = props.modelValue;
+        selected.value = props.modelValue || [];
     },
     { immediate: true }
 );
@@ -81,7 +81,7 @@ const confirm = () => {
     isSticky.value = false;
 };
 
-const isActive = (id: number) => selected.value.includes(id);
+const isActive = (id: number) => (selected.value || []).includes(id);
 
 const toggle = (id: number) => {
     if (isActive(id)) {

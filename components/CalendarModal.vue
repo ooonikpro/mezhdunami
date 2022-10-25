@@ -8,14 +8,13 @@
 
         <template #title>Выберите удобные день и время</template>
 
-        <div class="calendar">
-            <CalendarOfDay
-                :modelValue="props.modelValue"
-                :selectedProcedures="props.selectedProcedures"
-                @update:modelValue="updateDate"
-                class="mb-24"
-            />
-        </div>
+
+        <Calendar
+            :modelValue="props.modelValue"
+            :selectedProcedures="props.selectedProcedures"
+            @update:modelValue="updateDate"
+            class="mb-24"
+        />
 
         <StickyBottom :isSticky="isSticky">
             <Button :disabled="isDisabledBtn" @click="confirm">
@@ -29,7 +28,7 @@
 <script lang="ts" setup>
 interface Calendar {
     modelValue: number | null;
-    selectedProcedures: Array<Cosmo.Procedure>;
+    selectedProcedures: Array<Cosmo.Procedure> | null;
     isOpen: boolean;
 }
 

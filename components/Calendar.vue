@@ -1,28 +1,30 @@
 <template>
-    <div class="calendar-container">
-        <div class="calendar-content">
-            <div
-                v-for="item in calendar"
-                :key="item.date"
-                class="calendar-column"
-            >
-                <span class="h4">
-                    <b>{{ getLocalizedWeekday(item.date) }}</b>
-                </span>
-                <span class="h4 mb-8">
-                    {{ getLocalizedDate(item.date) }}
-                </span>
+    <div class="calendar">
+        <div class="calendar-container">
+            <div class="calendar-content">
+                <div
+                    v-for="item in calendar"
+                    :key="item.date"
+                    class="calendar-column"
+                >
+                    <span class="h4">
+                        <b>{{ getLocalizedWeekday(item.date) }}</b>
+                    </span>
+                    <span class="h4 mb-8">
+                        {{ getLocalizedDate(item.date) }}
+                    </span>
 
-                <div class="calendar-slots">
-                    <CalendarSlot
-                        v-for="(slot, $j) in item.slots"
-                        :key="$j"
-                        :isFree="isFree(slot.date)"
-                        :isSelected="isSelected(slot.date)"
-                        @select="select(slot.date)"
-                    >
-                        {{ slot.time }}
-                    </CalendarSlot>
+                    <div class="calendar-slots">
+                        <CalendarSlot
+                            v-for="(slot, $j) in item.slots"
+                            :key="$j"
+                            :isFree="isFree(slot.date)"
+                            :isSelected="isSelected(slot.date)"
+                            @select="select(slot.date)"
+                        >
+                            {{ slot.time }}
+                        </CalendarSlot>
+                    </div>
                 </div>
             </div>
         </div>
@@ -32,7 +34,7 @@
 <script lang="ts" setup>
 interface CalendarOfDayProps {
     disabledDates?: Array<number>;
-    selectedProcedures: Array<Cosmo.Procedure>;
+    selectedProcedures: Array<Cosmo.Procedure> | null;
     modelValue: number | null;
 }
 
@@ -48,7 +50,13 @@ const props = defineProps<CalendarOfDayProps>();
 const refProps = toRefs(props);
 const emit = defineEmits(["update:modelValue"]);
 
-const slotDuration = computed(() => getTotalDuration(props.selectedProcedures));
+const slotDuration = computed(() => {
+    if (Array.isArray(props.selectedProcedures)) {
+        return getTotalDuration(props.selectedProcedures)
+    }
+
+    return 0;
+});
 
 const isFree = (slot: number) => {
     const slotStart = slot;

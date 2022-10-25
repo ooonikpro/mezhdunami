@@ -7,19 +7,23 @@
                 label="Твое имя"
                 placeholder="Например, Зоя"
                 v-model="form.name"
+                :validator="isValidName"
                 class="mb-16"
             />
             <Input
                 type="tel"
                 label="Номер телефона"
-                placeholder="+7 9XX XXX XXXX"
+                placeholder="+7 9XX XXX XX XX"
+                :maxlength="16"
+                :validator="isValidPhone"
+                :transform="toPhoneNumber"
                 v-model="form.phone"
                 class="mb-16"
             />
 
-            <ProcedureInput v-model="form.procedures" :disabled="!form.phone" />
+            <InputProcedure v-model="form.procedures" />
 
-            <DateInput
+            <InputDate
                 v-model="form.date"
                 :selectedProcedures="form.procedures"
             />
@@ -37,7 +41,7 @@
             <Button type="submit" class="mb-16" :disabled="isDisabledSubmitBtn">
                 Записаться
             </Button>
-            <Button type="button" outline small @click="goToBack('/')">
+            <Button type="button" outline small @click="cancel">
                 Отмена
             </Button>
         </form>
@@ -51,15 +55,6 @@
 </template>
 
 <script lang="ts" setup>
-interface FormState {
-    name: string;
-    phone: string;
-    procedures: number[];
-    date: Date;
-    notify: boolean;
-    typeOfNotify: 1 | 2;
-}
-
 const { goToBack } = useAnimatedRouter();
 const {
     addToSchedule,
@@ -68,20 +63,40 @@ const {
 } = useSchedules();
 const { init: initCalendar } = useCalendar();
 
-const getInitialFormState = (): FormState => ({
+const isValidName = (name: string) => /^[а-яА-ЯёЁ-]{3,}/.test(name);
+const isValidPhone = (phone: string) => /^(\+?79\d{9}|\+7\s9\d{2}\s\d{3}\s\d{2}\s\d{2})/.test(phone);
+const toPhoneNumber = (str: string) => {
+    const numbers = str.replace(/\D/g, "").split("");
+
+    if (numbers.length > 0) {
+        return numbers.reduce((p, n, i, arr) => {
+            let res = p.replace('x', n);
+
+            if (i === arr.length - 1) {
+                res = res.replaceAll('x', '');
+            }
+
+            return res;
+        }, "+x xxx xxx xx xx").trim();
+    }
+
+    return numbers.join('').trim();
+}
+
+const getInitialFormState = (): Tech.PatientFormData => ({
     name: "",
     phone: "",
-    procedures: [],
+    procedures: null,
     date: null,
     notify: false,
     typeOfNotify: 1,
 });
 const formData = ref();
-let form = reactive<FormState>(getInitialFormState());
+let form = reactive<Tech.PatientFormData>(getInitialFormState());
 
 const isDisabledSubmitBtn = computed(() => {
     return (
-        !form.name || !form.phone || form.procedures.length === 0 || !form.date
+        !isValidName(form.name || '') || !isValidPhone(form.phone || '') || form.procedures.length === 0 || !form.date
     );
 });
 
@@ -103,7 +118,20 @@ const onSubmit = async () => {
     }
 };
 
+const confirm = () => {
+    const hasChanges = Object.entries(form).some(([key, val]) => {
+        if (key !== 'typeOfNotify') {
+            return !!val;
+        }
+
+        return false;
+    });
+
+    return hasChanges ? window.confirm('Вы действительно хотите уйти?\nВесь процесс будет потерян') : true;
+}
+
 const close = () => goToBack("/");
+const cancel = () => confirm() && close();
 
 onBeforeMount(fetchSchedule);
 onMounted(initCalendar);

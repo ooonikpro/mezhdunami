@@ -1,36 +1,46 @@
 <template>
-    <label :class="{ disabled: props.disabled, focused, select: isSelect }">
+    <label :class="{ disabled: props.disabled, focused, select: isSelect }" class="input">
         <span class="label h5">{{ props.label }}</span>
 
-        <span v-if="isSelect" class="triangle" />
+        <IconTriangle v-if="isSelect" class="triangle"/>
 
         <input
             :type="inputType"
-            :placeholder="placeholder"
+            :placeholder="props.placeholder"
             :disabled="props.disabled"
             :readonly="isSelect"
-            :maxlength="maxlength"
+            :maxlength="props.maxlength"
             @focus="onFocus"
             @blur="onBlur"
             v-model="value"
         />
+
+        <IconValid v-if="!props.disabled && isValid" class="status-valid"/>
     </label>
 </template>
 
 <script lang="ts" setup>
 interface InputProps {
     type?: "text" | "select" | "tel";
-    label: string;
+    label?: string;
     placeholder?: string;
     disabled?: boolean;
     modelValue?: string;
+    maxlength?: number;
+    validator?: (value: string) => boolean;
+    transform?: (value: string) => any;
 }
 
 const props = defineProps<InputProps>();
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "focus", "blur"]);
 
 const isSelect = computed(() => props.type === "select");
 const focused = ref(false);
+const isValid = computed(() => {
+    const validator = props.validator || ((v) => !!v);
+
+    return validator(value.value);
+})
 
 const value = computed({
     get() {
@@ -38,23 +48,21 @@ const value = computed({
     },
 
     set(val: string) {
-        emit("update:modelValue", val);
+        const transform = props.transform || ((v) => v);
+
+        emit("update:modelValue", transform(val));
     },
 });
 
 const onFocus = () => {
     focused.value = true;
+    emit('focus');
 };
 
 const onBlur = () => {
     focused.value = false;
 
-    if (props.type === "tel" && value.value) {
-        value.value = value.value
-            .replace(/\D/g, "")
-            .split("")
-            .reduce((p, n) => p.replace("x", n), "+x xxx xxx xx-xx");
-    }
+    emit('blur');
 };
 
 const inputType = computed(() => {
@@ -62,16 +70,10 @@ const inputType = computed(() => {
 
     return props.type;
 });
-
-const maxlength = computed(() => {
-    if (props.type === "tel") return 12;
-
-    return null;
-});
 </script>
 
 <style lang="scss" scoped>
-label {
+.input {
     position: relative;
     width: 100%;
     height: 8rem;
@@ -128,7 +130,7 @@ input {
     color: $color-pink-700;
     background: none;
     font-size: 1.8rem;
-    padding: 4.5rem 1.2rem 1rem 1.2rem;
+    padding: 4.5rem 4rem 1rem 1.2rem;
     text-overflow: ellipsis;
 
     &::placeholder {
@@ -138,13 +140,16 @@ input {
 
 .triangle {
     position: absolute;
-    bottom: 2rem;
+    bottom: 1.6rem;
     left: 1.2rem;
     width: 1.2rem;
     height: 0.8rem;
     margin-right: 0.8rem;
-    background: url("@/assets/img/triangle.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
+}
+
+.status-valid {
+    position: absolute;
+    bottom: 1.6rem;
+    right: 1.2rem;
 }
 </style>

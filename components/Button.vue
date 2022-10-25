@@ -26,16 +26,18 @@ button {
     height: 6.4rem;
     border: none;
     background-color: $color-pink-700;
-    border: 1px solid $color-pink-700;
+    border: 1px solid transparent;
     color: $color-white;
     outline: none;
     border-radius: 4px;
     text-align: left;
     padding: 2.4rem 1.2rem 1rem;
     cursor: pointer;
+    @include transition;
 
     &.outline {
         background-color: transparent;
+        border-color: $color-pink-700;
         color: $color-pink-700;
     }
 
@@ -49,7 +51,12 @@ button {
     &:disabled,
     &[disabled] {
         cursor: not-allowed;
-        opacity: 0.5;
+        border-color: transparent;
+        color: rgba($color-pink-700, 0.5);
+
+        &:not(.outline) {
+            background-color: rgba($color-pink-700, 0.1);
+        }
     }
 }
 </style>

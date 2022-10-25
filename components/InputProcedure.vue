@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{ modelValue: number[]; disabled: boolean; }>();
+const props = defineProps<{ modelValue: number[] | null; }>();
 const emit = defineEmits(["update:modelValue"]);
 const { getNames } = useProcedures();
 
@@ -25,10 +25,10 @@ const isOpenProcedureModal = ref(false);
 
 const selectedProcedures = computed({
     get() {
-        return props.modelValue;
+        return props.modelValue || [];
     },
 
-    set(val: numbers[]) {
+    set(val: number[]) {
         emit("update:modelValue", val);
     },
 });

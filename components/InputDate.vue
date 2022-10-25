@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 interface DateInputProps {
     modelValue: number | null;
-    selectedProcedures: Array<Cosmo.Procedure>;
+    selectedProcedures: Array<Cosmo.Procedure> | null;
     disabled?: boolean;
 }
 
@@ -48,5 +48,19 @@ const localizedDate = computed(() => {
     return "";
 });
 
-const isDisabled = computed(() => props.disabled || props.selectedProcedures.length === 0);
+const isDisabled = computed(() => {
+    if (props.disabled) {
+        return true;
+    }
+
+    if (props.selectedProcedures == null) {
+        return true;
+    }
+
+    if (Array.isArray(props.selectedProcedures) && props.selectedProcedures.length === 0) {
+        return true;
+    }
+
+    return false;
+});
 </script>
