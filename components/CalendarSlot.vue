@@ -31,12 +31,15 @@ const select = () => emit("select");
 .calendar-slot {
     display: flex;
     height: 5rem;
+    border-top: 1px solid transparent;
 
     &:not(:last-child) {
         border-bottom: 1px solid rgba($color-pink-700, 0.25);
     }
 
     &.selected {
+        border-top: 1px solid $color-pink-700;
+        border-bottom: 1px solid $color-pink-700;
         background-color: rgba($color-pink-700, 0.25);
     }
 }
