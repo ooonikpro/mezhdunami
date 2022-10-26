@@ -12,9 +12,9 @@
 
                 <slot name="before-title" />
 
-                <h2 class="mb-24">
+                <h1 class="mb-24">
                     <slot name="title" />
-                </h2>
+                </h1>
             </template>
 
             <slot />
@@ -72,6 +72,7 @@ onMounted(turnOffAnimation);
         width: 23rem;
         height: 43rem;
         background-image: url("@/assets/img/pero-1.png");
+        filter: blur(3px);
     }
 
     &::after {
@@ -88,7 +89,7 @@ onMounted(turnOffAnimation);
     z-index: 2;
     overflow-x: hidden;
     scroll-behavior: smooth;
-    padding: 2.4rem 1.2rem 0rem;
+    padding: 2.4rem 1.2rem;
 
     @include fullscreen {
         padding-bottom: 2.4rem;

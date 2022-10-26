@@ -11,13 +11,9 @@
                 class="media-btn h-64 whats-app"
             ></a>
 
-            <a
-                href="#"
-                class="media-btn h-64 full-width"
-                @click.prevent="goTo('/price-list')"
-            >
-                <span class="h3">Процедуры</span>
-                <span class="h5">Цены</span>
+            <a href="#" class="media-btn h-64 full-width">
+                <span class="h3">Заказать</span>
+                <span class="h5">Домашний уход</span>
             </a>
 
             <a
@@ -28,11 +24,12 @@
                 <span class="h2">Записаться</span>
             </a>
 
-            <a href="#" class="media-btn h-128 full-width action-btn i-catalog">
-                <span class="h3">
-                    Заказать <br />
-                    домашний уход
-                </span>
+            <a
+                href="#"
+                class="media-btn h-80 full-width action-btn i-catalog"
+                @click.prevent="goTo('/price-list')"
+            >
+                <span class="h3">Прайс-лист</span>
             </a>
 
             <a
@@ -95,6 +92,7 @@ nav {
 .media-btn {
     flex: 1 1 auto;
     border-radius: 4px;
+    background-color: rgba($color-white, 0.3);
     border: 1px solid rgba($color-pink-300, 0.6);
     outline: none;
     text-decoration: none;
@@ -103,25 +101,28 @@ nav {
     justify-content: space-between;
     align-items: flex-end;
     padding: 0.8rem 1.2rem;
+    background-repeat: no-repeat;
+    background-position: calc(100% - 0.8rem) 0.8rem;
 
     &.action-btn {
         background-color: $color-white;
-        background-repeat: no-repeat;
-        background-position: calc(100% - 0.8rem) 0.8rem;
+    }
 
-        &.i-calendar {
-            background-image: url("@/assets/img/i-calendar.svg");
-        }
+    &.i-calendar {
+        background-image: url("@/assets/img/i-calendar.svg");
+    }
 
-        &.i-catalog {
-            background-image: url("@/assets/img/i-catalog.svg");
-        }
+    &.i-catalog {
+        background-image: url("@/assets/img/i-catalog.svg");
     }
 
     &.full-width {
         width: 100%;
     }
 
+    &.h-80 {
+        height: 8rem;
+    }
     &.h-64 {
         height: 6.4rem;
     }
