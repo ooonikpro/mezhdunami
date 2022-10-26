@@ -11,9 +11,13 @@
                 class="media-btn h-64 whats-app"
             ></a>
 
-            <a href="#" class="media-btn h-64 full-width">
-                <span class="h3">Заказать</span>
-                <span class="h5">Домашний уход</span>
+            <a
+                href="/price-list"
+                class="media-btn h-64 full-width"
+                @click.prevent="goTo('/price-list')"
+            >
+                <span class="h3">Прайс-лист</span>
+                <span class="h5">Цены</span>
             </a>
 
             <a
@@ -25,11 +29,10 @@
             </a>
 
             <a
-                href="#"
-                class="media-btn h-80 full-width action-btn i-catalog"
-                @click.prevent="goTo('/price-list')"
+                href="https:/t.me/lensem"
+                class="media-btn h-128 full-width i-catalog"
             >
-                <span class="h3">Прайс-лист</span>
+                <span class="h3">Заказать <br />домашний уход</span>
             </a>
 
             <a

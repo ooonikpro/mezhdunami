@@ -73,6 +73,7 @@ onMounted(turnOffAnimation);
         height: 43rem;
         background-image: url("@/assets/img/pero-1.png");
         filter: blur(3px);
+        opacity: 0.5;
     }
 
     &::after {
@@ -80,6 +81,7 @@ onMounted(turnOffAnimation);
         width: 23rem;
         height: 39rem;
         background-image: url("@/assets/img/pero-2.png");
+        opacity: 0.7;
     }
 }
 

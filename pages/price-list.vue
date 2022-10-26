@@ -41,8 +41,10 @@
             </div>
         </div>
 
+        <br />
+
         <Button type="button" @click="goTo('/form')" class="mb-16">
-            Записаться
+            Записаться на процедуру
         </Button>
         <Button outline @click="goToBack('/')">Назад</Button>
     </NuxtLayout>
@@ -222,24 +224,30 @@ const priceList = computed(() => [
             {
                 data: [
                     {
-                        label: "NEURAMIS DEEP 1мл",
+                        label: "Belotero Lips 0.6мл",
+                        description: "Германия",
+                        price: "9 000",
+                    },
+                    {
+                        label: "Neuramis Deep 1мл",
                         description: "Южная Корея",
                         price: "10 000",
                     },
                     {
-                        label: "STYLAGE M 1мл",
+                        label: "Stylage M 1мл",
                         description: "Франция",
-                        price: "12 500",
+                        price: "13 000",
+                    },
+
+                    {
+                        label: "Juvederm Ultra 3 1мл",
+                        description: "США",
+                        price: "13 000",
                     },
                     {
-                        label: "Esteline 1мл",
-                        description: "Франция",
-                        price: "10 000",
-                    },
-                    {
-                        label: "Amalain 1мл",
-                        description: "Россия",
-                        price: "7 000",
+                        label: "Juvederm Volift 1мл",
+                        description: "США",
+                        price: "14 000",
                     },
                 ],
             },
@@ -262,15 +270,6 @@ const priceList = computed(() => [
 </script>
 
 <style lang="scss" scoped>
-.category-title {
-    position: sticky;
-    top: -2.4rem;
-    background-color: $color-white;
-    margin-left: -1.2rem;
-    margin-right: -1.2rem;
-    padding: 1.2rem;
-}
-
 .brand {
     padding-bottom: 1.6rem;
     border-bottom: 1px solid rgba($color-pink-700, 0.5);
