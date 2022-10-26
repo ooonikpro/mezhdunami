@@ -83,9 +83,8 @@ onMounted(turnOffAnimation);
 }
 
 .layout-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
+    position: absolute;
+    inset: 0;
     z-index: 2;
     overflow-x: hidden;
     scroll-behavior: smooth;
