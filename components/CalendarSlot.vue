@@ -32,10 +32,6 @@ const select = () => emit("select");
     display: flex;
     height: 5rem;
 
-    &:not(:first-child) {
-        border-top: 1px solid rgba($color-pink-700, 0.25);
-    }
-
     &:not(:last-child) {
         border-bottom: 1px solid rgba($color-pink-700, 0.25);
     }
