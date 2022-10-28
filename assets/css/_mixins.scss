@@ -3,7 +3,7 @@
 }
 
 @mixin transition {
-  transition: all 250ms ease-out;
+  transition: all 250ms ease;
 }
 
 @mixin fullscreen {

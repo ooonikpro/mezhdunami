@@ -20,7 +20,7 @@ export default defineNuxtConfig({
             title: 'Кабинет врача-косметолога Елены Овечкиной в Калининграде',
 
             meta: [
-                { name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' },
+                { name: 'viewport', content: 'width=device-width, initial-scale=1' },
                 {
                     name: 'theme-color',
                     content: '#F3BAB3'

@@ -26,6 +26,10 @@ body {
     }
 }
 
+img {
+    max-width: 100%;
+}
+
 #app {
     position: absolute;
     min-width: 360px;

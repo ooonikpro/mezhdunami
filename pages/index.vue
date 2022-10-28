@@ -1,15 +1,7 @@
 <template>
     <NuxtLayout with-gradient>
         <nav>
-            <a href="https:/t.me/lensem" class="media-btn h-64 telegram"></a>
-            <a
-                href="https://www.instagram.com/cosmo.kld"
-                class="media-btn h-64 instagram"
-            ></a>
-            <a
-                href="https://wa.me/79141939603"
-                class="media-btn h-64 whats-app"
-            ></a>
+            <Social />
 
             <a
                 href="/price-list"
@@ -128,25 +120,6 @@ nav {
 
     &.h-128 {
         height: 12.8rem;
-    }
-
-    &.telegram,
-    &.instagram,
-    &.whats-app {
-        background-position: center;
-        background-size: 5rem;
-    }
-
-    &.telegram {
-        background-image: url("@/assets/img/telegram.svg");
-    }
-
-    &.instagram {
-        background-image: url("@/assets/img/instagram.svg");
-    }
-
-    &.whats-app {
-        background-image: url("@/assets/img/whats-app.svg");
     }
 }
 

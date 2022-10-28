@@ -51,10 +51,36 @@
             </p>
         </section>
 
-        <section>
+        <section class="mb-16">
             <h3 class="mb-16">Дипломы и сертификаты</h3>
 
             <Carousel :slides="diplomas" class="mb-16" />
+        </section>
+
+        <section class="mb-16">
+            <h3 class="mb-24">Как найти?</h3>
+
+            <div class="mb-16">
+                <p>г. Калининград</p>
+                <p class="h2">Литовский вал 62</p>
+                <p>2 этаж, офис 22.</p>
+            </div>
+
+            <div class="map mb-16">
+                <a
+                    href="https://2gis.ru/kaliningrad/firm/70000001059187465?m=20.537715%2C54.709361%2F19.62"
+                    class="map-btn"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                >
+                    Открыть карту
+                </a>
+            </div>
+        </section>
+
+        <section class="mb-32">
+            <h3 class="mb-24">Как связаться со мной?</h3>
+            <Social class="mb-16" bordered />
         </section>
 
         <Button outline small @click="goToBack('/')">Назад</Button>
@@ -89,5 +115,27 @@ section {
     bottom: 0;
     transform: scale(0.6);
     transform-origin: bottom right;
+}
+
+.map {
+    width: 100%;
+    height: 24rem;
+    background: url("@/assets/img/map.png");
+    background-position: center;
+    background-size: cover;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 0.8rem;
+}
+
+.map-btn {
+    padding: 0.8rem 1.6rem;
+    background-color: $color-white;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>
