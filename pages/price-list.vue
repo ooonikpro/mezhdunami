@@ -46,7 +46,7 @@
         <Button type="button" @click="goTo('/form')" class="mb-16">
             Хочу записаться
         </Button>
-        <Button outline @click="goToBack('/')">Назад</Button>
+        <Button outline small @click="goToBack('/')">Назад</Button>
     </NuxtLayout>
 </template>
 

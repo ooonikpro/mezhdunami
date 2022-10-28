@@ -2,16 +2,17 @@
     <NuxtLayout>
         <template #title>Обо мне</template>
 
-        <div class="head mb-16">
+        <section class="head mb-16">
             <img
                 src="@/assets/img/doctor-1.png"
                 alt="Овечкина Елена Максимовна"
                 class="doctor-picture"
+                loading="lazy"
             />
             <DoctorDetails class="mb-8" />
-        </div>
+        </section>
 
-        <div class="body mb-24">
+        <section class="body mb-16">
             <p class="color-black mb-16">
                 С детства любая женщина мечтает быть красивой и хорошо выглядеть
                 и до самого зрелого возраста хочет оставаться молодой, красивой
@@ -48,28 +49,38 @@
                 Я внимательно выслушаю все Ваши пожелания и предложу самый
                 безопасный и эффективный метод решения проблемы.
             </p>
-        </div>
+        </section>
 
-        <Button outline @click="goToBack('/')">Назад</Button>
+        <section>
+            <h3 class="mb-16">Дипломы и сертификаты</h3>
+
+            <Carousel :slides="diplomas" class="mb-16" />
+        </section>
+
+        <Button outline small @click="goToBack('/')">Назад</Button>
     </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
 const { goToBack } = useAnimatedRouter();
+
+const diplomas = [];
 </script>
 
 <style lang="scss" scoped>
+section {
+    border-bottom: 1px solid rgba($color-pink-700, 0.25);
+}
+
 .head {
     position: relative;
     height: 14rem;
     display: flex;
     align-items: flex-end;
-    border-bottom: 1px solid rgba($color-pink-700, 0.25);
 }
 
 .body {
     font-weight: 400;
-    border-bottom: 1px solid rgba($color-pink-700, 0.25);
 }
 
 .doctor-picture {
