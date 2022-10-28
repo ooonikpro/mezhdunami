@@ -65,7 +65,7 @@ onMounted(turnOffAnimation);
         background-size: 100%;
         background-position: center;
         background-repeat: no-repeat;
-        transform: scale(1.6);
+        transform: scale(1.2);
     }
 
     &:before {
@@ -73,6 +73,7 @@ onMounted(turnOffAnimation);
         width: 23rem;
         height: 43rem;
         background-image: url("@/assets/img/pero-1.png");
+        opacity: 0.7;
     }
 
     &::after {

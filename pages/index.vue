@@ -62,11 +62,7 @@
                 class="photo"
             />
 
-            <div class="profile-details">
-                <span class="h6">Врач-косметолог</span>
-                <p class="h3">Овечкина</p>
-                <p>Елена Максимовна</p>
-            </div>
+            <DoctorDetails />
         </div>
     </NuxtLayout>
 </template>
@@ -168,13 +164,5 @@ nav {
     width: 12.8rem;
     height: 12.8rem;
     border-radius: 12.8rem;
-}
-
-.profile-details {
-    display: flex;
-    flex-direction: column;
-    text-align: right;
-    font-size: 1.8rem;
-    line-height: 1.1;
 }
 </style>

@@ -102,3 +102,13 @@ body {
 .mb-8 {
     margin-bottom: 0.8rem;
 }
+
+.color {
+    &-pink {
+        color: $color-pink-700;
+    }
+
+    &-black {
+        color: rgba($color-green-700, .75);
+    }
+}
