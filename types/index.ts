@@ -2,6 +2,9 @@ export { };
 
 declare global {
     namespace Tech {
+        type DateNumber = number;
+        type Schedule = Array<ScheduleDate>;
+
         enum TypeOfNotify {
             SMS = 1,
             MESSENGER = 2
@@ -12,12 +15,20 @@ declare global {
             value: T
         }
 
-        interface ScheduleItem {
-            date: number
-            procedures: Array<Cosmo.Procedure>
+        interface ScheduleSlot {
+            date: DateNumber,
+            time: string,
+            isFree: false
         }
 
-        interface PatientFormData extends ScheduleItem {
+        interface ScheduleDate {
+            date: DateNumber,
+            slots: Array<ScheduleSlot>,
+        }
+
+        interface PatientFormData {
+            date: DateNumber;
+            procedures: Array<Cosmo.Procedure>
             name: string;
             phone: string;
             notify: boolean
@@ -28,6 +39,16 @@ declare global {
             data: T;
             success: boolean;
             message?: string;
+        }
+
+        type CollectionWithMap<T, R> = Promise<{
+            data: Array<T>;
+            map: Record<DateNumber, R>
+        }>
+
+        interface CalendarMonthPayload {
+            notWorkingDates: Record<DateNumber, DateNumber>;
+            bookedDates: Record<DateNumber, PatientFormData['procedures']>;
         }
     }
 

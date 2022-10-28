@@ -1,7 +1,7 @@
-export const useSchedules = () => {
-    const URL = '/api/schedules';
+const URL = '/api/schedules';
 
-    const { data: schedule, ...resultFetch } = useFetch<Tech.ResponseAPI<Tech.ScheduleItem[]>>(URL);
+export const useSchedules = () => {
+    const fetchSchedule = () => useFetch<Tech.ResponseAPI<Tech.Schedule>>(URL);
 
     const addToSchedule = async (formData: Tech.PatientFormData) => {
         const { data, execute } = useFetch(URL, {
@@ -19,8 +19,7 @@ export const useSchedules = () => {
     };
 
     return {
-        ...resultFetch,
-        data: computed(() => schedule.value.data),
+        fetchSchedule,
         addToSchedule,
     }
 }

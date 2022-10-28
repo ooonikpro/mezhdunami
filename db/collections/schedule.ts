@@ -4,22 +4,35 @@ import { useCalendar } from "~~/composables/useCalendar";
 const collection = getCollection('schedule');
 const { getTomorrow } = useCalendar();
 
-export const getCurrentSchedule = async (): Promise<Tech.ScheduleItem[]> => {
+type ScheduleItem = Pick<Tech.PatientFormData, 'date' | 'procedures'>;
+
+export const getCurrentSchedule = async (): Tech.CollectionWithMap<ScheduleItem, Tech.PatientFormData['procedures']> => {
     const schedule = await collection;
 
     const result: Tech.PatientFormData[] = await schedule.find({
         date: {
-            $gt: getTomorrow().getTime()
+            $gt: getTomorrow()
         }
     }).sort({ date: 1 }).toArray();
 
-    return result.map(({ date, procedures }) => ({
-        date,
-        procedures
-    }));
+    const response = {
+        data: [],
+        map: {}
+    }
+
+    result.forEach(({ date, procedures }) => {
+        response.map[date] = procedures;
+
+        response.data.push({
+            date,
+            procedures
+        });
+    })
+
+    return response;
 }
 
-export const findOne = async (date: number): Promise<Tech.ScheduleItem | undefined> => {
+export const findOne = async (date: number): Promise<ScheduleItem | undefined> => {
     const schedule = await collection;
 
     const result = await schedule.findOne({ date });

@@ -1,13 +1,6 @@
 <template>
     <Modal :isOpen="props.isOpen">
-        <template #before-title>
-            <Button outline small class="mb-24" @click="emit('close')">
-                Назад
-            </Button>
-        </template>
-
         <template #title>Выберите удобные день и время</template>
-
 
         <Calendar
             :modelValue="props.modelValue"

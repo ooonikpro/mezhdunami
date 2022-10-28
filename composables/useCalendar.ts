@@ -1,7 +1,5 @@
 import { reactive } from 'vue';
 
-const calendar = reactive([]);
-
 const today = new Date();
 const year = today.getFullYear();
 const month = today.getMonth();
@@ -16,7 +14,7 @@ const getDaysInMonth = (mm: number = month) => {
     return new Date(year, mm, 0, 0, 0, 0, 0).getDate();
 }
 
-const createDate = (date: Date, hour: number, minutes: number = 0): Date => {
+const createDate = (date: Date | Tech.DateNumber, hour: number, minutes: number = 0): Date => {
     const newDate = new Date(date);
 
     newDate.setHours(hour);
@@ -27,52 +25,64 @@ const createDate = (date: Date, hour: number, minutes: number = 0): Date => {
     return newDate;
 }
 
-const getCalendarMonth = (): Array<Date> => calendar;
-
-const getLocalizedWeekday = (date: Date): string => {
+const getLocalizedWeekday = (date: Date | Tech.DateNumber): string => {
     return getUppercase(
-        date.toLocaleString("ru", {
+        new Date(date).toLocaleString("ru", {
             weekday: "long",
         })
     );
 }
 
-const getLocalizedDate = (date: Date): string => {
-    return date.toLocaleString('ru', { month: 'long', day: '2-digit' });
+const getLocalizedDate = (date: Date | Tech.DateNumber): string => {
+    return new Date(date).toLocaleString('ru', { month: 'long', day: '2-digit' });
 }
 
-const getLocalizedFullDate = (date: Date) => {
-    return getUppercase(date.toLocaleString('ru', { month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'long' }));
+const getLocalizedFullDate = (date: Date | Tech.DateNumber) => {
+    return getUppercase(new Date(date).toLocaleString('ru', { month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'long' }));
 };
 
-const getTomorrow = () => {
-    return createDate(new Date(year, month, day + 1), 0);
+const getTomorrow = (): Tech.DateNumber => {
+    return createDate(new Date(year, month, day + 1), 0).getTime();
 }
 
-const init = async () => {
+const getCalendarMonth = ({ notWorkingDates, bookedDates }: Tech.CalendarMonthPayload): Tech.Schedule => {
+    const dates = [];
+
     let futureDays = getDaysInMonth() - day;
 
     if (futureDays <= 7) {
         futureDays += getDaysInMonth(month + 1);
     }
 
-    for (let i = 0; i < futureDays; i++) {
-        const localDate = new Date(year, month, day + i + 1);
 
-        calendar.push({
-            date: localDate,
-            slots: timeSlots.map((slot) => ({
-                date: createDate(localDate, slot),
-                time: `${slot}:00`,
-                isFree: false
-            })),
-        });
+    const isFree = (date) => {
+        return !bookedDates.hasOwnProperty(date);
     }
+
+    for (let i = 0; i < futureDays; i++) {
+        const newDate = new Date(year, month, day + i + 1).getTime();
+
+        if (!notWorkingDates.hasOwnProperty(newDate)) {
+            dates.push({
+                date: newDate,
+                slots: timeSlots.map((slot) => {
+                    const slotTime = createDate(newDate, slot).getTime();
+
+                    return {
+                        date: slotTime,
+                        time: `${slot}:00`,
+                        isFree: isFree(slotTime)
+                    }
+                }),
+            });
+        }
+    }
+
+    return dates;
 }
 
 export const useCalendar = () => {
     return {
-        init,
         getCalendarMonth,
         getLocalizedWeekday,
         getLocalizedDate,

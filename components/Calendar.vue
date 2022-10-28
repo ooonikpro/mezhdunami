@@ -1,31 +1,37 @@
 <template>
     <div class="calendar">
+        <div class="calendar-loader"></div>
+
         <div class="calendar-container">
             <div class="calendar-content">
-                <div
-                    v-for="item in calendar"
-                    :key="item.date"
-                    class="calendar-column"
-                >
-                    <span class="h4">
-                        <b>{{ getLocalizedWeekday(item.date) }}</b>
-                    </span>
-                    <span class="h4 mb-8">
-                        {{ getLocalizedDate(item.date) }}
-                    </span>
+                <CalendarSkeleton v-if="isLoading" />
 
-                    <div class="calendar-slots">
-                        <CalendarSlot
-                            v-for="(slot, $j) in item.slots"
-                            :key="$j"
-                            :isFree="isFree(slot.date)"
-                            :isSelected="isSelected(slot.date)"
-                            @select="select(slot.date)"
-                        >
-                            {{ slot.time }}
-                        </CalendarSlot>
+                <template v-else>
+                    <div
+                        v-for="item in schedule"
+                        :key="item.date"
+                        class="calendar-column"
+                    >
+                        <span class="h4">
+                            <b>{{ getLocalizedWeekday(item.date) }}</b>
+                        </span>
+                        <span class="h4 mb-8">
+                            {{ getLocalizedDate(item.date) }}
+                        </span>
+
+                        <div class="calendar-slots">
+                            <CalendarSlot
+                                v-for="(slot, $j) in item.slots"
+                                :key="$j"
+                                :isFree="slot.isFree"
+                                :isSelected="isSelected(slot.date)"
+                                @select="select(slot.date)"
+                            >
+                                {{ slot.time }}
+                            </CalendarSlot>
+                        </div>
                     </div>
-                </div>
+                </template>
             </div>
         </div>
     </div>
@@ -37,68 +43,66 @@ interface CalendarOfDayProps {
     selectedProcedures: Array<Cosmo.Procedure> | null;
     modelValue: number | null;
 }
-
-const { getCalendarMonth, getLocalizedWeekday, getLocalizedDate, createDate } =
-    useCalendar();
-
-const { getTotalDuration } = useProcedures();
-
-const { data: schedule } = useSchedules();
-
-const calendar = computed(() => getCalendarMonth());
 const props = defineProps<CalendarOfDayProps>();
-const refProps = toRefs(props);
 const emit = defineEmits(["update:modelValue"]);
 
-const slotDuration = computed(() => {
-    if (Array.isArray(props.selectedProcedures)) {
-        return getTotalDuration(props.selectedProcedures)
-    }
+const { fetchSchedule } = useSchedules();
+const { getLocalizedWeekday, getLocalizedDate } = useCalendar();
 
-    return 0;
-});
+const response = fetchSchedule();
 
-const isFree = (slot: number) => {
-    const slotStart = slot;
-    const hour = new Date(slot).getHours();
+const schedule = computed(() => response.data.value.data);
+const isLoading = computed(() => response.pending.value);
 
-    const slotEnd = slotStart + slotDuration.value;
+// const slotDuration = computed(() => {
+//     if (Array.isArray(props.selectedProcedures)) {
+//         return getTotalDuration(props.selectedProcedures);
+//     }
 
-    // Если продолжительность больше 1 часа в последний слот
-    if (18 === hour && slotDuration.value / 3600 / 1000 > 1) {
-        return false;
-    }
+//     return 0;
+// });
 
-    if (Array.isArray(schedule.value)) {
-        for (let i = 0; i < schedule.value.length; i++) {
-            const item = schedule.value[i];
-            const itemStart = item.date;
-            const itemEnd = itemStart + getTotalDuration(item.procedures);
+// const isFree = (slot: number) => {
+//     const slotStart = slot;
+//     const hour = new Date(slot).getHours();
 
-            // Если время начала слота пересекается со временем другого пациента
-            if (slotStart >= itemStart && slotStart <= itemEnd) {
-                return false;
-            }
+//     const slotEnd = slotStart + slotDuration.value;
 
-            const nextItem = schedule.value[i + 1];
+//     // Если продолжительность больше 1 часа в последний слот
+//     if (18 === hour && slotDuration.value / 3600 / 1000 > 1) {
+//         return false;
+//     }
 
-            if (!nextItem) continue;
+//     if (Array.isArray(schedule.value)) {
+//         for (let i = 0; i < schedule.value.length; i++) {
+//             const item = schedule.value[i];
+//             const itemStart = item.date;
+//             const itemEnd = itemStart + getTotalDuration(item.procedures);
 
-            const nextItemStart = nextItem.date;
-            const nextItemEnd =
-                nextItemStart + getTotalDuration(nextItem.procedures);
+//             // Если время начала слота пересекается со временем другого пациента
+//             if (slotStart >= itemStart && slotStart <= itemEnd) {
+//                 return false;
+//             }
 
-            // Если время конца слота пересекается со временем другого пациента
-            if (slotEnd >= nextItemStart && slotEnd <= nextItemEnd) {
-                return false;
-            }
-        }
+//             const nextItem = schedule.value[i + 1];
 
-        return true;
-    }
+//             if (!nextItem) continue;
 
-    return false;
-};
+//             const nextItemStart = nextItem.date;
+//             const nextItemEnd =
+//                 nextItemStart + getTotalDuration(nextItem.procedures);
+
+//             // Если время конца слота пересекается со временем другого пациента
+//             if (slotEnd >= nextItemStart && slotEnd <= nextItemEnd) {
+//                 return false;
+//             }
+//         }
+
+//         return true;
+//     }
+
+//     return false;
+// };
 
 const selectedValue = ref(props.modelValue);
 
@@ -110,10 +114,16 @@ const select = (date: number) => {
     selectedValue.value = date;
     emit("update:modelValue", date);
 };
+
+onMounted(response.refresh);
 </script>
 
 
 <style lang="scss" scoped>
+.calender {
+    position: relative;
+}
+
 .calendar-container {
     width: auto;
     height: calc(100% + 17px);
@@ -144,5 +154,85 @@ const select = (date: number) => {
 .calendar-slots {
     border-radius: 4px;
     border: 1px solid rgba($color-pink-700, 0.25);
+}
+
+.calendar-slot {
+    display: flex;
+    height: 5rem;
+    border-top: 1px solid transparent;
+
+    &:not(:last-child) {
+        border-bottom: 1px solid rgba($color-pink-700, 0.25);
+    }
+
+    &.selected {
+        border-top: 1px solid $color-pink-700;
+        border-bottom: 1px solid $color-pink-700;
+        background-color: rgba($color-pink-700, 0.25);
+    }
+}
+
+.calendar-slot-time {
+    display: flex;
+    align-items: flex-end;
+    flex: 0 0 auto;
+    width: 6rem;
+    height: 5rem;
+    color: rgba($color-pink-700, 0.5);
+    padding: 0.4rem;
+    @include transition;
+}
+
+.calendar-slot-status {
+    flex: 1 1 auto;
+    padding: 0.4rem;
+
+    &:empty {
+        cursor: not-allowed;
+        background-color: rgba($color-pink-700, 0.1);
+    }
+}
+
+.calendar-slot-btn {
+    width: 14rem;
+    height: 100%;
+    background-color: $color-pink-700;
+    border: 1px solid $color-pink-700;
+    border-radius: 4px;
+    text-align: left;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.4rem 0.8rem;
+    opacity: 1;
+    cursor: pointer;
+    @include transition;
+    overflow: hidden;
+
+    span {
+        color: $color-white;
+    }
+
+    &.active {
+        background-color: $color-white;
+
+        span {
+            color: $color-pink-700;
+        }
+
+        .slide-left-enter-active,
+        .slide-left-leave-active {
+            @include transition;
+        }
+
+        .slide-left-leave-to {
+            opacity: 0;
+            transform: translateY(-100%);
+        }
+
+        .slide-left-enter-from {
+            opacity: 0;
+            transform: translateY(100%);
+        }
+    }
 }
 </style>
