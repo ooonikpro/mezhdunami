@@ -47,7 +47,7 @@ body {
 
     &:not(.reversed) {
         .page-enter-active {
-            box-shadow: -100px 0 100px rgba(0,0,0, .1);
+            box-shadow: -50px 0 50px rgba(0,0,0, .1);
         }
 
         .page-enter-from {
@@ -65,7 +65,7 @@ body {
         }
 
         .page-leave-active {
-            box-shadow: -100px 0 100px rgba(0,0,0, .1);
+            box-shadow: -50px 0 50px rgba(0,0,0, .1);
             z-index: 2;
         }
 

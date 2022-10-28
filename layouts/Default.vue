@@ -1,5 +1,5 @@
 <template>
-    <div class="layout">
+    <div class="layout" :class="{ white: !withGradient }">
         <Gradient v-if="withGradient" />
 
         <div class="layout-container">
@@ -56,7 +56,7 @@ onMounted(turnOffAnimation);
 
     &::before,
     &::after {
-        top: -5rem;
+        top: -3rem;
         content: "";
         position: absolute;
         z-index: 1;
@@ -65,23 +65,28 @@ onMounted(turnOffAnimation);
         background-size: 100%;
         background-position: center;
         background-repeat: no-repeat;
+        transform: scale(1.6);
     }
 
     &:before {
-        left: -8rem;
+        left: -6rem;
         width: 23rem;
         height: 43rem;
         background-image: url("@/assets/img/pero-1.png");
-        filter: blur(3px);
-        opacity: 0.5;
     }
 
     &::after {
-        right: -7rem;
+        right: -4rem;
         width: 23rem;
         height: 39rem;
         background-image: url("@/assets/img/pero-2.png");
-        opacity: 0.7;
+    }
+
+    &.white {
+        &::before,
+        &::after {
+            opacity: 0.4;
+        }
     }
 }
 
