@@ -62,7 +62,7 @@
                 class="photo"
             />
 
-            <DoctorDetails />
+            <DoctorDetails reverted />
         </div>
     </NuxtLayout>
 </template>
