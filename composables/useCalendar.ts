@@ -55,21 +55,30 @@ const getScheduleForMonth = ({ excludedDates }: Tech.ScheduleFilters): Tech.Sche
     }
 
     for (let i = 0; i < futureDays; i++) {
-        const newDate = new Date(year, month, day + i + 1).getTime();
+        const date = new Date(year, month, day + i + 1).getTime();
 
-        if (!isExcluded(newDate)) {
-            dates.push({
-                date: newDate,
-                slots: timeSlots.map((slot) => {
-                    const slotTime = createDate(newDate, slot).getTime();
+        if (!isExcluded(date)) {
+            let dateIsFree = false;
 
-                    return {
-                        date: slotTime,
-                        time: `${slot}:00`,
-                        isFree: !isExcluded(slotTime)
-                    }
-                }),
+            const slots = timeSlots.map((slot) => {
+                const slotTime = createDate(date, slot).getTime();
+                const isFree = !isExcluded(slotTime)
+
+                dateIsFree = dateIsFree || isFree;
+
+                return {
+                    date: slotTime,
+                    time: `${slot}:00`,
+                    isFree
+                }
             });
+
+            if (dateIsFree) {
+                dates.push({
+                    date,
+                    slots,
+                });
+            }
         }
     }
 
