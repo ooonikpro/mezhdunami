@@ -56,15 +56,15 @@
 
 <script lang="ts" setup>
 const { goToBack } = useAnimatedRouter();
-const { addToSchedule, refresh: refreshSchedule } = useSchedules();
+const { refresh: refreshSchedule } = useSchedules();
 const { isValidName, isValidPhone, toPhoneNumber } = useValidation();
-const { state: form, reset: resetForm, savePatient } = usePatientForm();
+const { state: form, reset: resetForm, submit: submitForm } = usePatientForm();
 
 const isDisabledSubmitBtn = computed(() => {
     return (
         !isValidName(form.name || "") ||
         !isValidPhone(form.phone || "") ||
-        form.procedures.length === 0 ||
+        form.procedures?.length === 0 ||
         !form.date
     );
 });
@@ -73,32 +73,15 @@ const isOpenFinalModal = ref(false);
 
 const onSubmit = async () => {
     try {
-        isOpenFinalModal.value = await addToSchedule(form);
-        savePatient();
+        isOpenFinalModal.value = await submitForm();
     } catch (e) {
         refreshSchedule();
         alert(e.message);
     }
 };
 
-const confirm = () => {
-    const hasChanges = Object.entries(form).some(([key, val]) => {
-        if (key !== "typeOfNotify") {
-            return !!val;
-        }
-
-        return false;
-    });
-
-    return hasChanges
-        ? window.confirm(
-              "Вы действительно хотите уйти?\nВесь процесс будет потерян"
-          )
-        : true;
-};
-
 const close = () => goToBack("/");
-const cancel = () => confirm() && close();
+const cancel = () => close();
 
 onUnmounted(resetForm);
 </script>

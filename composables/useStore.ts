@@ -1,4 +1,4 @@
-export const useStore = () => {
+export const useStore = (storageKey = 'mezhdunami') => {
     const startSoil = 'WJHc';
     const endSoil = 'W==';
     const encode = (str: string) => `${startSoil}${window.btoa(str)}${endSoil}`;
@@ -6,26 +6,38 @@ export const useStore = () => {
 
     const getStorage = () => window.localStorage;
 
+    const getStoreData = () => {
+        const rawData = getStorage().getItem(storageKey);
+
+        if (rawData) {
+            return JSON.parse(rawData);
+        }
+
+        return {};
+    };
+
     const get = <T extends any>(key: string): T | undefined => {
         try {
-            const value = getStorage().getItem(encode(key));
+            const storeData = getStoreData();
 
-            if (value) return JSON.parse(decode(value)) as T;
+            if (storeData.hasOwnProperty(key)) {
+                return storeData[key] as T;
+            }
 
             return;
         } catch (e) {
-            console.error(e);
-
             return;
         }
     };
 
     const set = (key: string, value: any) => {
         try {
-            getStorage().setItem(encode(key), encode(JSON.stringify(value)));
-        } catch (e) {
-            console.error(e);
+            const storeData = getStoreData();
 
+            storeData[key] = value;
+
+            getStorage().setItem(storageKey, JSON.stringify(storeData));
+        } catch (e) {
             return;
         }
     }

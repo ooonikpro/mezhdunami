@@ -1,39 +1,41 @@
+const getInitialFormState = (): Tech.PatientFormData => ({
+    name: '',
+    phone: '',
+    procedures: null,
+    date: null,
+    notify: false,
+    typeOfNotify: 1,
+});
+
 const form = {
-    state: reactive({}),
-    initialized: ref(false)
+    state: reactive(getInitialFormState()),
 }
 
 export const usePatientForm = () => {
-    const { get, set } = useStore();
-
-    const getInitialFormState = (): Tech.PatientFormData => ({
-        name: get('name') || '',
-        phone: get('phone') || '',
-        procedures: null,
-        date: null,
-        notify: false,
-        typeOfNotify: 1,
-    });
+    const { addToSchedule } = useSchedules();
+    const { set, get } = useStore();
 
     const init = () => {
         form.state = reactive(getInitialFormState());
     }
 
-    if (!form.initialized.value) {
-        init();
-        form.initialized.value = true;
+    const restorePatient = () => {
+        form.state.name = get('name');
+        form.state.phone = get('phone');
     }
 
-    const savePatient = () => {
-        const formData = form.state as Tech.PatientFormData;
+    const submit = () => {
+        set("name", form.state.name);
+        set("phone", form.state.phone);
 
-        set('phone', formData.phone);
-        set('name', formData.name);
+        return addToSchedule(form.state);
     }
+
+    onBeforeMount(restorePatient);
 
     return {
         state: form.state as Tech.PatientFormData,
         reset: init,
-        savePatient
+        submit
     };
 }
