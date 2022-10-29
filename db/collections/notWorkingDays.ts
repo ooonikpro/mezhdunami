@@ -4,7 +4,7 @@ import { useCalendar } from "~~/composables/useCalendar";
 const collection = getCollection('not_working_days');
 const { getTomorrow } = useCalendar();
 
-export const getNotWorkingDates = async (): Tech.CollectionWithMap<Tech.DateNumber, Tech.DateNumber> => {
+export const getNotWorkingDates = async (): Promise<Tech.NotWorkingDates> => {
     const schedule = await collection;
 
     const result: Tech.PatientFormData[] = await schedule.find({
@@ -13,17 +13,7 @@ export const getNotWorkingDates = async (): Tech.CollectionWithMap<Tech.DateNumb
         }
     }).sort({ date: 1 }).toArray();
 
-    const response = {
-        data: [],
-        map: {}
-    }
-
-    result.forEach(({ date }) => {
-        response[date] = date;
-        response.data.push(date);
-    })
-
-    return response;
+    return result.map(({ date }) => date);
 }
 
 export const addNotWorkingDate = async (date: Tech.DateNumber) => {

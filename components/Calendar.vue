@@ -23,7 +23,7 @@
                             <CalendarSlot
                                 v-for="(slot, $j) in item.slots"
                                 :key="$j"
-                                :isFree="slot.isFree"
+                                :isFree="isFree(slot, item.slots)"
                                 :isSelected="isSelected(slot.date)"
                                 @select="select(slot.date)"
                             >
@@ -46,76 +46,59 @@ interface CalendarOfDayProps {
 const props = defineProps<CalendarOfDayProps>();
 const emit = defineEmits(["update:modelValue"]);
 
-const { fetchSchedule } = useSchedules();
+const { schedule, isLoading, refreshSchedule } = useSchedules();
 const { getLocalizedWeekday, getLocalizedDate } = useCalendar();
+const { getTotalDuration, getReservedTimeSlots } = useProcedures();
 
-const response = fetchSchedule();
+const selectedProceduresDuration = computed(() => {
+    if (Array.isArray(props.selectedProcedures)) {
+        return getTotalDuration(props.selectedProcedures);
+    }
 
-const schedule = computed(() => response.data.value.data);
-const isLoading = computed(() => response.pending.value);
+    return 0;
+});
 
-// const slotDuration = computed(() => {
-//     if (Array.isArray(props.selectedProcedures)) {
-//         return getTotalDuration(props.selectedProcedures);
-//     }
+const isFree = (
+    slot: Tech.ScheduleTimeSlot,
+    slotList: Tech.ScheduleTimeSlot[]
+) => {
+    if (!slot.isFree) return false;
 
-//     return 0;
-// });
+    const hour = new Date(slot.date).getHours();
 
-// const isFree = (slot: number) => {
-//     const slotStart = slot;
-//     const hour = new Date(slot).getHours();
+    // Если продолжительность больше 1 часа в последний слот
+    if (18 === hour && selectedProceduresDuration.value / 3600 / 1000 > 1) {
+        return false;
+    }
 
-//     const slotEnd = slotStart + slotDuration.value;
+    const availableSlots = slotList.reduce((obj, { date, isFree }) => {
+        if (isFree) {
+            obj[date] = isFree;
+        }
 
-//     // Если продолжительность больше 1 часа в последний слот
-//     if (18 === hour && slotDuration.value / 3600 / 1000 > 1) {
-//         return false;
-//     }
+        return obj;
+    }, {});
 
-//     if (Array.isArray(schedule.value)) {
-//         for (let i = 0; i < schedule.value.length; i++) {
-//             const item = schedule.value[i];
-//             const itemStart = item.date;
-//             const itemEnd = itemStart + getTotalDuration(item.procedures);
+    const neededSlots = getReservedTimeSlots(
+        slot.date,
+        props.selectedProcedures
+    );
 
-//             // Если время начала слота пересекается со временем другого пациента
-//             if (slotStart >= itemStart && slotStart <= itemEnd) {
-//                 return false;
-//             }
+    return neededSlots.every((s) => availableSlots[s]);
+};
 
-//             const nextItem = schedule.value[i + 1];
-
-//             if (!nextItem) continue;
-
-//             const nextItemStart = nextItem.date;
-//             const nextItemEnd =
-//                 nextItemStart + getTotalDuration(nextItem.procedures);
-
-//             // Если время конца слота пересекается со временем другого пациента
-//             if (slotEnd >= nextItemStart && slotEnd <= nextItemEnd) {
-//                 return false;
-//             }
-//         }
-
-//         return true;
-//     }
-
-//     return false;
-// };
-
-const selectedValue = ref(props.modelValue);
+const selectedSlot = ref(props.modelValue);
 
 const isSelected = (date: number) => {
-    return selectedValue.value === date;
+    return selectedSlot.value === date;
 };
 
 const select = (date: number) => {
-    selectedValue.value = date;
+    selectedSlot.value = date;
     emit("update:modelValue", date);
 };
 
-onMounted(response.refresh);
+onMounted(refreshSchedule);
 </script>
 
 

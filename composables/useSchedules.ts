@@ -1,7 +1,15 @@
+import { useProcedures } from '~~/composables/useProcedures';
 const URL = '/api/schedules';
 
 export const useSchedules = () => {
-    const fetchSchedule = () => useFetch<Tech.ResponseAPI<Tech.Schedule>>(URL);
+    const { getScheduleForMonth } = useCalendar();
+    const { getTotalDurationInHours } = useProcedures();
+
+    const { data, refresh: refreshSchedule, pending: isLoading } = useFetch<Tech.ResponseAPI<Tech.ScheduleFilters>>(URL);
+
+    const excludedDates = computed(() => data.value.data.excludedDates || []);
+
+    const schedule = computed(() => getScheduleForMonth({ excludedDates: excludedDates.value }))
 
     const addToSchedule = async (formData: Tech.PatientFormData) => {
         const { data, execute } = useFetch(URL, {
@@ -19,7 +27,9 @@ export const useSchedules = () => {
     };
 
     return {
-        fetchSchedule,
+        isLoading,
+        schedule,
+        refreshSchedule,
         addToSchedule,
     }
 }

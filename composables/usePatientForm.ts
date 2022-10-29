@@ -21,6 +21,7 @@ export const usePatientForm = () => {
 
     if (!form.initialized.value) {
         init();
+        form.initialized.value = true;
     }
 
     const savePatient = () => {

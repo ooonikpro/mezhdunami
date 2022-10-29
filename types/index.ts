@@ -1,9 +1,9 @@
+import { getBookedDates } from './../db/collections/schedule';
 export { };
 
 declare global {
     namespace Tech {
         type DateNumber = number;
-        type Schedule = Array<ScheduleDate>;
 
         enum TypeOfNotify {
             SMS = 1,
@@ -15,7 +15,7 @@ declare global {
             value: T
         }
 
-        interface ScheduleSlot {
+        interface ScheduleTimeSlot {
             date: DateNumber,
             time: string,
             isFree: false
@@ -23,7 +23,7 @@ declare global {
 
         interface ScheduleDate {
             date: DateNumber,
-            slots: Array<ScheduleSlot>,
+            slots: Array<ScheduleTimeSlot>,
         }
 
         interface PatientFormData {
@@ -41,14 +41,13 @@ declare global {
             message?: string;
         }
 
-        type CollectionWithMap<T, R> = Promise<{
-            data: Array<T>;
-            map: Record<DateNumber, R>
-        }>
+        type CollectionLikeMap<T> = Record<DateNumber, T>
+        type NotWorkingDates = Array<DateNumber>
+        type BookedDates = Array<DateNumber>
+        type Schedule = Array<ScheduleDate>
 
-        interface CalendarMonthPayload {
-            notWorkingDates: Record<DateNumber, DateNumber>;
-            bookedDates: Record<DateNumber, PatientFormData['procedures']>;
+        interface ScheduleFilters {
+            excludedDates: NotWorkingDates & BookedDates
         }
     }
 

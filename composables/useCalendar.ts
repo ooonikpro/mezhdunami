@@ -1,5 +1,3 @@
-import { reactive } from 'vue';
-
 const today = new Date();
 const year = today.getFullYear();
 const month = today.getMonth();
@@ -45,7 +43,9 @@ const getTomorrow = (): Tech.DateNumber => {
     return createDate(new Date(year, month, day + 1), 0).getTime();
 }
 
-const getCalendarMonth = ({ notWorkingDates, bookedDates }: Tech.CalendarMonthPayload): Tech.Schedule => {
+const getScheduleForMonth = ({ excludedDates }: Tech.ScheduleFilters): Tech.Schedule => {
+    const isExcluded = (date: Tech.DateNumber) => excludedDates.includes(date);
+
     const dates = [];
 
     let futureDays = getDaysInMonth() - day;
@@ -54,15 +54,10 @@ const getCalendarMonth = ({ notWorkingDates, bookedDates }: Tech.CalendarMonthPa
         futureDays += getDaysInMonth(month + 1);
     }
 
-
-    const isFree = (date) => {
-        return !bookedDates.hasOwnProperty(date);
-    }
-
     for (let i = 0; i < futureDays; i++) {
         const newDate = new Date(year, month, day + i + 1).getTime();
 
-        if (!notWorkingDates.hasOwnProperty(newDate)) {
+        if (!isExcluded(newDate)) {
             dates.push({
                 date: newDate,
                 slots: timeSlots.map((slot) => {
@@ -71,7 +66,7 @@ const getCalendarMonth = ({ notWorkingDates, bookedDates }: Tech.CalendarMonthPa
                     return {
                         date: slotTime,
                         time: `${slot}:00`,
-                        isFree: isFree(slotTime)
+                        isFree: !isExcluded(slotTime)
                     }
                 }),
             });
@@ -83,7 +78,7 @@ const getCalendarMonth = ({ notWorkingDates, bookedDates }: Tech.CalendarMonthPa
 
 export const useCalendar = () => {
     return {
-        getCalendarMonth,
+        getScheduleForMonth,
         getLocalizedWeekday,
         getLocalizedDate,
         getLocalizedFullDate,

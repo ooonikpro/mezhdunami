@@ -1,17 +1,15 @@
-import { getCurrentSchedule, getNotWorkingDates } from "~~/db/collections";
-import { useCalendar } from "~~/composables/useCalendar";
+import { getBookedDates, getNotWorkingDates } from "~~/db/collections";
 
-const { getCalendarMonth } = useCalendar();
-
-export default defineEventHandler<Tech.ResponseAPI<Tech.Schedule>>(async () => {
+export default defineEventHandler(async () => {
     try {
-        const bookedDates = await getCurrentSchedule();
         const notWorkingDates = await getNotWorkingDates();
+        const bookedDates = await getBookedDates()
 
-        const data = getCalendarMonth({ notWorkingDates: notWorkingDates.map, bookedDates: bookedDates.map });
 
         return {
-            data,
+            data: {
+                excludedDates: [].concat(notWorkingDates, bookedDates).sort(),
+            } as Tech.ScheduleFilters,
             success: true,
         }
     } catch (e) {
