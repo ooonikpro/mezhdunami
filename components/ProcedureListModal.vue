@@ -27,7 +27,7 @@
                 </div>
                 <div class="procedure-body h4 mb-24">
                     <span
-                        v-for="(item, $index) in option.description"
+                        v-for="(item, $index) in getDescription(option.data)"
                         :key="$index"
                     >
                         {{ item }}
@@ -87,6 +87,13 @@ const toggle = (id: number) => {
     }
 
     isSticky.value = true;
+};
+
+const getDescription = (arr) => {
+    return arr.reduce((desc, { data }) => {
+        data.forEach(({ label }) => desc.push(label));
+        return desc;
+    }, []);
 };
 </script>
 
