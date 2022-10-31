@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const client = axios.create({
-    baseURL: `https://api.telegram.org/bot${process.env.TELEGRAM_BOT}`
+    baseURL: `https://api.telegram.org/bot${process.env.TELEGRAM_BOT || ''}`
 })
 
 const subscribers = ['209442952'];
