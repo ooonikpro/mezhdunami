@@ -1,0 +1,38 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Sync data
+        uses: actions/checkout@v2
+
+      - run: mkdir "$HOME/.ssh"
+      - run: echo "${{ secrets.SSH_KEY }}" > "$HOME/.ssh/key"
+      - run: chmod 600 "$HOME/.ssh/key"
+      - run: yarn install
+      - run: yarn build
+      - run: rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avz --exclude='.env' --exclude='/node_modules' . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/www/public_html
+
+  dockerize:
+      needs: deploy
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Run application inside docker container
+          uses: appleboy/ssh-action@master
+
+          with:
+            host: ${{ secrets.REMOTE_HOST }}
+            username: ${{ secrets.REMOTE_USER }}
+            password: ${{ secrets.REMOTE_PASSWORD }}
+            script_stop: true
+            script: |
+              cd /home/www/public_html
+              docker compose -f ./docker/docker-compose.yml down && docker compose --env-file .env -f ./docker/docker-compose.yml up -d --build
