@@ -4,7 +4,7 @@
 
         <div class="recommedation-list">
             <Accordion class="mb-24" id="superficial-peeling">
-                <template #title>Поверхностноый пилинг</template>
+                <template #title>Поверхностный пилинг</template>
 
                 <template #default>
                     <ol>
