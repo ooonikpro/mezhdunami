@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Sync data
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - run: mkdir "$HOME/.ssh"
       - run: echo "${{ secrets.SSH_KEY }}" > "$HOME/.ssh/key"
