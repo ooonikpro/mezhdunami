@@ -3,8 +3,8 @@
         <template #title>Рекомендации после процедур</template>
 
         <div class="recommedation-list">
-            <Accordion class="mb-24">
-                <template #title>После поверхностного пилинга</template>
+            <Accordion class="mb-24" id="superficial-peeling">
+                <template #title>Поверхностноый пилинг</template>
 
                 <template #default>
                     <ol>
@@ -19,20 +19,26 @@
                         </li>
                         <li>Пить много жидкости.</li>
                         <li>
-                            Для очищения можно использовать легкие муссы и пенки, а
-                            декоративную косметику можно вводить уже на 4 день.
+                            Для очищения можно использовать легкие муссы и
+                            пенки, а декоративную косметику можно вводить уже на
+                            4 день.
                         </li>
                         <li>
                             Лучше отказаться от физических нагрузок, посещения
                             бань и саун, а также сильных очищающих средств и
                             масок.
                         </li>
+                        <li>
+                            В домашнем уходе не использовать средства,
+                            содержащие кислоты в составе, скрабы и домашние
+                            пилинги в течение 7 дней.
+                        </li>
                     </ol>
                 </template>
             </Accordion>
 
-            <Accordion class="mb-24">
-                <template #title>После срединного пилинга</template>
+            <Accordion class="mb-24" id="medium-peeling">
+                <template #title>Cрединный пилинг</template>
 
                 <template #default>
                     <p class="h4 mb-16">
@@ -61,12 +67,17 @@
                             бань и саун, а также сильных очищающих средств и
                             масок.
                         </li>
+                        <li>
+                            В домашнем уходе не использовать средства,
+                            содержащие кислоты в составе, скрабы и домашние
+                            пилинги в течение 7 дней.
+                        </li>
                     </ol>
                 </template>
             </Accordion>
 
-            <Accordion class="mb-24">
-                <template #title>После чистки лица</template>
+            <Accordion class="mb-24" id="face-cleaning">
+                <template #title>Чистка лица</template>
 
                 <template #default>
                     <ol>
@@ -125,8 +136,8 @@
                 </template>
             </Accordion>
 
-            <Accordion class="mb-24">
-                <template #title>После биоревитализации</template>
+            <Accordion class="mb-24" id="bio">
+                <template #title>Биоревитализация</template>
 
                 <template #default>
                     <ol>
@@ -153,8 +164,8 @@
                 </template>
             </Accordion>
 
-            <Accordion class="mb-24">
-                <template #title>После ботулинотерапии</template>
+            <Accordion class="mb-24" id="botulinum-therapy">
+                <template #title>Ботулинотерапия</template>
 
                 <template #default>
                     <ol>
@@ -213,8 +224,8 @@
                 </template>
             </Accordion>
 
-            <Accordion class="mb-24">
-                <template #title>После контурной пластики губ</template>
+            <Accordion class="mb-24" id="lip-contouring">
+                <template #title>Контурная пластика губ</template>
 
                 <template #default>
                     <p class="mb-16">
@@ -256,8 +267,8 @@
                             Если есть склонность к герпес вирусной инфекции:
                             Ацикловир 200 мг х 4 раза в день в течение 7 дней,
                             или Валацикловир 500 мг х 2 раза в день в течение 7
-                            дней, либо Валтрекс 500 мг х 1 раз в день в течение 7
-                            дней.
+                            дней, либо Валтрекс 500 мг х 1 раз в день в течение
+                            7 дней.
                         </li>
                     </ol>
                 </template>

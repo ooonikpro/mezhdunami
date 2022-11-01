@@ -1,19 +1,31 @@
 <template>
-    <div class="accordion" :class="{ open: isOpen }">
-        <div class="accordion-head h3" @click="toggle">
-            <div class="accordion-title">
+    <div ref="el" class="accordion" :class="{ open: isOpen }" :id="id">
+        <a :href="link" class="accordion-head h3" @click="toggle">
+            <h3 class="accordion-title">
                 <slot name="title" />
-            </div>
+            </h3>
 
-            <img
-                src="@/assets/img/angle.svg"
-                class="angle"
-                :class="angleClasses"
-            />
-        </div>
+            <i class="angle" :class="angleClasses">
+                <svg
+                    width="17"
+                    height="34"
+                    viewBox="0 0 17 34"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M1 1L16 17L1 33"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                </svg>
+            </i>
+        </a>
 
         <transition name="expand">
-            <div v-if="isOpen" class="accordion-body">
+            <div v-show="isOpen" class="accordion-body">
                 <slot />
             </div>
         </transition>
@@ -21,13 +33,31 @@
 </template>
 
 <script lang="ts" setup>
+interface AccordionProps {
+    id: string;
+}
+
+const props = defineProps<AccordionProps>();
+const route = useRoute();
+
 const angleClasses = computed(() => ({
     up: isOpen.value,
     down: !isOpen.value,
 }));
 
+const link = computed(() => `#${props.id}`);
+
 const isOpen = ref(false);
+const el = ref<HTMLDivElement>();
 const toggle = () => (isOpen.value = !isOpen.value);
+
+onMounted(() => {
+    isOpen.value = route.hash === link.value;
+
+    if (isOpen.value) {
+        el.value.scrollIntoView({ block: "start" });
+    }
+});
 </script>
 
 
@@ -38,9 +68,8 @@ const toggle = () => (isOpen.value = !isOpen.value);
     flex-direction: column;
     @include transition;
     gap: 1.6rem;
-    padding: 2.4rem 5.2rem 2.4rem 2.4rem;
     color: $color-green-700;
-    background-color: $color-green-200;
+    background-color: $color-pink-300;
     border-radius: 4px;
     max-height: 15rem;
 
@@ -53,31 +82,35 @@ const toggle = () => (isOpen.value = !isOpen.value);
     display: flex;
     position: relative;
     cursor: pointer;
+    padding: 2.4rem 5.2rem 2.4rem 2.4rem;
+    color: $color-pink-700;
 }
 
 .accordion-title {
+    font-weight: 400;
     padding-right: 1rem;
 }
 
 .angle {
     position: absolute;
-    top: 0;
+    top: 50%;
     bottom: 0;
-    right: -2.7rem;
-    margin: auto;
+    right: 2rem;
     transform-origin: center;
     @include transition;
 
     &.down {
-        transform: scale(0.6) rotate(90deg);
+        transform: translateY(-50%) scale(0.6) rotate(90deg);
     }
 
     &.up {
-        transform: scale(0.6) rotate(-90deg);
+        transform: translateY(-50%) scale(0.6) rotate(-90deg);
     }
 }
 
 .accordion-body {
+    padding: 0 2.4rem 2.4rem;
+
     &.expand-enter-active,
     &.expand-leave-active {
         @include transition;
