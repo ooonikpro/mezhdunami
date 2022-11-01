@@ -35,4 +35,7 @@ jobs:
             script_stop: true
             script: |
               cd /home/www/public_html
-              docker compose -f ./docker/docker-compose.yml down && docker compose --env-file .env -f ./docker/docker-compose.yml up -d --build
+              docker compose -f ./docker/docker-compose.yml down
+              docker image prune -a -f
+              docker container prune -f
+              docker compose --env-file .env -f ./docker/docker-compose.yml up -d --build
