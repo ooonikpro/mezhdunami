@@ -5,7 +5,6 @@ export default defineEventHandler(async () => {
         const notWorkingDates = await getNotWorkingDates();
         const bookedDates = await getBookedDates()
 
-
         return {
             data: {
                 excludedDates: [].concat(notWorkingDates, bookedDates).sort(),

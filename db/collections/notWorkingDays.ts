@@ -1,8 +1,7 @@
 import { getCollection } from "../mongo";
-import { useCalendar } from "~~/composables/useCalendar";
+import { getTomorrow } from "~~/utils";
 
 const collection = getCollection('not_working_days');
-const { getTomorrow } = useCalendar();
 
 export const getNotWorkingDates = async (): Promise<Tech.NotWorkingDates> => {
     const schedule = await collection;

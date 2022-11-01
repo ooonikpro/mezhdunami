@@ -3,7 +3,6 @@ const URL = '/api/schedules';
 
 export const useSchedules = () => {
     const { getScheduleForMonth } = useCalendar();
-    const { getTotalDurationInHours } = useProcedures();
 
     const { data, refresh: refreshSchedule, pending: isLoading } = useFetch<Tech.ResponseAPI<Tech.ScheduleFilters>>(URL);
 

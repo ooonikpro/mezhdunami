@@ -1,15 +1,11 @@
 import { getCollection } from "../mongo";
-import { useCalendar } from "~~/composables/useCalendar";
-import { useProcedures } from "~~/composables/useProcedures";
+import { getTomorrow, getReservedTimeSlots } from "~~/utils";
 
 const collection = getCollection('schedule');
 
 type ScheduleItem = Pick<Tech.PatientFormData, 'date' | 'procedures'>;
 
 export const getBookedDates = async (): Promise<Tech.BookedDates> => {
-    const { getTomorrow } = useCalendar();
-    const { getReservedTimeSlots } = useProcedures();
-
     const schedule = await collection;
 
     const result: Tech.PatientFormData[] = await schedule.find({
@@ -39,7 +35,7 @@ export const addToSchedule = async (data: Tech.PatientFormData) => {
     const schedule = await collection;
 
     if (await findOne(data.date)) {
-        return false;
+        throw new Error('Это время уже занято. Пожалуйста, выберите другое');
     }
 
     await schedule.insertOne(data);
