@@ -21,8 +21,9 @@
             </a>
 
             <a
-                href="https:/t.me/lensem"
+                href="/order-page"
                 class="media-btn h-128 full-width i-catalog"
+                @click.prevent="goTo('/order-page')"
             >
                 <span class="h3">Заказать <br />домашний уход</span>
             </a>
