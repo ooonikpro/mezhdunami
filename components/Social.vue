@@ -1,7 +1,7 @@
 <template>
     <div class="social">
         <a
-            href="https:/t.me/lensem"
+            href="https://t.me/lensem"
             class="social-btn h-64 telegram"
             :class="{ bordered }"
             rel="noreferrer noopener"
