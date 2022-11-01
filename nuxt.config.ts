@@ -43,11 +43,15 @@ export default defineNuxtConfig({
                 },
                 {
                     name: 'description',
-                    content: 'Кабинет врача-косметолога Елены Овечкиной в Калининграде',
+                    content: 'Записаться онлайн',
                 },
                 {
                     name: 'og:description',
-                    content: 'Кабинет врача-косметолога Елены Овечкиной в Калининграде',
+                    content: 'Записаться онлайн',
+                },
+                {
+                    name: 'og:image',
+                    content: '/preview.jpg',
                 },
 
                 {
