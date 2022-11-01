@@ -1,3 +1,6 @@
+const title = 'Между Нами. Косметология для своих';
+const description = 'Записаться онлайн';
+
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
     buildModules: [
@@ -17,7 +20,7 @@ export default defineNuxtConfig({
 
     app: {
         head: {
-            title: 'Кабинет врача-косметолога Елены Овечкиной в Калининграде',
+            title,
 
             meta: [
                 { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -35,19 +38,19 @@ export default defineNuxtConfig({
                 },
                 {
                     name: 'title',
-                    content: 'Косметология для своих'
+                    content: title
                 },
                 {
                     name: 'og:title',
-                    content: 'Косметология для своих'
+                    content: title
                 },
                 {
                     name: 'description',
-                    content: 'Записаться онлайн',
+                    content: description
                 },
                 {
                     name: 'og:description',
-                    content: 'Записаться онлайн',
+                    content: description,
                 },
                 {
                     name: 'og:image',
