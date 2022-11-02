@@ -19,7 +19,13 @@ const button = ref<HTMLButtonElement | null>(null);
 
 onMounted(() => {
     if (props.isSelected) {
-        button.value.scrollIntoView({ inline: "center", block: "nearest" });
+        setTimeout(() => {
+            button.value.scrollIntoView({
+                inline: "center",
+                block: "nearest",
+                behavior: "smooth",
+            });
+        }, 100);
     }
 });
 </script>

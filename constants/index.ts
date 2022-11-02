@@ -1,3 +1,5 @@
+export const ANIMATION_DURATION = 300
+
 export enum PROCEDURE {
     Peeling = 1,
     Cleaning = 2,

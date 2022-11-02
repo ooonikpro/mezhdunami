@@ -41,11 +41,11 @@ const emit = defineEmits(["after-leave", "close"]);
 
 .slide-down-enter-active,
 .slide-down-leave-active {
-    @include transition;
+    transition: transform 250ms ease;
 }
 
 .slide-down-enter-from,
 .slide-down-leave-to {
-    transform: translateY(-100%);
+    transform: translateY(100%);
 }
 </style>
