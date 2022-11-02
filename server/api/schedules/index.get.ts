@@ -1,4 +1,5 @@
 import { getBookedDates, getNotWorkingDates } from "~~/db/collections";
+import { sendMessage } from "~~/services";
 
 export default defineEventHandler(async () => {
     try {

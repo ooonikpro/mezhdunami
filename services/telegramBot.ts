@@ -18,7 +18,7 @@ const sendMessage = (to: string, message: string) => client.get(`/sendMessage`, 
         parse_mode: 'HTML',
         disable_notification: false
     }
-});
+}).then(({ data }) => data);
 
 export const notifySubscribers = (message: string) => subscribers.map((to) => sendMessage(to, message));
 
