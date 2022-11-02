@@ -12,7 +12,7 @@ export const getDaysInMonth = (mm: number = month) => {
     return new Date(year, mm, 0, 0, 0, 0, 0).getDate();
 }
 
-export const createDate = (date: Date | Tech.DateNumber, hour: number, minutes: number = 0): Date => {
+export const createDate = (date: Date | Tech.DateNumber, hour: number = 0, minutes: number = 0): Date => {
     const newDate = new Date(date);
 
     newDate.setHours(hour);
@@ -40,7 +40,7 @@ export const getLocalizedFullDate = (date: Date | Tech.DateNumber) => {
 };
 
 export const getTomorrow = (): Tech.DateNumber => {
-    return createDate(new Date(year, month, day + 1), 0).getTime();
+    return createDate(new Date(year, month, day + 1)).getTime();
 }
 
 export const getScheduleForMonth = ({ excludedDates }: Tech.ScheduleFilters): Tech.Schedule => {
@@ -55,7 +55,7 @@ export const getScheduleForMonth = ({ excludedDates }: Tech.ScheduleFilters): Te
     }
 
     for (let i = 0; i < futureDays; i++) {
-        const date = new Date(year, month, day + i + 1).getTime();
+        const date = createDate(new Date(year, month, day + i + 1)).getTime();
 
         if (!isExcluded(date)) {
             let dateIsFree = false;

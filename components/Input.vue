@@ -1,10 +1,14 @@
 <template>
-    <label :class="{ disabled: props.disabled, focused, select: isSelect }" class="input">
+    <label
+        :class="{ disabled: props.disabled, focused, select: isSelect }"
+        class="input"
+    >
         <span class="label h5">{{ props.label }}</span>
 
-        <IconTriangle v-if="isSelect" class="triangle"/>
+        <IconTriangle v-if="isSelect" class="triangle" />
 
         <input
+            ref="input"
             :type="inputType"
             :placeholder="props.placeholder"
             :disabled="props.disabled"
@@ -15,13 +19,13 @@
             v-model="value"
         />
 
-        <IconValid v-if="!props.disabled && isValid" class="status-valid"/>
+        <IconValid v-if="!props.disabled && isValid" class="status-valid" />
     </label>
 </template>
 
 <script lang="ts" setup>
 interface InputProps {
-    type?: "text" | "select" | "tel";
+    type?: "text" | "select" | "tel" | "date";
     label?: string;
     placeholder?: string;
     disabled?: boolean;
@@ -34,13 +38,15 @@ interface InputProps {
 const props = defineProps<InputProps>();
 const emit = defineEmits(["update:modelValue", "focus", "blur"]);
 
+const input = ref<HTMLInputElement>();
+
 const isSelect = computed(() => props.type === "select");
 const focused = ref(false);
 const isValid = computed(() => {
     const validator = props.validator || ((v) => !!v);
 
     return validator(value.value);
-})
+});
 
 const value = computed({
     get() {
@@ -56,13 +62,14 @@ const value = computed({
 
 const onFocus = () => {
     focused.value = true;
-    emit('focus');
+    input.value.showPicker();
+    emit("focus");
 };
 
 const onBlur = () => {
     focused.value = false;
 
-    emit('blur');
+    emit("blur");
 };
 
 const inputType = computed(() => {
@@ -135,6 +142,19 @@ input {
 
     &::placeholder {
         color: rgba($color-pink-700, 0.5);
+    }
+
+    &[type="date"]::-webkit-calendar-picker-indicator {
+        background: transparent;
+        bottom: 0;
+        color: transparent;
+        cursor: pointer;
+        height: auto;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: auto;
     }
 }
 
