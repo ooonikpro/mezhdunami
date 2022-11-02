@@ -1,4 +1,3 @@
-import { useProcedures } from '~~/composables/useProcedures';
 const URL = '/api/schedules';
 
 export const useSchedules = () => {
