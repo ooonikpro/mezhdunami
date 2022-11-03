@@ -1,5 +1,5 @@
-import { getCollection } from "../mongo";
-import { getTomorrow, getReservedTimeSlots } from "~~/utils";
+import { getCollection } from "@/db/mongo";
+import { getTomorrow, getReservedTimeSlots } from "@/utils";
 
 const collection = getCollection('schedule');
 
@@ -15,7 +15,7 @@ export const getBookedDates = async (): Promise<Tech.BookedDates> => {
     }).sort({ date: 1 }).toArray();
 
 
-    return result.reduce((response, { date: startDate, procedures }) => response.concat(getReservedTimeSlots(startDate, procedures)), []);
+    return result.reduce((response, { date: startDate, procedures }) => response.concat(getReservedTimeSlots(startDate, procedures)), [] as number[]);
 }
 
 export const findOne = async (date: number): Promise<ScheduleItem | undefined> => {

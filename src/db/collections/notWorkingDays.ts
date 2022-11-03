@@ -1,5 +1,5 @@
-import { getCollection } from "../mongo";
-import { getTomorrow } from "~~/utils";
+import { getCollection } from "@/db/mongo";
+import { getTomorrow } from "@/utils";
 
 const collection = getCollection('not_working_days');
 

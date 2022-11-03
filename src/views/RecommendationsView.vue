@@ -316,6 +316,17 @@
   </Layout>
 </template>
 
-<script lang="ts" setup>
-const { goToBack } = useAnimatedRouter();
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
+
+export default defineComponent({
+  setup() {
+    const { goToBack } = useAnimatedRouter();
+
+    return {
+      goToBack,
+    }
+  }
+})
 </script>

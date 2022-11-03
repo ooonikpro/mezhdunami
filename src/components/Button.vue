@@ -1,27 +1,52 @@
 <template>
-    <button type="button" :class="rootClasses" :disabled="disabled">
-        <slot />
-    </button>
+  <button
+    type="button"
+    :class="rootClasses"
+    :disabled="disabled"
+  >
+    <slot />
+  </button>
 </template>
 
-<script lang="ts" setup>
-interface Props {
-    outline?: boolean;
-    disabled?: boolean;
-    small?: boolean;
-}
+<script lang="ts">
+import { defineComponent, computed } from 'vue';
 
-const { outline, disabled, small } = defineProps<Props>();
+export default defineComponent({
+    props: {
+        outline: {
+            type: Boolean,
+            default: false,
+        },
 
-const rootClasses = computed(() => ({
-    small,
-    outline,
-    h3: true,
-}));
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+
+        small: {
+            type: Boolean,
+            default: false
+        }
+    },
+    setup(props) {
+        const { outline, disabled, small } = props;
+
+        const rootClasses = computed(() => ({
+            small,
+            outline,
+            h3: true,
+        }));
+
+        return {
+            rootClasses,
+            disabled,
+        }
+    }
+})
 </script>
 
 <style lang="scss" scoped>
-button {
+  button {
     width: 100%;
     height: 6.4rem;
     border: none;
@@ -36,27 +61,27 @@ button {
     @include transition;
 
     &.outline {
-        background-color: transparent;
-        border-color: $color-pink-700;
-        color: $color-pink-700;
+      background-color: transparent;
+      border-color: $color-pink-700;
+      color: $color-pink-700;
     }
 
     &.small {
-        padding-top: 0;
-        padding-bottom: 0;
-        height: 4.6rem;
+      padding-top: 0;
+      padding-bottom: 0;
+      height: 4.6rem;
     }
 
     &.disabled,
     &:disabled,
     &[disabled] {
-        cursor: not-allowed;
-        border-color: transparent;
-        color: rgba($color-pink-700, 0.5);
+      cursor: not-allowed;
+      border-color: transparent;
+      color: rgba($color-pink-700, 0.5);
 
-        &:not(.outline) {
-            background-color: rgba($color-pink-700, 0.1);
-        }
+      &:not(.outline) {
+        background-color: rgba($color-pink-700, 0.1);
+      }
     }
-}
+  }
 </style>

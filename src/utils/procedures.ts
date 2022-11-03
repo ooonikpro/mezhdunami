@@ -1,4 +1,4 @@
-import { PROCEDURE, PROCEDURES, PROCEDURE_DURATION, PROCEDURE_PRICE } from "~~/constants";
+import { PROCEDURE, PROCEDURES, PROCEDURE_DURATION, PROCEDURE_PRICE } from "@/constants";
 
 const ONE_HOURS_MS = 3600000;
 
@@ -9,7 +9,7 @@ export const getNames = (ids: Array<PROCEDURE | Cosmo.Procedure>) => {
         }
 
         return names;
-    }, []).join(',');
+    }, [] as string[]).join(',');
 };
 
 export const getDuration = (procedure: Cosmo.Procedure) => PROCEDURE_DURATION[procedure];

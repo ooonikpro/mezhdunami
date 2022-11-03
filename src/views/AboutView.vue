@@ -60,10 +60,7 @@
         Дипломы и сертификаты
       </h3>
 
-      <Carousel
-        :slides="diplomas"
-        class="mb-16"
-      />
+      <Carousel class="mb-16" />
     </section>
 
     <section class="mb-16">

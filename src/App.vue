@@ -1,36 +1,44 @@
 <template>
-  <div>
-    <nav>
-      <router-link to="/">
-        Home
-      </router-link>|
-      <router-link to="/about">
-        About
-      </router-link>
-    </nav>
-    <router-view />
+  <div id="app">
+    <Gradient />
+    <NuxtPage />
+    <div class="modals"></div>
   </div>
 </template>
 
-<style lang="scss">
-  #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
+<script lang="ts">
+import { defineComponent, onBeforeMount, watch } from "vue";
+import { usePageAnimation } from '@/composables/usePageAnimation';
+
+export default defineComponent({
+  setup() {
+    const { isAnimate, isReverse } = usePageAnimation();
+
+    onBeforeMount(() => {
+      watch(
+          isAnimate,
+          () => {
+              if (isAnimate.value) {
+                  document.documentElement.classList.add("page-animate");
+              } else {
+                  document.documentElement.classList.remove("page-animate");
+              }
+          },
+          { immediate: true }
+      );
+
+      watch(
+          isReverse,
+          () => {
+              if (isReverse.value) {
+                  document.documentElement.classList.add("reversed");
+              } else {
+                  document.documentElement.classList.remove("reversed");
+              }
+          },
+          { immediate: true }
+      );
+    });
   }
-
-  nav {
-    padding: 30px;
-
-    a {
-      font-weight: bold;
-      color: #2c3e50;
-
-      &.router-link-exact-active {
-        color: #42b983;
-      }
-    }
-  }
-</style>
+});
+</script>

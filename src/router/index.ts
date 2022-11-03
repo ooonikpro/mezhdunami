@@ -4,32 +4,32 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
-    component: () => import('../views/HomeView.vue'),
+    component: () => import('@/views/HomeView.vue'),
   },
   {
     path: '/about',
     name: 'about',
-    component: () => import('../views/AboutView.vue'),
+    component: () => import('@/views/AboutView.vue'),
   },
   {
     path: '/form',
     name: 'form',
-    component: () => import('../views/FormView.vue'),
+    component: () => import('@/views/FormView.vue'),
   },
   {
     path: '/price-list',
     name: 'priceList',
-    component: () => import('../views/price-list.vue'),
+    component: () => import('@/views/PriceListView.vue'),
   },
   {
     path: '/order-page',
     name: 'orderPage',
-    component: () => import('../views/order-page.vue'),
+    component: () => import('@/views/OrderView.vue'),
   },
   {
     path: '/recommendations',
     name: 'recommendations',
-    component: () => import('../views/recommendations.vue'),
+    component: () => import('@/views/RecommendationsView.vue'),
   },
 ];
 

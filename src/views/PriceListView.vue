@@ -70,9 +70,23 @@
   </Layout>
 </template>
 
-<script lang="ts" setup>
-const { goTo, goToBack } = useAnimatedRouter();
-const { procedures } = useProcedures();
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
+import { useProcedures } from '@/composables/useProcedures';
+
+export default defineComponent({
+  setup() {
+    const { goTo, goToBack } = useAnimatedRouter();
+    const { procedures } = useProcedures();
+
+    return {
+      goTo,
+      goToBack,
+      procedures
+    }
+  }
+})
 </script>
 
 <style lang="scss" scoped>

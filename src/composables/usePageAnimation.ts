@@ -1,3 +1,5 @@
+import { ref, readonly } from 'vue';
+
 const isAnimate = ref(false);
 const isReverse = ref(false);
 
@@ -10,7 +12,7 @@ export const usePageAnimation = () => {
     const turnOnAnimation = ({ reverse } = { reverse: false }) => setAnimate(true, reverse);
 
     const turnOffAnimation = () => {
-        let timeout = null;
+        let timeout: null | any = null;
 
         return () => {
             if (timeout) {

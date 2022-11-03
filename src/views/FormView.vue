@@ -72,12 +72,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed, ref, onUnmounted } from 'vue';
+import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
+import { useSchedules } from '@/composables/useSchedules';
+import { useValidation } from '@/composables/useValidation';
+import { usePatientForm } from '@/composables/usePatientForm';
 
 export default defineComponent({
   setup() {
     const { goToBack } = useAnimatedRouter();
-    const { refresh: refreshSchedule } = useSchedules();
+    const { refreshSchedule } = useSchedules();
     const { isValidName, isValidPhone, toPhoneNumber } = useValidation();
     const { state: form, reset: resetForm, submit: submitForm } = usePatientForm();
 
@@ -103,6 +107,19 @@ export default defineComponent({
     const cancel = () => close();
 
     onUnmounted(resetForm);
+
+    return {
+      close,
+      cancel,
+      onSubmit,
+      isValidName,
+      isValidPhone,
+      toPhoneNumber,
+      form,
+      resetForm,
+      isOpenFinalModal,
+      isDisabledSubmitBtn
+    }
   },
 });
 </script>

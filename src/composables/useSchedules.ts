@@ -1,3 +1,6 @@
+import { computed } from 'vue';
+import { useCalendar } from '@/composables/useCalendar';
+
 const URL = '/api/schedules';
 
 export const useSchedules = () => {

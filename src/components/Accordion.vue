@@ -1,68 +1,99 @@
 <template>
-    <div ref="el" class="accordion" :class="{ open: isOpen }" :id="id">
-        <a :href="link" class="accordion-head h3" @click="toggle">
-            <h3 class="accordion-title">
-                <slot name="title" />
-            </h3>
+  <div
+    ref="el"
+    class="accordion"
+    :class="{ open: isOpen }"
+    :id="id"
+  >
+    <a
+      :href="link"
+      class="accordion-head h3"
+      @click="toggle"
+    >
+      <h3 class="accordion-title">
+        <slot name="title" />
+      </h3>
 
-            <i class="angle" :class="angleClasses">
-                <svg
-                    width="17"
-                    height="34"
-                    viewBox="0 0 17 34"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M1 1L16 17L1 33"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    />
-                </svg>
-            </i>
-        </a>
+      <i
+        class="angle"
+        :class="angleClasses"
+      >
+        <svg
+          width="17"
+          height="34"
+          viewBox="0 0 17 34"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1 1L16 17L1 33"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </i>
+    </a>
 
-        <transition name="expand">
-            <div v-show="isOpen" class="accordion-body">
-                <slot />
-            </div>
-        </transition>
-    </div>
+    <transition name="expand">
+      <div
+        v-show="isOpen"
+        class="accordion-body"
+      >
+        <slot />
+      </div>
+    </transition>
+  </div>
 </template>
 
-<script lang="ts" setup>
-interface AccordionProps {
-    id: string;
-}
+<script lang="ts">
+import { defineComponent, computed, ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router'
 
-const props = defineProps<AccordionProps>();
-const route = useRoute();
+export default defineComponent({
+    props: {
+        id: {
+            type: String,
+            required: true
+        }
+    },
 
-const angleClasses = computed(() => ({
-    up: isOpen.value,
-    down: !isOpen.value,
-}));
+    setup(props) {
+        const route = useRoute();
 
-const link = computed(() => `#${props.id}`);
+        const angleClasses = computed(() => ({
+            up: isOpen.value,
+            down: !isOpen.value,
+        }));
 
-const isOpen = ref(false);
-const el = ref<HTMLDivElement>();
-const toggle = () => (isOpen.value = !isOpen.value);
+        const link = computed(() => `#${props.id}`);
 
-onMounted(() => {
-    isOpen.value = route.hash === link.value;
+        const isOpen = ref(false);
+        const el = ref<HTMLDivElement>();
+        const toggle = () => (isOpen.value = !isOpen.value);
 
-    if (isOpen.value) {
-        el.value.scrollIntoView({ block: "start" });
+        onMounted(() => {
+            isOpen.value = route.hash === link.value;
+
+            if (isOpen.value && el.value) {
+                el.value.scrollIntoView({ block: "start" });
+            }
+        });
+
+        return {
+            angleClasses,
+            isOpen,
+            toggle,
+            link,
+        }
     }
-});
+})
 </script>
 
 
 <style lang="scss" scoped>
-.accordion {
+  .accordion {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -74,24 +105,24 @@ onMounted(() => {
     max-height: 15rem;
 
     &.open {
-        max-height: 500rem;
+      max-height: 500rem;
     }
-}
+  }
 
-.accordion-head {
+  .accordion-head {
     display: flex;
     position: relative;
     cursor: pointer;
     padding: 2.4rem 5.2rem 2.4rem 2.4rem;
     color: $color-pink-700;
-}
+  }
 
-.accordion-title {
+  .accordion-title {
     font-weight: 400;
     padding-right: 1rem;
-}
+  }
 
-.angle {
+  .angle {
     position: absolute;
     top: 50%;
     bottom: 0;
@@ -100,26 +131,26 @@ onMounted(() => {
     @include transition;
 
     &.down {
-        transform: translateY(-50%) scale(0.6) rotate(90deg);
+      transform: translateY(-50%) scale(0.6) rotate(90deg);
     }
 
     &.up {
-        transform: translateY(-50%) scale(0.6) rotate(-90deg);
+      transform: translateY(-50%) scale(0.6) rotate(-90deg);
     }
-}
+  }
 
-.accordion-body {
+  .accordion-body {
     padding: 0 2.4rem 2.4rem;
 
     &.expand-enter-active,
     &.expand-leave-active {
-        @include transition;
+      @include transition;
     }
 
     &.expand-enter-from,
     &.expand-leave-to {
-        opacity: 0;
-        transform: translateY(-1rem);
+      opacity: 0;
+      transform: translateY(-1rem);
     }
-}
+  }
 </style>

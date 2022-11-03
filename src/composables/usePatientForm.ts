@@ -1,8 +1,12 @@
+import { reactive, onBeforeMount } from "vue";
+import { useSchedules } from '@/composables/useSchedules';
+import { useStore } from '@/composables/useStore';
+
 const getInitialFormState = (): Tech.PatientFormData => ({
     name: '',
     phone: '',
-    procedures: null,
-    date: null,
+    procedures: [],
+    date: 0,
     notify: false,
     typeOfNotify: 1,
 });
@@ -20,8 +24,8 @@ export const usePatientForm = () => {
     }
 
     const restorePatient = () => {
-        form.state.name = get('name');
-        form.state.phone = get('phone');
+        form.state.name = get('name') || '';
+        form.state.phone = get('phone') || '';
     }
 
     const submit = () => {
