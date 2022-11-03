@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "start": "nuxt preview",
+    "mongo": "docker compose --env-file .env -f ./docker/docker-compose.yml run mongo_db"
+  },
+  "devDependencies": {
+    "@nuxtjs/pwa": "^3.3.5",
+    "@types/node": "^18.11.2",
+    "nuxt": "3.0.0-rc.11",
+    "sass": "^1.55.0",
+    "sass-loader": "^13.0.2"
+  },
+  "dependencies": {
+    "@glidejs/glide": "^3.6.0",
+    "axios": "^1.1.3",
+    "mongodb": "^4.10.0"
+  }
+}

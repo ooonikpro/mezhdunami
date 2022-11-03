@@ -1,0 +1,47 @@
+version: "3.9"
+services:
+  nginx:
+    image: macbre/nginx-brotli:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
+      - ./nginx/certs:/etc/nginx/certs
+    environment:
+      PORT: ${SERVER_PORT}
+      SERVER_NAME: ${SERVER_NAME}
+    command: >
+            /bin/sh -c
+            "envsubst '
+            $${PORT} $${SERVER_NAME}
+            '< /etc/nginx/nginx.conf.template
+            > /etc/nginx/nginx.conf
+            && nginx -g 'daemon off;'"
+  mongo_db:
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+  nuxt:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    restart: always
+    container_name: nuxt_container
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      MONGO_URI: mongodb://root:example@mongo_db
+      DB_NAME: mezhdunami
+    depends_on:
+      - mongo_db
+volumes:
+  mongo_db:

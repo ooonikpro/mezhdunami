@@ -1,0 +1,39 @@
+<template>
+    <Input
+        type="select"
+        label="Процедуры"
+        placeholder="Выберите процедуры"
+        :modelValue="procedureLabel"
+        :disabled="props.disabled"
+        class="mb-16"
+        @click="isOpenProcedureModal = !props.disabled"
+    />
+
+    <ProcedureListModal
+        :is-open="isOpenProcedureModal"
+        v-model="selectedProcedures"
+        @close="isOpenProcedureModal = false"
+    />
+</template>
+
+<script lang="ts" setup>
+const props = defineProps<{ modelValue: Cosmo.Procedure[] | null }>();
+const emit = defineEmits(["update:modelValue"]);
+const { getNames, procedures } = useProcedures();
+
+const isOpenProcedureModal = ref(false);
+
+const selectedProcedures = computed<Cosmo.Procedure[]>({
+    get() {
+        return props.modelValue || [];
+    },
+
+    set(val: number[]) {
+        emit("update:modelValue", val);
+    },
+});
+
+const procedureLabel = computed(() =>
+    getNames(selectedProcedures.value, procedures.value)
+);
+</script>
