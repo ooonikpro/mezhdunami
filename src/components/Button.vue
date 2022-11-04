@@ -9,40 +9,41 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+  import { defineComponent, computed } from "vue";
 
-export default defineComponent({
+  export default defineComponent({
     props: {
-        outline: {
-            type: Boolean,
-            default: false,
-        },
+      outline: {
+        type: Boolean,
+        default: false,
+      },
 
-        disabled: {
-            type: Boolean,
-            default: false
-        },
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
 
-        small: {
-            type: Boolean,
-            default: false
-        }
+      small: {
+        type: Boolean,
+        default: false,
+      },
     },
+
     setup(props) {
-        const { outline, disabled, small } = props;
+      const { outline, disabled, small } = props;
 
-        const rootClasses = computed(() => ({
-            small,
-            outline,
-            h3: true,
-        }));
+      const rootClasses = computed(() => ({
+        small,
+        outline,
+        h3: true,
+      }));
 
-        return {
-            rootClasses,
-            disabled,
-        }
-    }
-})
+      return {
+        rootClasses,
+        disabled,
+      };
+    },
+  });
 </script>
 
 <style lang="scss" scoped>

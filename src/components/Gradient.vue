@@ -1,5 +1,5 @@
 <template>
-  <div class="gradient"></div>
+  <div class="gradient" />
 </template>
 
 <style lang="scss" scoped>

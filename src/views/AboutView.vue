@@ -109,18 +109,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
+  import { defineComponent } from "vue";
+  import Layout from "@/components/Layout.vue";
+  import DoctorDetails from "@/components/DoctorDetails.vue";
+  import Carousel from "@/components/Carousel.vue";
+  import Button from "@/components/Button.vue";
+  import { useAnimatedRouter } from "@/composables/useAnimatedRouter";
 
-export default defineComponent({
-  setup() {
-    const { goToBack } = useAnimatedRouter();
+  export default defineComponent({
+    components: {
+      Layout,
+      DoctorDetails,
+      Carousel,
+      Button,
+    },
 
-    return {
-      goToBack,
-    };
-  },
-});
+    setup() {
+      const { goToBack } = useAnimatedRouter();
+
+      return {
+        goToBack,
+      };
+    },
+  });
 </script>
 
 <style lang="scss" scoped>

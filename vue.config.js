@@ -5,6 +5,14 @@ module.exports = defineConfig({
   productionSourceMap: false,
   transpileDependencies: true,
 
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@import "@/assets/css/additional.scss";`
+      }
+    }
+  },
+
   pwa: {
     workboxPluginMode: 'InjectManifest',
     name: 'Косметология для своих',

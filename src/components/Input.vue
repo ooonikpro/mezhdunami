@@ -1,86 +1,145 @@
 <template>
-    <label
-        :class="{ disabled: props.disabled, focused, select: isSelect }"
-        class="input"
+  <label
+    :class="rootClasses"
+    class="input"
+  >
+    <span class="h5 label">{{ label }}</span>
+
+    <IconTriangle
+      v-if="isSelect"
+      class="triangle"
+    />
+
+    <input
+      ref="input"
+      v-model="value"
+      :type="inputType"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :readonly="isSelect"
+      :maxlength="maxlength"
+      @focus="onFocus"
+      @blur="onBlur"
     >
-        <span class="label h5">{{ props.label }}</span>
 
-        <IconTriangle v-if="isSelect" class="triangle" />
-
-        <input
-            ref="input"
-            :type="inputType"
-            :placeholder="props.placeholder"
-            :disabled="props.disabled"
-            :readonly="isSelect"
-            :maxlength="props.maxlength"
-            @focus="onFocus"
-            @blur="onBlur"
-            v-model="value"
-        />
-
-        <IconValid v-if="!props.disabled && isValid" class="status-valid" />
-    </label>
+    <IconValid
+      v-if="!disabled && isValid"
+      class="status-valid"
+    />
+  </label>
 </template>
 
-<script lang="ts" setup>
-interface InputProps {
-    type?: "text" | "select" | "tel" | "date";
-    label?: string;
-    placeholder?: string;
-    disabled?: boolean;
-    modelValue?: string;
-    maxlength?: number;
-    validator?: (value: string) => boolean;
-    transform?: (value: string) => any;
-}
+<script lang="ts">
+  import { defineComponent, ref, computed } from "vue";
+  import IconTriangle from "@/components/IconTriangle.vue";
+  import IconValid from "@/components/IconValid.vue";
 
-const props = defineProps<InputProps>();
-const emit = defineEmits(["update:modelValue", "focus", "blur"]);
-
-const input = ref<HTMLInputElement>();
-
-const isSelect = computed(() => props.type === "select");
-const focused = ref(false);
-const isValid = computed(() => {
-    const validator = props.validator || ((v) => !!v);
-
-    return validator(value.value);
-});
-
-const value = computed({
-    get() {
-        return props.modelValue;
+  export default defineComponent({
+    components: {
+      IconTriangle,
+      IconValid,
     },
 
-    set(val: string) {
-        const transform = props.transform || ((v) => v);
+    props: {
+      type: {
+        type: String,
+        default: "text",
+        validator: (val: string) =>
+          ["text", "select", "tel", "date"].includes(val),
+      },
 
-        emit("update:modelValue", transform(val));
+      label: {
+        type: String,
+        default: null,
+      },
+
+      placeholder: {
+        type: String,
+        default: null,
+      },
+
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
+
+      modelValue: {
+        type: String,
+        default: null,
+      },
+
+      maxlength: {
+        type: Number,
+        default: null,
+      },
+
+      validator: {
+        type: Function,
+        default: () => (val: string) => !!val,
+      },
+
+      transform: {
+        type: Function,
+        default: () => (val: string) => val,
+      },
     },
-});
+    emits: ["update:modelValue", "focus", "blur"],
+    setup(props, { emit }) {
+      const input = ref<HTMLDateInputElement>();
 
-const onFocus = () => {
-    focused.value = true;
-    input.value.showPicker();
-    emit("focus");
-};
+      const rootClasses = computed(() => ({
+        disabled: props.disabled,
+        focused,
+        select: isSelect,
+      }));
+      const isSelect = computed(() => props.type === "select");
+      const focused = ref(false);
+      const isValid = computed(() => props.validator(value.value));
 
-const onBlur = () => {
-    focused.value = false;
+      const value = computed({
+        get() {
+          return props.modelValue;
+        },
 
-    emit("blur");
-};
+        set(val: string) {
+          emit("update:modelValue", props.transform(val));
+        },
+      });
 
-const inputType = computed(() => {
-    if (props.type === "select") return "text";
+      const onFocus = () => {
+        focused.value = true;
+        input.value?.showPicker();
+        emit("focus");
+      };
 
-    return props.type;
-});
+      const onBlur = () => {
+        focused.value = false;
+
+        emit("blur");
+      };
+
+      const inputType = computed(() => {
+        if (props.type === "select") return "text";
+
+        return props.type;
+      });
+
+      return {
+        rootClasses,
+        isSelect,
+        focused,
+        isValid,
+        value,
+        onFocus,
+        onBlur,
+        inputType,
+      };
+    },
+  });
 </script>
 
 <style lang="scss" scoped>
-.input {
+  .input {
     position: relative;
     width: 100%;
     height: 8rem;
@@ -94,40 +153,40 @@ const inputType = computed(() => {
     @include transition;
 
     &.focused {
-        border-color: $color-pink-700;
+      border-color: $color-pink-700;
     }
 
     &.select {
-        &,
-        * {
-            cursor: pointer;
-        }
+      &,
+      * {
+        cursor: pointer;
+      }
 
-        input {
-            padding-left: 3.2rem;
-        }
+      input {
+        padding-left: 3.2rem;
+      }
     }
 
     &.disabled {
-        opacity: 0.5;
+      opacity: 0.5;
 
-        &,
-        * {
-            cursor: not-allowed;
-        }
+      &,
+      * {
+        cursor: not-allowed;
+      }
     }
-}
+  }
 
-.label {
+  .label {
     position: absolute;
     top: 1rem;
     left: 1.2rem;
     width: 100%;
     font-weight: 300;
     margin-bottom: 1.2rem;
-}
+  }
 
-input {
+  input {
     display: flex;
     align-items: flex-end;
     flex: 1 1 auto;
@@ -141,35 +200,35 @@ input {
     text-overflow: ellipsis;
 
     &::placeholder {
-        color: rgba($color-pink-700, 0.5);
+      color: rgba($color-pink-700, 0.5);
     }
 
     &[type="date"]::-webkit-calendar-picker-indicator {
-        background: transparent;
-        bottom: 0;
-        color: transparent;
-        cursor: pointer;
-        height: auto;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: auto;
+      background: transparent;
+      bottom: 0;
+      color: transparent;
+      cursor: pointer;
+      height: auto;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: auto;
     }
-}
+  }
 
-.triangle {
+  .triangle {
     position: absolute;
     bottom: 1.6rem;
     left: 1.2rem;
     width: 1.2rem;
     height: 0.8rem;
     margin-right: 0.8rem;
-}
+  }
 
-.status-valid {
+  .status-valid {
     position: absolute;
     bottom: 1.6rem;
     right: 1.2rem;
-}
+  }
 </style>

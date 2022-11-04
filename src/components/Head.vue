@@ -1,7 +1,10 @@
 <template>
-    <div class="head">
-        <img src="@/assets/img/mezhdunami-pink.svg" alt="Между нами" />
-    </div>
+  <div class="head">
+    <img
+      src="@/assets/img/mezhdunami-pink.svg"
+      alt="Между нами"
+    >
+  </div>
 </template>
 
 <style lang="scss" scoped>

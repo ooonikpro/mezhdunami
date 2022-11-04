@@ -1,65 +1,98 @@
 <template>
-    <Modal :isOpen="props.isOpen">
-        <template #title>Выберите удобные день и время</template>
+  <Modal :is-open="isOpen">
+    <template #title>
+      Выберите удобные день и время
+    </template>
 
-        <Calendar
-            :modelValue="props.modelValue"
-            :selectedProcedures="props.selectedProcedures"
-            @update:modelValue="updateDate"
-            class="mb-24"
-        />
+    <Calendar
+      :model-value="modelValue"
+      :selected-procedures="selectedProcedures"
+      class="mb-24"
+      @update:modelValue="updateDate"
+    />
 
-        <StickyBottom :isSticky="isSticky">
-            <Button :disabled="isDisabledBtn" @click="confirm">
-                Подтвердить
-            </Button>
-        </StickyBottom>
-        <Button outline small @click="close">Закрыть</Button>
-    </Modal>
+    <StickyBottom :is-sticky="isSticky">
+      <Button
+        :disabled="isDisabledBtn"
+        @click="confirm"
+      >
+        Подтвердить
+      </Button>
+    </StickyBottom>
+    <Button
+      outline
+      small
+      @click="close"
+    >
+      Закрыть
+    </Button>
+  </Modal>
 </template>
 
-<script lang="ts" setup>
-interface Calendar {
-    modelValue: number | null;
-    selectedProcedures: Array<Cosmo.Procedure> | null;
-    isOpen: boolean;
-}
+<script lang="ts">
+  import { defineComponent, ref, computed } from "vue";
+  import Modal from "@/components/Modal.vue";
+  import Calendar from "@/components/Calendar.vue";
+  import StickyBottom from "@/components/StickyBottom.vue";
+  import Button from "@/components/Button.vue";
 
-const selectedDate = ref(props.modelValue);
-
-const props = defineProps<Calendar>();
-const emit = defineEmits(["update:modeValue", "close"]);
-
-const close = () => emit("close");
-
-const isSticky = ref(false);
-const isDisabledBtn = computed(() => !isSticky.value || !selectedDate.value);
-
-const updateDate = (date: Date) => {
-    selectedDate.value = date;
-    isSticky.value = true;
-};
-
-const confirm = () => {
-    emit("update:modelValue", selectedDate.value);
-
-    close();
-
-    isSticky.value = false;
-};
-
-const calendarTypes = computed(() => [
-    {
-        label: "День",
-        value: 1,
+  export default defineComponent({
+    components: {
+      Modal,
+      Calendar,
+      StickyBottom,
+      Button,
     },
-    {
-        label: "Неделя",
-        value: 2,
+
+    props: {
+      modelValue: {
+        type: Number as () => Tech.DateNumber,
+        required: true,
+      },
+
+      selectedProcedures: {
+        type: Array as () => Cosmo.Procedure[],
+        required: true,
+      },
+
+      isOpen: {
+        type: Boolean,
+        default: false,
+      },
     },
-    {
-        label: "Месяц",
-        value: 3,
+
+    emits: ["update:modelValue", "close"],
+
+    setup(props, { emit }) {
+      const selectedDate = ref(props.modelValue);
+
+      const close = () => emit("close");
+
+      const isSticky = ref(false);
+      const isDisabledBtn = computed(
+        () => !isSticky.value || !selectedDate.value
+      );
+
+      const updateDate = (date: Tech.DateNumber) => {
+        selectedDate.value = date;
+        isSticky.value = true;
+      };
+
+      const confirm = () => {
+        emit("update:modelValue", selectedDate.value);
+
+        close();
+
+        isSticky.value = false;
+      };
+
+      return {
+        close,
+        isSticky,
+        isDisabledBtn,
+        updateDate,
+        confirm,
+      };
     },
-]);
+  });
 </script>

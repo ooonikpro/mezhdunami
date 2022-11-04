@@ -4,31 +4,31 @@ const isAnimate = ref(false);
 const isReverse = ref(false);
 
 export const usePageAnimation = () => {
-    const setAnimate = (value: boolean, reverse: boolean = false) => {
-        isAnimate.value = value;
-        isReverse.value = reverse;
-    }
+  const setAnimate = (value: boolean, reverse = false) => {
+    isAnimate.value = value;
+    isReverse.value = reverse;
+  };
 
-    const turnOnAnimation = ({ reverse } = { reverse: false }) => setAnimate(true, reverse);
+  const turnOnAnimation = ({ reverse } = { reverse: false }) => setAnimate(true, reverse);
 
-    const turnOffAnimation = () => {
-        let timeout: null | any = null;
+  const turnOffAnimation = () => {
+    let timeout: null | any = null;
 
-        return () => {
-            if (timeout) {
-                clearTimeout(timeout);
-            }
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
 
-            timeout = setTimeout(() => {
-                setAnimate(false, false);
-            }, 600);
-        }
-    }
+      timeout = setTimeout(() => {
+        setAnimate(false, false);
+      }, 600);
+    };
+  };
 
-    return {
-        isAnimate: readonly(isAnimate),
-        isReverse: readonly(isReverse),
-        turnOnAnimation,
-        turnOffAnimation: turnOffAnimation()
-    }
-}
+  return {
+    isAnimate: readonly(isAnimate),
+    isReverse: readonly(isReverse),
+    turnOnAnimation,
+    turnOffAnimation: turnOffAnimation(),
+  };
+};

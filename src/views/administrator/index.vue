@@ -31,26 +31,55 @@
   </Layout>
 </template>
 
-<script lang="ts" setup>
-const { createDate } = useCalendar();
+<script lang="ts">
+  import { defineComponent, ref, reactive, computed } from "vue";
+  import Layout from "@/components/Layout.vue";
+  import Input from "@/components/Input.vue";
+  import Button from "@/components/Button.vue";
 
-const excludedDates = ref([new Date(), new Date(), new Date(0), new Date(1)]);
-const formattedDates = computed(() => excludedDates.value
-  .map((date) => new Date(date))
-  .sort()
-  .map((d) => d.toLocaleDateString('ru')));
+  import { useCalendar } from "@/composables/useCalendar";
 
-const form = reactive({
-  date: null,
-});
+  export default defineComponent({
+    components: {
+      Layout,
+      Input,
+      Button,
+    },
+    setup() {
+      const { createDate } = useCalendar();
 
-const addDate = () => {
-  if (!form.date) return;
+      const excludedDates = ref([
+        new Date(),
+        new Date(),
+        new Date(0),
+        new Date(1),
+      ]);
+      const formattedDates = computed(() =>
+        excludedDates.value
+          .map((date) => new Date(date))
+          .sort()
+          .map((d) => d.toLocaleDateString("ru"))
+      );
 
-  excludedDates.value.push(createDate(new Date(form.date)));
+      const form = reactive({
+        date: "",
+      });
 
-  form.date = null;
-};
+      const addDate = () => {
+        if (!form.date) return;
+
+        excludedDates.value.push(createDate(new Date(form.date)));
+
+        form.date = null;
+      };
+
+      return {
+        form,
+        formattedDates,
+        addDate,
+      };
+    },
+  });
 </script>
 
 <style lang="scss" scoped>

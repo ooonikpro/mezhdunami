@@ -1,31 +1,53 @@
 <template>
-    <div class="switcher" :class="{ small }">
-        <div
-            v-for="option in props.options"
-            :key="option.value"
-            :class="['option', { active: props.modelValue === option.value }]"
-            @click="setActive(option.value)"
-        >
-            <span class="h4">{{ option.label }}</span>
-        </div>
+  <div
+    class="switcher"
+    :class="{ small }"
+  >
+    <div
+      v-for="option in options"
+      :key="option.value"
+      :class="['option', { active: modelValue === option.value }]"
+      @click="setActive(option.value)"
+    >
+      <span class="h4">{{ option.label }}</span>
     </div>
+  </div>
 </template>
 
-<script setup lang="ts">
-interface SwithcerProps {
-    options: Array<Tech.LabelValue<any>>;
-    modelValue: any;
-    small?: boolean;
-}
+<script lang="ts">
+  import { defineComponent } from "vue";
 
-const props = defineProps<SwithcerProps>();
+  export default defineComponent({
+    props: {
+      options: {
+        type: Array as () => Tech.LabelValue<any>[],
+        required: true,
+      },
 
-const emit = defineEmits(["update:modelValue"]);
-const setActive = (value: any) => emit("update:modelValue", value);
+      modelValue: {
+        required: true,
+      },
+
+      small: {
+        type: Boolean,
+        default: false,
+      },
+    },
+
+    emits: ["update:modelValue"],
+
+    setup(props, { emit }) {
+      const setActive = (value: any) => emit("update:modelValue", value);
+
+      return {
+        setActive,
+      };
+    },
+  });
 </script>
 
 <style lang="scss" scoped>
-.switcher {
+  .switcher {
     display: flex;
     gap: 0.4rem;
     border: 1px solid rgba($color-pink-700, 0.1);
@@ -35,17 +57,17 @@ const setActive = (value: any) => emit("update:modelValue", value);
     overflow: hidden;
 
     &.small {
-        height: 4rem;
-        padding: 0.1rem;
+      height: 4rem;
+      padding: 0.1rem;
 
-        .option {
-            border-radius: 4px;
-            line-height: 3.8rem;
-        }
+      .option {
+        border-radius: 4px;
+        line-height: 3.8rem;
+      }
     }
-}
+  }
 
-.option {
+  .option {
     position: relative;
     flex: 1 1 50%;
     cursor: pointer;
@@ -55,12 +77,12 @@ const setActive = (value: any) => emit("update:modelValue", value);
     line-height: 5.8rem;
 
     &.active {
-        background-color: $color-pink-700;
-        cursor: auto;
+      background-color: $color-pink-700;
+      cursor: auto;
 
-        span {
-            color: $color-white;
-        }
+      span {
+        color: $color-white;
+      }
     }
-}
+  }
 </style>

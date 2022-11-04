@@ -1,6 +1,6 @@
 <template>
   <div class="calendar">
-    <div class="calendar-loader"></div>
+    <div class="calendar-loader" />
 
     <div class="calendar-container">
       <div class="calendar-content">
@@ -23,8 +23,8 @@
               <CalendarSlot
                 v-for="(slot, $j) in item.slots"
                 :key="$j"
-                :isFree="isFree(slot, item.slots)"
-                :isSelected="isSelected(slot.date)"
+                :is-free="isFree(slot, item.slots)"
+                :is-selected="isSelected(slot.date)"
                 @select="select(slot.date)"
               >
                 {{ slot.time }}
@@ -38,97 +38,102 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted } from 'vue';
-import { useSchedules } from '@/composables/useSchedules';
-import { useCalendar } from '@/composables/useCalendar';
-import { useProcedures } from '@/composables/useProcedures';
+  import { defineComponent, computed, ref, onMounted } from "vue";
+  import CalendarSkeleton from "@/components/CalendarSkeleton.vue";
+  import CalendarSlot from "@/components/CalendarSlot.vue";
+  import { useSchedules } from "@/composables/useSchedules";
+  import { useCalendar } from "@/composables/useCalendar";
+  import { useProcedures } from "@/composables/useProcedures";
 
-export default defineComponent({
-    props: {
-        disabledDates: {
-            type: Array,
-            default: () => [] as number[]
-        },
-
-        selectedProcedures: {
-            type: Array,
-            required: true
-        },
-
-        modelValue: {
-            type: Number,
-            required: true
-        }
+  export default defineComponent({
+    components: {
+      CalendarSkeleton,
+      CalendarSlot,
     },
+
+    props: {
+      disabledDates: {
+        type: Array as () => Tech.DateNumber[],
+        default: () => [],
+      },
+
+      selectedProcedures: {
+        type: Array as () => Cosmo.Procedure[],
+        required: true,
+      },
+
+      modelValue: {
+        type: Number as () => Cosmo.Procedure,
+        required: true,
+      },
+    },
+
     emits: ["update:modelValue"],
     setup(props, { emit }) {
-        const { schedule, isLoading, refreshSchedule } = useSchedules();
-        const { getLocalizedWeekday, getLocalizedDate } = useCalendar();
-        const { getTotalDuration, getReservedTimeSlots } = useProcedures();
+      const { schedule, isLoading, refreshSchedule } = useSchedules();
+      const { getLocalizedWeekday, getLocalizedDate } = useCalendar();
+      const { getTotalDuration, getReservedTimeSlots } = useProcedures();
 
-        const selectedProceduresDuration = computed(() => {
-            if (Array.isArray(props.selectedProcedures)) {
-                return getTotalDuration(props.selectedProcedures);
-            }
-
-            return 0;
-        });
-
-        const isFree = (
-            slot: Tech.ScheduleTimeSlot,
-            slotList: Tech.ScheduleTimeSlot[]
-        ) => {
-            if (!slot.isFree) return false;
-
-            const hour = new Date(slot.date).getHours();
-
-            // Если продолжительность больше 1 часа в последний слот
-            if (18 === hour && selectedProceduresDuration.value / 3600 / 1000 > 1) {
-                return false;
-            }
-
-            const availableSlots = slotList.reduce((obj, { date, isFree }) => {
-                if (isFree) {
-                    obj[date] = isFree;
-                }
-
-                return obj;
-            }, {});
-
-            const neededSlots = getReservedTimeSlots(
-                slot.date,
-                props.selectedProcedures
-            );
-
-            return neededSlots.every((s) => availableSlots[s]);
-        };
-
-        const selectedSlot = ref(props.modelValue);
-
-        const isSelected = (date: number) => {
-            return selectedSlot.value === date;
-        };
-
-        const select = (date: number) => {
-            selectedSlot.value = date;
-            emit("update:modelValue", date);
-        };
-
-        onMounted(refreshSchedule);
-
-        return {
-            isFree,
-            isSelected,
-            schedule,
-            isLoading,
-            select,
-            getLocalizedWeekday,
-            getLocalizedDate,
+      const selectedProceduresDuration = computed(() => {
+        if (Array.isArray(props.selectedProcedures)) {
+          return getTotalDuration(props.selectedProcedures);
         }
-    }
-})
-</script>
 
+        return 0;
+      });
+
+      const isFree = (
+        slot: Tech.ScheduleTimeSlot,
+        slotList: Tech.ScheduleTimeSlot[]
+      ) => {
+        if (!slot.isFree) return false;
+
+        const hour = new Date(slot.date).getHours();
+
+        // Если продолжительность больше 1 часа в последний слот
+        if (hour === 18 && selectedProceduresDuration.value / 3600 / 1000 > 1) {
+          return false;
+        }
+
+        const availableSlots = slotList.reduce((obj, { date, isFree }) => {
+          if (isFree) {
+            obj[date] = isFree;
+          }
+
+          return obj;
+        }, {} as Record<number, number>);
+
+        const neededSlots = getReservedTimeSlots(
+          slot.date,
+          props.selectedProcedures as number[]
+        );
+
+        return neededSlots.every((s) => availableSlots[s]);
+      };
+
+      const selectedSlot = ref(props.modelValue);
+
+      const isSelected = (date: number) => selectedSlot.value === date;
+
+      const select = (date: number) => {
+        selectedSlot.value = date;
+        emit("update:modelValue", date);
+      };
+
+      onMounted(refreshSchedule);
+
+      return {
+        isFree,
+        isSelected,
+        schedule,
+        isLoading,
+        select,
+        getLocalizedWeekday,
+        getLocalizedDate,
+      };
+    },
+  });
+</script>
 
 <style lang="scss" scoped>
   .calender {

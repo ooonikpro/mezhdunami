@@ -61,19 +61,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
+  import { defineComponent } from "vue";
+  import Layout from "@/components/Layout.vue";
+  import Social from "@/components/Social.vue";
+  import DoctorDetails from "@/components/DoctorDetails.vue";
 
-export default defineComponent({
-  name: 'HomeView',
-  setup() {
-    const { goTo } = useAnimatedRouter();
+  import { useAnimatedRouter } from "@/composables/useAnimatedRouter";
 
-    return {
-      goTo,
-    };
-  },
-});
+  export default defineComponent({
+    components: {
+      Layout,
+      Social,
+      DoctorDetails,
+    },
+    setup() {
+      const { goTo } = useAnimatedRouter();
+
+      return {
+        goTo,
+      };
+    },
+  });
 </script>
 
 <style lang="scss" scoped>

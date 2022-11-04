@@ -11,7 +11,6 @@
       </template>
 
       <template v-else>
-
         <Head />
 
         <slot name="before-title" />
@@ -30,37 +29,37 @@
 import { defineComponent, onBeforeMount, onMounted } from 'vue';
 import { usePageAnimation } from '@/composables/usePageAnimation';
 import { useBodyBg } from '@/composables/useBodyBg';
-import { useStatusBar } from '@/composables/useStatusBar'
+import { useStatusBar } from '@/composables/useStatusBar';
 
 export default defineComponent({
-    setup() {
-        const { turnOffAnimation } = usePageAnimation();
-        const setBodyColor = useBodyBg();
-        const statusBar = useStatusBar();
-        const { withGradient } = defineProps({
-            withGradient: {
-                type: Boolean,
-                default: false,
-            },
-        });
+  setup() {
+    const { turnOffAnimation } = usePageAnimation();
+    const setBodyColor = useBodyBg();
+    const statusBar = useStatusBar();
+    const { withGradient } = defineProps({
+      withGradient: {
+        type: Boolean,
+        default: false,
+      },
+    });
 
-        onBeforeMount(() => {
-            if (withGradient) {
-                setBodyColor("#F3BAB3");
-                statusBar.setWhite();
-            } else {
-                setBodyColor("white");
-                statusBar.setBlack();
-            }
-        });
+    onBeforeMount(() => {
+      if (withGradient) {
+        setBodyColor('#F3BAB3');
+        statusBar.setWhite();
+      } else {
+        setBodyColor('white');
+        statusBar.setBlack();
+      }
+    });
 
-        onMounted(turnOffAnimation);
+    onMounted(turnOffAnimation);
 
-        return {
-            withGradient
-        }
-    }
-})
+    return {
+      withGradient,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>

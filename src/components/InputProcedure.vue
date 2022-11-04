@@ -1,39 +1,69 @@
 <template>
-    <Input
-        type="select"
-        label="Процедуры"
-        placeholder="Выберите процедуры"
-        :modelValue="procedureLabel"
-        :disabled="props.disabled"
-        class="mb-16"
-        @click="isOpenProcedureModal = !props.disabled"
-    />
+  <Input
+    type="select"
+    label="Процедуры"
+    placeholder="Выберите процедуры"
+    :model-value="procedureLabel"
+    :disabled="disabled"
+    class="mb-16"
+    @click="isOpenProcedureModal = !disabled"
+  />
 
-    <ProcedureListModal
-        :is-open="isOpenProcedureModal"
-        v-model="selectedProcedures"
-        @close="isOpenProcedureModal = false"
-    />
+  <ProcedureListModal
+    v-model="selectedProcedures"
+    :is-open="isOpenProcedureModal"
+    @close="isOpenProcedureModal = false"
+  />
 </template>
 
-<script lang="ts" setup>
-const props = defineProps<{ modelValue: Cosmo.Procedure[] | null }>();
-const emit = defineEmits(["update:modelValue"]);
-const { getNames, procedures } = useProcedures();
+<script lang="ts">
+  import { defineComponent, ref, computed } from "vue";
+  import Input from "@/components/Input.vue";
+  import ProcedureListModal from "@/components/ProcedureListModal.vue";
+  import { useProcedures } from "@/composables/useProcedures";
 
-const isOpenProcedureModal = ref(false);
-
-const selectedProcedures = computed<Cosmo.Procedure[]>({
-    get() {
-        return props.modelValue || [];
+  export default defineComponent({
+    components: {
+      Input,
+      ProcedureListModal,
     },
 
-    set(val: number[]) {
-        emit("update:modelValue", val);
-    },
-});
+    props: {
+      modelValue: {
+        type: Array as () => Cosmo.Procedure[],
+        required: true,
+      },
 
-const procedureLabel = computed(() =>
-    getNames(selectedProcedures.value, procedures.value)
-);
+      disabled: {
+        type: Boolean,
+        default: false,
+      },
+    },
+
+    emits: ["update:modelValue"],
+
+    setup(props, { emit }) {
+      const { getNames } = useProcedures();
+
+      const isOpenProcedureModal = ref(false);
+
+      const selectedProcedures = computed<Cosmo.Procedure[]>({
+        get() {
+          return (props.modelValue || []) as Cosmo.Procedure[];
+        },
+
+        set(val: Cosmo.Procedure[]) {
+          emit("update:modelValue", val);
+        },
+      });
+
+      const procedureLabel = computed(() => getNames(selectedProcedures.value));
+
+      return {
+        isOpenProcedureModal,
+        selectedProcedures,
+        procedureLabel,
+      };
+    },
+  });
 </script>

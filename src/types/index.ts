@@ -1,7 +1,12 @@
-import { getBookedDates } from './../db/collections/schedule';
+import { getBookedDates } from '../server/db/collections/schedule';
+
 export { };
 
 declare global {
+    interface HTMLDateInputElement extends HTMLInputElement {
+        showPicker: () => void
+    }
+
     namespace Tech {
         type DateNumber = number;
 

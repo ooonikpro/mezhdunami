@@ -4,10 +4,10 @@
       <transition
         name="slide-down"
         appear
-        @after-leave="emit('after-leave')"
+        @after-leave="$emit('after-leave')"
       >
         <div
-          v-if="props.isOpen"
+          v-if="isOpen"
           class="modal"
         >
           <Layout>
@@ -29,9 +29,24 @@
   </ClientOnly>
 </template>
 
-<script lang="ts" setup>
-const props = defineProps<{ isOpen: boolean }>();
-const emit = defineEmits(['after-leave', 'close']);
+<script lang="ts">
+  import { defineComponent } from "vue";
+  import Layout from "@/components/Layout.vue";
+
+  export default defineComponent({
+    components: {
+      Layout,
+    },
+
+    props: {
+      isOpen: {
+        type: Boolean,
+        default: false,
+      },
+    },
+
+    emits: ["after-leave", "close"],
+  });
 </script>
 
 <style lang="scss" scoped>

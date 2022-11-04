@@ -1,22 +1,23 @@
-import { getBookedDates, getNotWorkingDates } from "~~/db/collections";
-import { sendMessage } from "~~/services";
+import { getBookedDates, getNotWorkingDates } from '@/server/db/collections';
 
-export default defineEventHandler(async () => {
-    try {
-        const notWorkingDates = await getNotWorkingDates();
-        const bookedDates = await getBookedDates()
+export const getShedules = async () => {
+  try {
+    const notWorkingDates = await getNotWorkingDates();
+    const bookedDates = await getBookedDates();
 
-        return {
-            data: {
-                excludedDates: [].concat(notWorkingDates, bookedDates).sort(),
-            } as Tech.ScheduleFilters,
-            success: true,
-        }
-    } catch (e) {
-        return {
-            data: [],
-            success: false,
-            message: e.message,
-        }
-    }
-});
+    return {
+      data: {
+        excludedDates: [...notWorkingDates, ...bookedDates].sort(),
+      },
+      success: true,
+    };
+  } catch (e) {
+    console.log(e);
+
+    return {
+      data: [],
+      success: false,
+      message: e,
+    };
+  }
+};

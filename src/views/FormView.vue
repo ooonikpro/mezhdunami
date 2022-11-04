@@ -33,7 +33,6 @@
       />
 
       <Checkbox
-        v-if="false"
         v-model="form.notify"
         class="mb-16"
       >
@@ -72,54 +71,78 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, onUnmounted } from 'vue';
-import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
-import { useSchedules } from '@/composables/useSchedules';
-import { useValidation } from '@/composables/useValidation';
-import { usePatientForm } from '@/composables/usePatientForm';
+  import { defineComponent, computed, ref, onUnmounted } from "vue";
+  import Layout from "@/components/Layout.vue";
+  import Input from "@/components/Input.vue";
+  import InputProcedure from "@/components/InputProcedure.vue";
+  import InputDate from "@/components/InputDate.vue";
+  import Checkbox from "@/components/Checkbox.vue";
+  import NotificationSwitcher from "@/components/NotificationSwitcher.vue";
+  import Button from "@/components/Button.vue";
+  import FormFinalStepModal from "@/components/FormFinalStepModal.vue";
 
-export default defineComponent({
-  setup() {
-    const { goToBack } = useAnimatedRouter();
-    const { refreshSchedule } = useSchedules();
-    const { isValidName, isValidPhone, toPhoneNumber } = useValidation();
-    const { state: form, reset: resetForm, submit: submitForm } = usePatientForm();
+  import { useAnimatedRouter } from "@/composables/useAnimatedRouter";
+  import { useSchedules } from "@/composables/useSchedules";
+  import { useValidation } from "@/composables/useValidation";
+  import { usePatientForm } from "@/composables/usePatientForm";
 
-    const isDisabledSubmitBtn = computed(() => (
-      !isValidName(form.name || '')
-        || !isValidPhone(form.phone || '')
-        || form.procedures?.length === 0
-        || !form.date
-    ));
+  export default defineComponent({
+    components: {
+      Layout,
+      Input,
+      InputProcedure,
+      InputDate,
+      Checkbox,
+      NotificationSwitcher,
+      Button,
+      FormFinalStepModal,
+    },
+    setup() {
+      const { goToBack } = useAnimatedRouter();
+      const { refreshSchedule } = useSchedules();
+      const { isValidName, isValidPhone, toPhoneNumber } = useValidation();
+      const {
+        state: form,
+        reset: resetForm,
+        submit: submitForm,
+      } = usePatientForm();
 
-    const isOpenFinalModal = ref(false);
+      const isDisabledSubmitBtn = computed(
+        () =>
+          !isValidName(form.name || "") ||
+          !isValidPhone(form.phone || "") ||
+          form.procedures?.length === 0 ||
+          !form.date
+      );
 
-    const onSubmit = async () => {
-      try {
-        isOpenFinalModal.value = await submitForm();
-      } catch (e) {
-        refreshSchedule();
-        alert(e.message);
-      }
-    };
+      const isOpenFinalModal = ref(false);
 
-    const close = () => goToBack('/');
-    const cancel = () => close();
+      const onSubmit = async () => {
+        try {
+          isOpenFinalModal.value = await submitForm();
+        } catch (e) {
+          refreshSchedule();
+          alert(e);
+        }
+      };
 
-    onUnmounted(resetForm);
+      const close = () => goToBack("/");
+      const cancel = () => close();
 
-    return {
-      close,
-      cancel,
-      onSubmit,
-      isValidName,
-      isValidPhone,
-      toPhoneNumber,
-      form,
-      resetForm,
-      isOpenFinalModal,
-      isDisabledSubmitBtn
-    }
-  },
-});
+      onUnmounted(resetForm);
+
+      return {
+        close,
+        cancel,
+        onSubmit,
+        isValidName,
+        isValidPhone,
+        toPhoneNumber,
+        form,
+        resetForm,
+        isOpenFinalModal,
+        isDisabledSubmitBtn,
+      };
+    },
+  });
 </script>

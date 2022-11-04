@@ -317,16 +317,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
+  import { defineComponent } from "vue";
+  import Layout from "@/components/Layout.vue";
+  import Accordion from "@/components/Accordion.vue";
+  import Button from "@/components/Button.vue";
 
-export default defineComponent({
-  setup() {
-    const { goToBack } = useAnimatedRouter();
+  import { useAnimatedRouter } from "@/composables/useAnimatedRouter";
 
-    return {
-      goToBack,
-    }
-  }
-})
+  export default defineComponent({
+    components: {
+      Layout,
+      Accordion,
+      Button,
+    },
+    setup() {
+      const { goToBack } = useAnimatedRouter();
+
+      return {
+        goToBack,
+      };
+    },
+  });
 </script>
