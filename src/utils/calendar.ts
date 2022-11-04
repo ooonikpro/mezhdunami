@@ -8,7 +8,7 @@ export const getUppercase = (str: string) => str[0].toUpperCase() + str.slice(1)
 
 export const getDaysInMonth = (mm: number = month) => new Date(year, mm, 0, 0, 0, 0, 0).getDate();
 
-export const createDate = (date: Date | Tech.DateNumber, hour = 0, minutes = 0): Date => {
+export const createDate = (date: Date | DateNumber, hour = 0, minutes = 0): Date => {
   const newDate = new Date(date);
 
   newDate.setHours(hour);
@@ -19,24 +19,24 @@ export const createDate = (date: Date | Tech.DateNumber, hour = 0, minutes = 0):
   return newDate;
 };
 
-export const getLocalizedWeekday = (date: Date | Tech.DateNumber): string => getUppercase(
+export const getLocalizedWeekday = (date: Date | DateNumber): string => getUppercase(
   new Date(date).toLocaleString('ru', {
     weekday: 'long',
   }),
 );
 
-export const getLocalizedDate = (date: Date | Tech.DateNumber): string => new Date(date).toLocaleString('ru', { month: 'long', day: '2-digit' });
+export const getLocalizedDate = (date: Date | DateNumber): string => new Date(date).toLocaleString('ru', { month: 'long', day: '2-digit' });
 
-export const getLocalizedFullDate = (date: Date | Tech.DateNumber) => getUppercase(new Date(date).toLocaleString('ru', {
+export const getLocalizedFullDate = (date: Date | DateNumber) => getUppercase(new Date(date).toLocaleString('ru', {
   month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'long',
 }));
 
-export const getTomorrow = (): Tech.DateNumber => createDate(new Date(year, month, day + 1)).getTime();
+export const getTomorrow = (): DateNumber => createDate(new Date(year, month, day + 1)).getTime();
 
-export const getScheduleForMonth = ({ excludedDates }: Tech.ScheduleFilters): Tech.Schedule => {
-  const isExcluded = (date: Tech.DateNumber) => excludedDates.includes(date);
+export const getScheduleForMonth = ({ excludedDates }: ScheduleFilters): Schedule => {
+  const isExcluded = (date: DateNumber) => excludedDates.includes(date);
 
-  const dates = [] as Tech.Schedule;
+  const dates = [] as Schedule;
 
   let futureDays = getDaysInMonth() - day;
 
@@ -60,7 +60,7 @@ export const getScheduleForMonth = ({ excludedDates }: Tech.ScheduleFilters): Te
           date: slotTime,
           time: `${slot}:00`,
           isFree,
-        } as Tech.ScheduleTimeSlot;
+        } as ScheduleTimeSlot;
       });
 
       if (dateIsFree) {

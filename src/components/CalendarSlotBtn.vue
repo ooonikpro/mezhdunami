@@ -1,6 +1,7 @@
 <template>
   <button
     ref="button"
+    type="button"
     class="calendar-slot-btn h4"
     :class="{ active: isSelected }"
   >
@@ -16,31 +17,32 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted } from 'vue';
 
-  export default defineComponent({
-    props: {
-      isSelected: {
-        type: Boolean,
-        default: false,
-      },
+export default defineComponent({
+  props: {
+    isSelected: {
+      type: Boolean,
+      default: false,
     },
-    setup(props) {
-      const button = ref<HTMLButtonElement | null>(null);
+  },
 
-      onMounted(() => {
-        if (props.isSelected) {
-          setTimeout(() => {
-            button.value?.scrollIntoView({
-              inline: "center",
-              block: "nearest",
-              behavior: "smooth",
-            });
-          }, 100);
-        }
-      });
-    },
-  });
+  setup(props) {
+    const button = ref<HTMLButtonElement | null>(null);
+
+    onMounted(() => {
+      if (props.isSelected) {
+        setTimeout(() => {
+          button.value?.scrollIntoView({
+            inline: 'center',
+            block: 'nearest',
+            behavior: 'smooth',
+          });
+        }, 100);
+      }
+    });
+  },
+});
 </script>
 
 <style lang="scss" scoped>

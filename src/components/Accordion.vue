@@ -48,47 +48,50 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, computed, ref, onMounted } from "vue";
-  import { useRoute } from "vue-router";
+import {
+  defineComponent, computed, ref, onMounted,
+} from 'vue';
+import { useRoute } from 'vue-router';
 
-  export default defineComponent({
-    props: {
-      id: {
-        type: String,
-        required: true,
-      },
+export default defineComponent({
+  props: {
+    id: {
+      type: String,
+      required: true,
     },
+  },
 
-    setup(props) {
-      const route = useRoute();
+  setup(props) {
+    const route = useRoute();
+    const isOpen = ref(false);
+    const angleClasses = computed(() => ({
+      up: isOpen.value,
+      down: !isOpen.value,
+    }));
 
-      const angleClasses = computed(() => ({
-        up: isOpen.value,
-        down: !isOpen.value,
-      }));
+    const link = computed(() => `#${props.id}`);
 
-      const link = computed(() => `#${props.id}`);
+    const el = ref<HTMLDivElement>();
+    const toggle = () => {
+      isOpen.value = !isOpen.value;
+    };
 
-      const isOpen = ref(false);
-      const el = ref<HTMLDivElement>();
-      const toggle = () => (isOpen.value = !isOpen.value);
+    onMounted(() => {
+      isOpen.value = route.hash === link.value;
 
-      onMounted(() => {
-        isOpen.value = route.hash === link.value;
+      if (isOpen.value && el.value) {
+        el.value.scrollIntoView({ block: 'start' });
+      }
+    });
 
-        if (isOpen.value && el.value) {
-          el.value.scrollIntoView({ block: "start" });
-        }
-      });
-
-      return {
-        angleClasses,
-        isOpen,
-        toggle,
-        link,
-      };
-    },
-  });
+    return {
+      angleClasses,
+      isOpen,
+      toggle,
+      link,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>

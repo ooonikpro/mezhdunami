@@ -17,13 +17,13 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps<{ modelValue: Cosmo.Procedure[] | null }>();
+const props = defineProps<{ modelValue: Procedure[] | null }>();
 const emit = defineEmits(["update:modelValue"]);
 const { getNames, procedures } = useProcedures();
 
 const isOpenProcedureModal = ref(false);
 
-const selectedProcedures = computed<Cosmo.Procedure[]>({
+const selectedProcedures = computed<Procedure[]>({
     get() {
         return props.modelValue || [];
     },

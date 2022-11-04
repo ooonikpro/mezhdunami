@@ -27,24 +27,35 @@
 
 <script lang="ts">
 import { defineComponent, onBeforeMount, onMounted } from 'vue';
+import Gradient from '@/components/Gradient.vue';
+import Logo from '@/components/Logo.vue';
+import Head from '@/components/Head.vue';
+
 import { usePageAnimation } from '@/composables/usePageAnimation';
 import { useBodyBg } from '@/composables/useBodyBg';
 import { useStatusBar } from '@/composables/useStatusBar';
 
 export default defineComponent({
-  setup() {
+  components: {
+    Gradient,
+    Logo,
+    Head,
+  },
+
+  props: {
+    withGradient: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  setup(props) {
     const { turnOffAnimation } = usePageAnimation();
     const setBodyColor = useBodyBg();
     const statusBar = useStatusBar();
-    const { withGradient } = defineProps({
-      withGradient: {
-        type: Boolean,
-        default: false,
-      },
-    });
 
     onBeforeMount(() => {
-      if (withGradient) {
+      if (props.withGradient) {
         setBodyColor('#F3BAB3');
         statusBar.setWhite();
       } else {
@@ -54,10 +65,6 @@ export default defineComponent({
     });
 
     onMounted(turnOffAnimation);
-
-    return {
-      withGradient,
-    };
   },
 });
 </script>

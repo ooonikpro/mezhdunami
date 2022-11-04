@@ -2,7 +2,7 @@ import { PROCEDURE, PROCEDURES, PROCEDURE_DURATION, PROCEDURE_PRICE } from "~~/c
 
 const ONE_HOURS_MS = 3600000;
 
-export const getNames = (ids: Array<PROCEDURE | Cosmo.Procedure>) => {
+export const getNames = (ids: Array<PROCEDURE | Procedure>) => {
     return PROCEDURES.reduce((names, p) => {
         if (ids.includes(p.id)) {
             names.push(p.name);
@@ -12,18 +12,18 @@ export const getNames = (ids: Array<PROCEDURE | Cosmo.Procedure>) => {
     }, []).join(',');
 };
 
-export const getDuration = (procedure: Cosmo.Procedure) => PROCEDURE_DURATION[procedure];
+export const getDuration = (procedure: Procedure) => PROCEDURE_DURATION[procedure];
 
-export const getTotalDuration = (ids: Array<Cosmo.Procedure>) => {
+export const getTotalDuration = (ids: Array<Procedure>) => {
     return ids.reduce(
-        (sum: number, id: Cosmo.Procedure) => sum + getDuration(id),
+        (sum: number, id: Procedure) => sum + getDuration(id),
         0
     );
 };
 
-export const getTotalDurationInHours = (ids: Array<Cosmo.Procedure>) => Math.ceil(getTotalDuration(ids) / ONE_HOURS_MS);
+export const getTotalDurationInHours = (ids: Array<Procedure>) => Math.ceil(getTotalDuration(ids) / ONE_HOURS_MS);
 
-export const getTotalDurationLocalized = (ids: Array<Cosmo.Procedure>) => {
+export const getTotalDurationLocalized = (ids: Array<Procedure>) => {
     let label = 'час';
     const hours = getTotalDurationInHours(ids);
 
@@ -38,11 +38,11 @@ export const getTotalDurationLocalized = (ids: Array<Cosmo.Procedure>) => {
     return `${hours} ${label}`;
 }
 
-export const getTotalPrice = (ids: Array<Cosmo.Procedure>) => {
+export const getTotalPrice = (ids: Array<Procedure>) => {
     return ids.reduce((sum, id) => sum + PROCEDURE_PRICE[id], 0);
 }
 
-export const getReservedTimeSlots = (dateStart: Tech.DateNumber, procedures: Cosmo.Procedure[]) => {
+export const getReservedTimeSlots = (dateStart: DateNumber, procedures: Procedure[]) => {
     const reserved = [dateStart];
 
     const totalHours = getTotalDurationInHours(procedures);

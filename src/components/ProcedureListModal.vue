@@ -65,88 +65,89 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, watch, computed } from "vue";
-  import Modal from "@/components/Modal.vue";
-  import Checkbox from "@/components/Checkbox.vue";
-  import StickyBottom from "@/components/StickyBottom.vue";
-  import Button from "@/components/Button.vue";
-  import { useProcedures } from "@/composables/useProcedures";
+import {
+  defineComponent, ref, watch, computed,
+} from 'vue';
+import Modal from '@/components/Modal.vue';
+import Checkbox from '@/components/Checkbox.vue';
+import StickyBottom from '@/components/StickyBottom.vue';
+import Button from '@/components/Button.vue';
+import { useProcedures } from '@/composables/useProcedures';
 
-  export default defineComponent({
-    components: {
-      Modal,
-      Checkbox,
-      StickyBottom,
-      Button,
+export default defineComponent({
+  components: {
+    Modal,
+    Checkbox,
+    StickyBottom,
+    Button,
+  },
+
+  props: {
+    isOpen: {
+      type: Boolean,
+      default: false,
     },
 
-    props: {
-      isOpen: {
-        type: Boolean,
-        default: false,
+    modelValue: {
+      type: Array as () => Procedure[],
+      required: true,
+    },
+  },
+
+  emits: ['close', 'update:modelValue'],
+
+  setup(props, { emit }) {
+    const { procedures } = useProcedures();
+
+    const selected = ref<Procedure[]>([]);
+    const isSticky = ref(false);
+
+    watch(
+      props.modelValue,
+      () => {
+        selected.value = (props.modelValue || []) as Procedure[];
       },
+      { immediate: true },
+    );
 
-      modelValue: {
-        type: Array as () => Cosmo.Procedure[],
-        required: true,
-      },
-    },
+    const close = () => emit('close');
+    const confirm = () => {
+      emit('update:modelValue', selected.value);
+      close();
+      isSticky.value = false;
+    };
 
-    emits: ["close", "update:modelValue"],
+    const isActive = (id: number) => (selected.value || []).includes(id);
 
-    setup(props, { emit }) {
-      const { procedures } = useProcedures();
+    const toggle = (id: number) => {
+      if (isActive(id)) {
+        selected.value = selected.value.filter((item) => item !== id);
+      } else {
+        selected.value.push(id);
+      }
 
-      const selected = ref<Cosmo.Procedure[]>([]);
-      const isSticky = ref(false);
+      isSticky.value = true;
+    };
 
-      watch(
-        props.modelValue,
-        () => {
-          selected.value = (props.modelValue || []) as Cosmo.Procedure[];
-        },
-        { immediate: true }
-      );
+    const getDescription = (arr: Array<{ data: Array<{ label: string }> }>) => arr.reduce((desc, { data }) => {
+      data.forEach(({ label }) => desc.push(label));
+      return desc;
+    }, [] as string[]);
 
-      const close = () => emit("close");
-      const confirm = () => {
-        emit("update:modelValue", selected.value);
-        close();
-        isSticky.value = false;
-      };
+    const isDisabledConfirmBtn = computed(() => selected.value.length === 0);
 
-      const isActive = (id: number) => (selected.value || []).includes(id);
-
-      const toggle = (id: number) => {
-        if (isActive(id)) {
-          selected.value = selected.value.filter((item) => item !== id);
-        } else {
-          selected.value.push(id);
-        }
-
-        isSticky.value = true;
-      };
-
-      const getDescription = (arr: Array<{ data: Array<{ label: string }> }>) =>
-        arr.reduce((desc, { data }) => {
-          data.forEach(({ label }) => desc.push(label));
-          return desc;
-        }, [] as string[]);
-
-      const isDisabledConfirmBtn = computed(() => selected.value.length === 0);
-
-      return {
-        procedures,
-        isSticky,
-        isDisabledConfirmBtn,
-        isActive,
-        close,
-        confirm,
-        toggle,
-        getDescription,
-      };
-    },
-  });
+    return {
+      procedures,
+      isSticky,
+      isDisabledConfirmBtn,
+      isActive,
+      close,
+      confirm,
+      toggle,
+      getDescription,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>

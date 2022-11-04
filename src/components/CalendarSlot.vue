@@ -17,39 +17,40 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, computed } from "vue";
-  import CalendarSlotBtn from "@/components/CalendarSlotBtn.vue";
+import { defineComponent, computed } from 'vue';
+import CalendarSlotBtn from '@/components/CalendarSlotBtn.vue';
 
-  export default defineComponent({
-    components: {
-      CalendarSlotBtn,
+export default defineComponent({
+  components: {
+    CalendarSlotBtn,
+  },
+
+  props: {
+    isFree: {
+      type: Boolean,
+      default: false,
     },
 
-    props: {
-      isFree: {
-        type: Boolean,
-        default: false,
-      },
-
-      isSelected: {
-        type: Boolean,
-        default: false,
-      },
+    isSelected: {
+      type: Boolean,
+      default: false,
     },
-    emits: ["select"],
-    setup(props, { emit }) {
-      const rootClasses = computed(() => ({
-        selected: props.isSelected,
-      }));
+  },
 
-      const select = () => emit("select");
+  emits: ['select'],
+  setup(props, { emit }) {
+    const rootClasses = computed(() => ({
+      selected: props.isSelected,
+    }));
 
-      return {
-        rootClasses,
-        select,
-      };
-    },
-  });
+    const select = () => emit('select');
+
+    return {
+      rootClasses,
+      select,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>

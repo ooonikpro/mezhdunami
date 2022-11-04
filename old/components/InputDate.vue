@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 interface DateInputProps {
     modelValue: number | null;
-    selectedProcedures: Array<Cosmo.Procedure> | null;
+    selectedProcedures: Array<Procedure> | null;
     disabled?: boolean;
 }
 

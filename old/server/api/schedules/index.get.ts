@@ -9,7 +9,7 @@ export default defineEventHandler(async () => {
         return {
             data: {
                 excludedDates: [].concat(notWorkingDates, bookedDates).sort(),
-            } as Tech.ScheduleFilters,
+            } as ScheduleFilters,
             success: true,
         }
     } catch (e) {

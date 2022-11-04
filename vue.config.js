@@ -8,9 +8,9 @@ module.exports = defineConfig({
   css: {
     loaderOptions: {
       scss: {
-        additionalData: `@import "@/assets/css/additional.scss";`
-      }
-    }
+        additionalData: '@import "@/assets/css/additional.scss";',
+      },
+    },
   },
 
   pwa: {

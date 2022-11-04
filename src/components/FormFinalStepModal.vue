@@ -52,56 +52,58 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, computed } from "vue";
-  import Modal from "@/components/Modal.vue";
-  import { useCalendar } from "@/composables/useCalendar";
-  import { useProcedures } from "@/composables/useProcedures";
+import { defineComponent, computed } from 'vue';
+import Modal from '@/components/Modal.vue';
+import Button from '@/components/Button.vue';
 
-  export default defineComponent({
-    components: {
-      Modal,
+import { useCalendar } from '@/composables/useCalendar';
+import { useProcedures } from '@/composables/useProcedures';
+
+export default defineComponent({
+  components: {
+    Modal,
+    Button,
+  },
+
+  props: {
+    isOpen: {
+      type: Boolean,
+      default: false,
     },
 
-    props: {
-      isOpen: {
-        type: Boolean,
-        default: false,
-      },
-
-      formData: {
-        type: Object as () => Tech.PatientFormData,
-        required: true,
-      },
+    formData: {
+      type: Object as () => PatientFormData,
+      required: true,
     },
+  },
 
-    emits: ["close", "after-leave"],
+  emits: ['close', 'after-leave'],
 
-    setup(props, { emit }) {
-      const { getLocalizedFullDate } = useCalendar();
-      const { getNames, getTotalDurationLocalized, getTotalPrice } =
-        useProcedures();
-      const close = () => emit("close");
+  setup(props, { emit }) {
+    const { getLocalizedFullDate } = useCalendar();
+    const { getNames, getTotalDurationLocalized, getTotalPrice } = useProcedures();
+    const close = () => emit('close');
 
-      const procedureLabel = computed(() => {
-        let label = "процедур";
+    const procedureLabel = computed(() => {
+      let label = 'процедур';
 
-        if (props.formData.procedures.length === 1) {
-          label += "ы";
-        }
+      if (props.formData.procedures.length === 1) {
+        label += 'ы';
+      }
 
-        return label;
-      });
+      return label;
+    });
 
-      return {
-        getLocalizedFullDate,
-        getNames,
-        getTotalDurationLocalized,
-        getTotalPrice,
-        close,
-        procedureLabel,
-      };
-    },
-  });
+    return {
+      getLocalizedFullDate,
+      getNames,
+      getTotalDurationLocalized,
+      getTotalPrice,
+      close,
+      procedureLabel,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>

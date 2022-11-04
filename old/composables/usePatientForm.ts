@@ -1,4 +1,4 @@
-const getInitialFormState = (): Tech.PatientFormData => ({
+const getInitialFormState = (): PatientFormData => ({
     name: '',
     phone: '',
     procedures: null,
@@ -34,7 +34,7 @@ export const usePatientForm = () => {
     onBeforeMount(restorePatient);
 
     return {
-        state: form.state as Tech.PatientFormData,
+        state: form.state as PatientFormData,
         reset: init,
         submit
     };

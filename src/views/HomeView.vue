@@ -1,5 +1,5 @@
 <template>
-  <Layout with-gradient>
+  <Layout withGradient>
     <nav>
       <Social />
 
@@ -61,27 +61,28 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
-  import Layout from "@/components/Layout.vue";
-  import Social from "@/components/Social.vue";
-  import DoctorDetails from "@/components/DoctorDetails.vue";
+import { defineComponent } from 'vue';
+import Layout from '@/layouts/Layout.vue';
+import Social from '@/components/Social.vue';
+import DoctorDetails from '@/components/DoctorDetails.vue';
 
-  import { useAnimatedRouter } from "@/composables/useAnimatedRouter";
+import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
 
-  export default defineComponent({
-    components: {
-      Layout,
-      Social,
-      DoctorDetails,
-    },
-    setup() {
-      const { goTo } = useAnimatedRouter();
+export default defineComponent({
+  components: {
+    Layout,
+    Social,
+    DoctorDetails,
+  },
 
-      return {
-        goTo,
-      };
-    },
-  });
+  setup() {
+    const { goTo } = useAnimatedRouter();
+
+    return {
+      goTo,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>

@@ -28,7 +28,7 @@ export const sendMessage = async (to: string, message: string) => {
       url = '/sms/send';
     }
 
-    const response = await client.post<Tech.ResponseAPI<SMSAeroSended>>(url, {
+    const response = await client.post<ResponseAPI<SMSAeroSended>>(url, {
       number: to,
       text: message,
       sign: 'SMSAero',
@@ -40,6 +40,7 @@ export const sendMessage = async (to: string, message: string) => {
 
     return response;
   } catch (e) {
+    console.error(e);
     throw e;
   }
 };

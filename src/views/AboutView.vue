@@ -109,29 +109,32 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
-  import Layout from "@/components/Layout.vue";
-  import DoctorDetails from "@/components/DoctorDetails.vue";
-  import Carousel from "@/components/Carousel.vue";
-  import Button from "@/components/Button.vue";
-  import { useAnimatedRouter } from "@/composables/useAnimatedRouter";
+import { defineComponent } from 'vue';
+import Layout from '@/layouts/Layout.vue';
+import DoctorDetails from '@/components/DoctorDetails.vue';
+import Carousel from '@/components/Carousel.vue';
+import Social from '@/components/Social.vue';
+import Button from '@/components/Button.vue';
 
-  export default defineComponent({
-    components: {
-      Layout,
-      DoctorDetails,
-      Carousel,
-      Button,
-    },
+import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
 
-    setup() {
-      const { goToBack } = useAnimatedRouter();
+export default defineComponent({
+  components: {
+    Layout,
+    DoctorDetails,
+    Carousel,
+    Social,
+    Button,
+  },
 
-      return {
-        goToBack,
-      };
-    },
-  });
+  setup() {
+    const { goToBack } = useAnimatedRouter();
+
+    return {
+      goToBack,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>

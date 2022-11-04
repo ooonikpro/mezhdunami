@@ -30,18 +30,18 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-  export default defineComponent({
-    props: {
-      modelValue: {
-        type: Boolean,
-        default: false,
-      },
+export default defineComponent({
+  props: {
+    modelValue: {
+      type: Boolean,
+      default: false,
     },
+  },
 
-    emits: ["update:modelValue"],
-  });
+  emits: ['update:modelValue'],
+});
 </script>
 
 <style lang="scss" scoped>
@@ -73,6 +73,8 @@
   }
 
   .i-check {
+    display: flex;
+    margin: auto;
     opacity: 0;
     @include transition;
   }

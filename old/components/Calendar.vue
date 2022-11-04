@@ -1,46 +1,46 @@
 <template>
-    <div class="calendar">
-        <div class="calendar-loader"></div>
+  <div class="calendar">
+    <div class="calendar-loader"/>
 
-        <div class="calendar-container">
-            <div class="calendar-content">
-                <CalendarSkeleton v-if="isLoading" />
+    <div class="calendar-container">
+      <div class="calendar-content">
+        <CalendarSkeleton v-if="isLoading" />
 
-                <template v-else>
-                    <div
-                        v-for="item in schedule"
-                        :key="item.date"
-                        class="calendar-column"
-                    >
-                        <span class="h4">
-                            <b>{{ getLocalizedWeekday(item.date) }}</b>
-                        </span>
-                        <span class="h4 mb-8">
-                            {{ getLocalizedDate(item.date) }}
-                        </span>
+        <template v-else>
+          <div
+            v-for="item in schedule"
+            :key="item.date"
+            class="calendar-column"
+          >
+            <span class="h4">
+              <b>{{ getLocalizedWeekday(item.date) }}</b>
+            </span>
+            <span class="h4 mb-8">
+              {{ getLocalizedDate(item.date) }}
+            </span>
 
-                        <div class="calendar-slots">
-                            <CalendarSlot
-                                v-for="(slot, $j) in item.slots"
-                                :key="$j"
-                                :isFree="isFree(slot, item.slots)"
-                                :isSelected="isSelected(slot.date)"
-                                @select="select(slot.date)"
-                            >
-                                {{ slot.time }}
-                            </CalendarSlot>
-                        </div>
-                    </div>
-                </template>
+            <div class="calendar-slots">
+              <CalendarSlot
+                v-for="(slot, $j) in item.slots"
+                :key="$j"
+                :isFree="isFree(slot, item.slots)"
+                :isSelected="isSelected(slot.date)"
+                @select="select(slot.date)"
+              >
+                {{ slot.time }}
+              </CalendarSlot>
             </div>
-        </div>
+          </div>
+        </template>
+      </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
 interface CalendarOfDayProps {
     disabledDates?: Array<number>;
-    selectedProcedures: Array<Cosmo.Procedure> | null;
+    selectedProcedures: Array<Procedure> | null;
     modelValue: number | null;
 }
 const props = defineProps<CalendarOfDayProps>();
@@ -59,8 +59,8 @@ const selectedProceduresDuration = computed(() => {
 });
 
 const isFree = (
-    slot: Tech.ScheduleTimeSlot,
-    slotList: Tech.ScheduleTimeSlot[]
+    slot: ScheduleTimeSlot,
+    slotList: ScheduleTimeSlot[]
 ) => {
     if (!slot.isFree) return false;
 

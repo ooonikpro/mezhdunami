@@ -7,7 +7,7 @@
             rel="noreferrer noopener"
         ></a>
         <a
-            href="https://www.instagram.com/cosmo.kld"
+            href="https://www.instagram.com/kld"
             class="social-btn h-64 instagram"
             :class="{ bordered }"
             rel="noreferrer noopener"

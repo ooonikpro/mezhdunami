@@ -22,7 +22,7 @@ const sendMessage = (to: string, message: string) => client.get(`/sendMessage`, 
 
 export const notifySubscribers = (message: string) => subscribers.map((to) => sendMessage(to, message));
 
-export const notifyAboutNew = (patient: Tech.PatientFormData) => {
+export const notifyAboutNew = (patient: PatientFormData) => {
     const text = `<b>${getLocalizedFullDate(patient.date)}</b>\nИмя: <b>${patient.name}</b>\nТелефон: ${patient.phone}\nПроцедуры: <b>${getNames(patient.procedures)}</b>`;
 
     return notifySubscribers(text);

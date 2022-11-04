@@ -71,29 +71,30 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
-  import Layout from "@/components/Layout.vue";
-  import Button from "@/components/Button.vue";
+import { defineComponent } from 'vue';
+import Layout from '@/layouts/Layout.vue';
+import Button from '@/components/Button.vue';
 
-  import { useAnimatedRouter } from "@/composables/useAnimatedRouter";
-  import { useProcedures } from "@/composables/useProcedures";
+import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
+import { useProcedures } from '@/composables/useProcedures';
 
-  export default defineComponent({
-    components: {
-      Layout,
-      Button,
-    },
-    setup() {
-      const { goTo, goToBack } = useAnimatedRouter();
-      const { procedures } = useProcedures();
+export default defineComponent({
+  components: {
+    Layout,
+    Button,
+  },
 
-      return {
-        goTo,
-        goToBack,
-        procedures,
-      };
-    },
-  });
+  setup() {
+    const { goTo, goToBack } = useAnimatedRouter();
+    const { procedures } = useProcedures();
+
+    return {
+      goTo,
+      goToBack,
+      procedures,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>

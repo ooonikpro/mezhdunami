@@ -1,19 +1,20 @@
 <template>
-    <div class="switcher" :class="{ small }">
-        <div
-            v-for="option in props.options"
-            :key="option.value"
-            :class="['option', { active: props.modelValue === option.value }]"
-            @click="setActive(option.value)"
-        >
-            <span class="h4">{{ option.label }}</span>
-        </div>
+  <div class="switcher"
+:class="{ small }">
+    <div
+      v-for="option in props.options"
+      :key="option.value"
+      :class="['option', { active: props.modelValue === option.value }]"
+      @click="setActive(option.value)"
+    >
+      <span class="h4">{{ option.label }}</span>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 interface SwithcerProps {
-    options: Array<Tech.LabelValue<any>>;
+    options: Array<LabelValue<any>>;
     modelValue: any;
     small?: boolean;
 }

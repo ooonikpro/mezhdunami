@@ -1,14 +1,15 @@
 import { reactive, onBeforeMount } from 'vue';
 import { useSchedules } from '@/composables/useSchedules';
 import { useStore } from '@/composables/useStore';
+import { NOTIFICATION_TYPE } from '@/constants';
 
-const getInitialFormState = (): Tech.PatientFormData => ({
+const getInitialFormState = (): PatientFormData => ({
   name: '',
   phone: '',
   procedures: [],
   date: 0,
   notify: false,
-  typeOfNotify: 1,
+  typeOfNotify: NOTIFICATION_TYPE.SMS,
 });
 
 const form = {
@@ -38,7 +39,7 @@ export const usePatientForm = () => {
   onBeforeMount(restorePatient);
 
   return {
-    state: form.state as Tech.PatientFormData,
+    state: form.state as PatientFormData,
     reset: init,
     submit,
   };

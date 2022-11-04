@@ -1,36 +1,53 @@
-import { computed } from 'vue';
+import axios from 'axios';
+import { computed, ref } from 'vue';
 import { useCalendar } from '@/composables/useCalendar';
 
 const URL = '/api/schedules';
 
+const excludedDates = ref<ScheduleFilters['excludedDates']>([]);
+const isLoading = ref(false);
+
 export const useSchedules = () => {
   const { getScheduleForMonth } = useCalendar();
 
-  const { data, refresh: refreshSchedule, pending: isLoading } = useFetch<Tech.ResponseAPI<Tech.ScheduleFilters>>(URL);
+  const fetchData = async () => {
+    isLoading.value = true;
 
-  const excludedDates = computed(() => data.value.data.excludedDates || []);
+    try {
+      const response = await axios.get<ResponseAPI<ScheduleFilters>>(URL)
+        .then(({ data }) => data);
+
+      if (response.success) {
+        excludedDates.value = response.data.excludedDates;
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (e) {
+      console.error(e);
+
+      throw e;
+    } finally {
+      isLoading.value = false;
+    }
+  };
 
   const schedule = computed(() => getScheduleForMonth({ excludedDates: excludedDates.value }));
 
-  const addToSchedule = async (formData: Tech.PatientFormData) => {
-    const { data, execute } = useFetch(URL, {
-      method: 'POST',
-      body: formData,
-    });
+  const addToSchedule = async (formData: PatientFormData) => {
+    const response = await axios.post<ResponseAPI<boolean>>(URL, formData)
+      .then(({ data }) => data);
 
-    await execute();
-
-    if (!data.value.success) {
-      throw new Error(data.value.message);
+    if (!response.success) {
+      throw new Error(response.message);
     }
 
     return true;
   };
 
   return {
+    fetchData,
     isLoading,
     schedule,
-    refreshSchedule,
     addToSchedule,
   };
 };

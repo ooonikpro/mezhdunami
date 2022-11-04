@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 interface Calendar {
     modelValue: number | null;
-    selectedProcedures: Array<Cosmo.Procedure> | null;
+    selectedProcedures: Array<Procedure> | null;
     isOpen: boolean;
 }
 

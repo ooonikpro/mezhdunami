@@ -1,12 +1,7 @@
 export const useStore = (storageKey = 'mezhdunami') => {
-  const startSoil = 'WJHc';
-  const endSoil = 'W==';
-  const encode = (str: string) => `${startSoil}${window.btoa(str)}${endSoil}`;
-  const decode = (str: string) => window.atob(str.replace(startSoil, '').replace(endSoil, ''));
-
   const getStorage = () => window.localStorage;
 
-  const getStoreData = () => {
+  const getStoreData = (): Record<string, any> => {
     const rawData = getStorage().getItem(storageKey);
 
     if (rawData) {
@@ -16,7 +11,7 @@ export const useStore = (storageKey = 'mezhdunami') => {
     return {};
   };
 
-  const get = <T extends any>(key: string): T | undefined => {
+  const get = <T>(key: string): T | null => {
     try {
       const storeData = getStoreData();
 
@@ -24,8 +19,10 @@ export const useStore = (storageKey = 'mezhdunami') => {
         return storeData[key] as T;
       }
     } catch (e) {
-
+      console.error(e);
     }
+
+    return null;
   };
 
   const set = (key: string, value: any) => {
@@ -36,7 +33,7 @@ export const useStore = (storageKey = 'mezhdunami') => {
 
       getStorage().setItem(storageKey, JSON.stringify(storeData));
     } catch (e) {
-
+      console.error(e);
     }
   };
 

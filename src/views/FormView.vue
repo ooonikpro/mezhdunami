@@ -71,78 +71,81 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, computed, ref, onUnmounted } from "vue";
-  import Layout from "@/components/Layout.vue";
-  import Input from "@/components/Input.vue";
-  import InputProcedure from "@/components/InputProcedure.vue";
-  import InputDate from "@/components/InputDate.vue";
-  import Checkbox from "@/components/Checkbox.vue";
-  import NotificationSwitcher from "@/components/NotificationSwitcher.vue";
-  import Button from "@/components/Button.vue";
-  import FormFinalStepModal from "@/components/FormFinalStepModal.vue";
+import {
+  defineComponent, computed, ref, onBeforeUnmount, onMounted,
+} from 'vue';
+import Layout from '@/layouts/Layout.vue';
+import Input from '@/components/Input.vue';
+import InputProcedure from '@/components/InputProcedure.vue';
+import InputDate from '@/components/InputDate.vue';
+import Checkbox from '@/components/Checkbox.vue';
+import NotificationSwitcher from '@/components/NotificationSwitcher.vue';
+import Button from '@/components/Button.vue';
+import FormFinalStepModal from '@/components/FormFinalStepModal.vue';
 
-  import { useAnimatedRouter } from "@/composables/useAnimatedRouter";
-  import { useSchedules } from "@/composables/useSchedules";
-  import { useValidation } from "@/composables/useValidation";
-  import { usePatientForm } from "@/composables/usePatientForm";
+import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
+import { useSchedules } from '@/composables/useSchedules';
+import { useValidation } from '@/composables/useValidation';
+import { usePatientForm } from '@/composables/usePatientForm';
 
-  export default defineComponent({
-    components: {
-      Layout,
-      Input,
-      InputProcedure,
-      InputDate,
-      Checkbox,
-      NotificationSwitcher,
-      Button,
-      FormFinalStepModal,
-    },
-    setup() {
-      const { goToBack } = useAnimatedRouter();
-      const { refreshSchedule } = useSchedules();
-      const { isValidName, isValidPhone, toPhoneNumber } = useValidation();
-      const {
-        state: form,
-        reset: resetForm,
-        submit: submitForm,
-      } = usePatientForm();
+export default defineComponent({
+  components: {
+    Layout,
+    Input,
+    InputProcedure,
+    InputDate,
+    Checkbox,
+    NotificationSwitcher,
+    Button,
+    FormFinalStepModal,
+  },
 
-      const isDisabledSubmitBtn = computed(
-        () =>
-          !isValidName(form.name || "") ||
-          !isValidPhone(form.phone || "") ||
-          form.procedures?.length === 0 ||
-          !form.date
-      );
+  setup() {
+    const { goToBack } = useAnimatedRouter();
+    const { fetchData } = useSchedules();
+    const { isValidName, isValidPhone, toPhoneNumber } = useValidation();
+    const {
+      state: form,
+      reset: resetForm,
+      submit: submitForm,
+    } = usePatientForm();
 
-      const isOpenFinalModal = ref(false);
+    const isDisabledSubmitBtn = computed(
+      () => !isValidName(form.name || '')
+          || !isValidPhone(form.phone || '')
+          || form.procedures?.length === 0
+          || !form.date,
+    );
 
-      const onSubmit = async () => {
-        try {
-          isOpenFinalModal.value = await submitForm();
-        } catch (e) {
-          refreshSchedule();
-          alert(e);
-        }
-      };
+    const isOpenFinalModal = ref(false);
 
-      const close = () => goToBack("/");
-      const cancel = () => close();
+    const onSubmit = async () => {
+      try {
+        isOpenFinalModal.value = await submitForm();
+      } catch (e) {
+        fetchData();
+        alert(e);
+      }
+    };
 
-      onUnmounted(resetForm);
+    const close = () => goToBack('/');
+    const cancel = () => close();
 
-      return {
-        close,
-        cancel,
-        onSubmit,
-        isValidName,
-        isValidPhone,
-        toPhoneNumber,
-        form,
-        resetForm,
-        isOpenFinalModal,
-        isDisabledSubmitBtn,
-      };
-    },
-  });
+    onMounted(fetchData);
+    onBeforeUnmount(resetForm);
+
+    return {
+      close,
+      cancel,
+      onSubmit,
+      isValidName,
+      isValidPhone,
+      toPhoneNumber,
+      form,
+      resetForm,
+      isOpenFinalModal,
+      isDisabledSubmitBtn,
+    };
+  },
+});
 </script>

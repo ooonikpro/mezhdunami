@@ -3,13 +3,13 @@ const URL = '/api/schedules';
 export const useSchedules = () => {
     const { getScheduleForMonth } = useCalendar();
 
-    const { data, refresh: refreshSchedule, pending: isLoading } = useFetch<Tech.ResponseAPI<Tech.ScheduleFilters>>(URL);
+    const { data, refresh: refreshSchedule, pending: isLoading } = useFetch<ResponseAPI<ScheduleFilters>>(URL);
 
     const excludedDates = computed(() => data.value.data.excludedDates || []);
 
     const schedule = computed(() => getScheduleForMonth({ excludedDates: excludedDates.value }))
 
-    const addToSchedule = async (formData: Tech.PatientFormData) => {
+    const addToSchedule = async (formData: PatientFormData) => {
         const { data, execute } = useFetch(URL, {
             method: 'POST',
             body: formData

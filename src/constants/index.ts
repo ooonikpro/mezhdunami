@@ -1,5 +1,6 @@
 export const ANIMATION_DURATION = 300;
 
+// eslint-disable-next-line
 export enum PROCEDURE {
   Peeling = 1,
   Cleaning = 2,
@@ -9,7 +10,7 @@ export enum PROCEDURE {
   FacePlastic = 6
 }
 
-export const PROCEDURE_DURATION: Record<Cosmo.Procedure, number> = {
+export const PROCEDURE_DURATION: Record<Procedure, number> = {
   [PROCEDURE.Peeling]: 3600000, // 1 hours
   [PROCEDURE.Cleaning]: 7200000, // 2 hours
   [PROCEDURE.Bio]: 3600000,
@@ -18,7 +19,7 @@ export const PROCEDURE_DURATION: Record<Cosmo.Procedure, number> = {
   [PROCEDURE.FacePlastic]: 3600000,
 };
 
-export const PROCEDURE_PRICE: Record<Cosmo.Procedure, number> = {
+export const PROCEDURE_PRICE: Record<Procedure, number> = {
   [PROCEDURE.Peeling]: 1500,
   [PROCEDURE.Cleaning]: 3000,
   [PROCEDURE.Bio]: 3500,
@@ -265,6 +266,7 @@ export const PROCEDURES = [
   },
 ];
 
+// eslint-disable-next-line
 export enum NOTIFICATION_TYPE {
   SMS = 1,
   WhatsApp = 2,

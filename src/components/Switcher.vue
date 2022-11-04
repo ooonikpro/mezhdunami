@@ -15,35 +15,35 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-  export default defineComponent({
-    props: {
-      options: {
-        type: Array as () => Tech.LabelValue<any>[],
-        required: true,
-      },
-
-      modelValue: {
-        required: true,
-      },
-
-      small: {
-        type: Boolean,
-        default: false,
-      },
+export default defineComponent({
+  props: {
+    options: {
+      type: Array as () => LabelValue<any>[],
+      required: true,
     },
 
-    emits: ["update:modelValue"],
-
-    setup(props, { emit }) {
-      const setActive = (value: any) => emit("update:modelValue", value);
-
-      return {
-        setActive,
-      };
+    modelValue: {
+      required: true,
     },
-  });
+
+    small: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  emits: ['update:modelValue'],
+
+  setup(props, { emit }) {
+    const setActive = (value: any) => emit('update:modelValue', value);
+
+    return {
+      setActive,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>

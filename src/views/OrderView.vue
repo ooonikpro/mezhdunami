@@ -56,23 +56,24 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
-  import Layout from "@/components/Layout.vue";
-  import Button from "@/components/Button.vue";
+import { defineComponent } from 'vue';
+import Layout from '@/layouts/Layout.vue';
+import Button from '@/components/Button.vue';
 
-  import { useAnimatedRouter } from "@/composables/useAnimatedRouter";
+import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
 
-  export default defineComponent({
-    components: {
-      Layout,
-      Button,
-    },
-    setup() {
-      const { goToBack } = useAnimatedRouter();
+export default defineComponent({
+  components: {
+    Layout,
+    Button,
+  },
 
-      return {
-        goToBack,
-      };
-    },
-  });
+  setup() {
+    const { goToBack } = useAnimatedRouter();
+
+    return {
+      goToBack,
+    };
+  },
+});
 </script>

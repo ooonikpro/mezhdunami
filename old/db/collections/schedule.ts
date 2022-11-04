@@ -3,12 +3,12 @@ import { getTomorrow, getReservedTimeSlots } from "~~/utils";
 
 const collection = getCollection('schedule');
 
-type ScheduleItem = Pick<Tech.PatientFormData, 'date' | 'procedures'>;
+type ScheduleItem = Pick<PatientFormData, 'date' | 'procedures'>;
 
-export const getBookedDates = async (): Promise<Tech.BookedDates> => {
+export const getBookedDates = async (): Promise<BookedDates> => {
     const schedule = await collection;
 
-    const result: Tech.PatientFormData[] = await schedule.find({
+    const result: PatientFormData[] = await schedule.find({
         date: {
             $gt: getTomorrow()
         }
@@ -31,7 +31,7 @@ export const findOne = async (date: number): Promise<ScheduleItem | undefined> =
     }
 }
 
-export const addToSchedule = async (data: Tech.PatientFormData) => {
+export const addToSchedule = async (data: PatientFormData) => {
     const schedule = await collection;
 
     if (await findOne(data.date)) {

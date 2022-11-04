@@ -1,5 +1,4 @@
-import { getBookedDates } from '../server/db/collections/schedule';
-
+import { NOTIFICATION_TYPE } from '@/constants';
 export { };
 
 declare global {
@@ -7,15 +6,14 @@ declare global {
         showPicker: () => void
     }
 
-    namespace Tech {
-        type DateNumber = number;
+    type DateNumber = number;
 
         enum TypeOfNotify {
             SMS = 1,
             MESSENGER = 2
         }
 
-        interface LabelValue<T extends any> {
+        interface LabelValue<T> {
             label: string
             value: T
         }
@@ -33,11 +31,11 @@ declare global {
 
         interface PatientFormData {
             date: DateNumber;
-            procedures: Array<Cosmo.Procedure>
+            procedures: Array<Procedure>
             name: string;
             phone: string;
             notify: boolean
-            typeOfNotify: TypeOfNotify
+            typeOfNotify: NOTIFICATION_TYPE
         }
 
         interface ResponseAPI<T> {
@@ -54,10 +52,8 @@ declare global {
         interface ScheduleFilters {
             excludedDates: NotWorkingDates & BookedDates
         }
-    }
 
-    namespace Cosmo {
-        enum Procedure {
+    enum Procedure {
             Peeling = 1,
             Cleaning = 2,
             Bio = 3,
@@ -65,5 +61,4 @@ declare global {
             LipPlastic = 5,
             FacePlastic = 6
         }
-    }
 }

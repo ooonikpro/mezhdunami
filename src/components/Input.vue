@@ -30,112 +30,115 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, computed } from "vue";
-  import IconTriangle from "@/components/IconTriangle.vue";
-  import IconValid from "@/components/IconValid.vue";
+import { defineComponent, ref, computed } from 'vue';
+import IconTriangle from '@/components/IconTriangle.vue';
+import IconValid from '@/components/IconValid.vue';
 
-  export default defineComponent({
-    components: {
-      IconTriangle,
-      IconValid,
+export default defineComponent({
+  components: {
+    IconTriangle,
+    IconValid,
+  },
+
+  props: {
+    type: {
+      type: String,
+      default: 'text',
+      validator: (val: string) => ['text', 'select', 'tel', 'date'].includes(val),
     },
 
-    props: {
-      type: {
-        type: String,
-        default: "text",
-        validator: (val: string) =>
-          ["text", "select", "tel", "date"].includes(val),
-      },
-
-      label: {
-        type: String,
-        default: null,
-      },
-
-      placeholder: {
-        type: String,
-        default: null,
-      },
-
-      disabled: {
-        type: Boolean,
-        default: false,
-      },
-
-      modelValue: {
-        type: String,
-        default: null,
-      },
-
-      maxlength: {
-        type: Number,
-        default: null,
-      },
-
-      validator: {
-        type: Function,
-        default: () => (val: string) => !!val,
-      },
-
-      transform: {
-        type: Function,
-        default: () => (val: string) => val,
-      },
+    label: {
+      type: String,
+      default: null,
     },
-    emits: ["update:modelValue", "focus", "blur"],
-    setup(props, { emit }) {
-      const input = ref<HTMLDateInputElement>();
 
-      const rootClasses = computed(() => ({
-        disabled: props.disabled,
-        focused,
-        select: isSelect,
-      }));
-      const isSelect = computed(() => props.type === "select");
-      const focused = ref(false);
-      const isValid = computed(() => props.validator(value.value));
-
-      const value = computed({
-        get() {
-          return props.modelValue;
-        },
-
-        set(val: string) {
-          emit("update:modelValue", props.transform(val));
-        },
-      });
-
-      const onFocus = () => {
-        focused.value = true;
-        input.value?.showPicker();
-        emit("focus");
-      };
-
-      const onBlur = () => {
-        focused.value = false;
-
-        emit("blur");
-      };
-
-      const inputType = computed(() => {
-        if (props.type === "select") return "text";
-
-        return props.type;
-      });
-
-      return {
-        rootClasses,
-        isSelect,
-        focused,
-        isValid,
-        value,
-        onFocus,
-        onBlur,
-        inputType,
-      };
+    placeholder: {
+      type: String,
+      default: null,
     },
-  });
+
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+
+    modelValue: {
+      type: String,
+      default: null,
+    },
+
+    maxlength: {
+      type: Number,
+      default: null,
+    },
+
+    validator: {
+      type: Function,
+      default: (val: string) => !!val,
+    },
+
+    transform: {
+      type: Function,
+      default: (val: string) => val,
+    },
+  },
+
+  emits: ['update:modelValue', 'focus', 'blur'],
+
+  setup(props, { emit }) {
+    const isSelect = computed<boolean>(() => props.type === 'select');
+    const focused = ref(false);
+
+    const value = computed({
+      get() {
+        return props.modelValue;
+      },
+
+      set(val: string) {
+        emit('update:modelValue', props.transform(val));
+      },
+    });
+
+    const isValid = computed(() => props.validator(value.value));
+
+    const input = ref<HTMLDateInputElement>();
+
+    const rootClasses = computed(() => ({
+      disabled: props.disabled,
+      focused,
+      select: isSelect.value,
+    }));
+
+    const onFocus = () => {
+      focused.value = true;
+      input.value?.showPicker();
+      emit('focus');
+    };
+
+    const onBlur = () => {
+      focused.value = false;
+
+      emit('blur');
+    };
+
+    const inputType = computed(() => {
+      if (props.type === 'select') return 'text';
+
+      return props.type;
+    });
+
+    return {
+      rootClasses,
+      isSelect,
+      focused,
+      isValid,
+      value,
+      onFocus,
+      onBlur,
+      inputType,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>

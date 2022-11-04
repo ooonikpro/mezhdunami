@@ -30,69 +30,69 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, computed } from "vue";
-  import Modal from "@/components/Modal.vue";
-  import Calendar from "@/components/Calendar.vue";
-  import StickyBottom from "@/components/StickyBottom.vue";
-  import Button from "@/components/Button.vue";
+import { defineComponent, ref, computed } from 'vue';
+import Modal from '@/components/Modal.vue';
+import Calendar from '@/components/Calendar.vue';
+import StickyBottom from '@/components/StickyBottom.vue';
+import Button from '@/components/Button.vue';
 
-  export default defineComponent({
-    components: {
-      Modal,
-      Calendar,
-      StickyBottom,
-      Button,
+export default defineComponent({
+  components: {
+    Modal,
+    Calendar,
+    StickyBottom,
+    Button,
+  },
+
+  props: {
+    modelValue: {
+      type: Number as () => DateNumber,
+      required: true,
     },
 
-    props: {
-      modelValue: {
-        type: Number as () => Tech.DateNumber,
-        required: true,
-      },
-
-      selectedProcedures: {
-        type: Array as () => Cosmo.Procedure[],
-        required: true,
-      },
-
-      isOpen: {
-        type: Boolean,
-        default: false,
-      },
+    selectedProcedures: {
+      type: Array as () => Procedure[],
+      required: true,
     },
 
-    emits: ["update:modelValue", "close"],
-
-    setup(props, { emit }) {
-      const selectedDate = ref(props.modelValue);
-
-      const close = () => emit("close");
-
-      const isSticky = ref(false);
-      const isDisabledBtn = computed(
-        () => !isSticky.value || !selectedDate.value
-      );
-
-      const updateDate = (date: Tech.DateNumber) => {
-        selectedDate.value = date;
-        isSticky.value = true;
-      };
-
-      const confirm = () => {
-        emit("update:modelValue", selectedDate.value);
-
-        close();
-
-        isSticky.value = false;
-      };
-
-      return {
-        close,
-        isSticky,
-        isDisabledBtn,
-        updateDate,
-        confirm,
-      };
+    isOpen: {
+      type: Boolean,
+      default: false,
     },
-  });
+  },
+
+  emits: ['update:modelValue', 'close'],
+
+  setup(props, { emit }) {
+    const selectedDate = ref(props.modelValue);
+
+    const close = () => emit('close');
+
+    const isSticky = ref(false);
+    const isDisabledBtn = computed(
+      () => !isSticky.value || !selectedDate.value,
+    );
+
+    const updateDate = (date: DateNumber) => {
+      selectedDate.value = date;
+      isSticky.value = true;
+    };
+
+    const confirm = () => {
+      emit('update:modelValue', selectedDate.value);
+
+      close();
+
+      isSticky.value = false;
+    };
+
+    return {
+      close,
+      isSticky,
+      isDisabledBtn,
+      updateDate,
+      confirm,
+    };
+  },
+});
 </script>

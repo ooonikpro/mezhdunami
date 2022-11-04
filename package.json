@@ -45,8 +45,7 @@
       "browser": true
     },
     "extends": [
-      "plugin:vue/strongly-recommended",
-      "@vue/airbnb",
+      "plugin:vue/essential",
       "@vue/typescript/recommended"
     ],
     "parserOptions": {
@@ -75,21 +74,13 @@
       "vue/match-component-file-name": "error",
       "vue/match-component-import-name": "error",
       "vue/max-attributes-per-line": "error",
-      "vue/max-len": [
-        "error",
-        {
-          "code": 120,
-          "tabWidth": 2,
-          "ignoreComments": true,
-          "ignoreUrls": true,
-          "ignoreStrings": true
-        }
-      ],
+      "max-len": "off",
+      "vue/max-len": "off",
       "vue/mustache-interpolation-spacing": "error",
       "vue/name-property-casing": "error",
       "vue/new-line-between-multi-line-property": "error",
       "vue/no-async-in-computed-properties": "error",
-      "vue/no-boolean-default": "error",
+      "vue/no-boolean-default": "off",
       "vue/no-child-content": "error",
       "vue/no-computed-properties-in-data": "error",
       "vue/no-confusing-v-for-v-if": "error",
@@ -110,14 +101,14 @@
       "vue/no-parsing-error": "error",
       "vue/no-potential-component-option-typo": "error",
       "vue/no-ref-as-operand": "error",
-      "vue/no-reserved-component-names": "error",
+      "vue/no-reserved-component-names": "off",
       "vue/no-reserved-keys": "error",
       "vue/no-reserved-props": "error",
       "vue/no-restricted-block": "error",
       "vue/no-unsupported-features": "error",
       "vue/no-unused-components": "error",
       "vue/no-unused-properties": "error",
-      "vue/no-unused-refs": "error",
+      "vue/no-unused-refs": "off",
       "vue/no-unused-vars": "error",
       "vue/no-v-text-v-html-on-component": "error",
       "vue/no-v-text": "error",
@@ -132,7 +123,15 @@
       "vue/v-bind-style": "error",
       "vue/v-for-delimiter-style": "error",
       "vue/v-on-function-call": "error",
-      "vue/v-on-style": "error"
+      "vue/v-on-style": "error",
+      "vue/multi-word-component-names": "off",
+      "import/prefer-default-export": "off",
+      "vuejs-accessibility/click-events-have-key-events": "off",
+      "vuejs-accessibility/anchor-has-content": "off",
+      "no-alert": "off",
+      "no-plusplus": "off",
+      "@typescript-eslint/no-namespace": "off",
+      "no-prototype-builtins": "off"
     }
   },
   "browserslist": [

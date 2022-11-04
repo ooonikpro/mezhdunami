@@ -7,7 +7,7 @@
       rel="noreferrer noopener"
     />
     <a
-      href="https://www.instagram.com/cosmo.kld"
+      href="https://www.instagram.com/kld"
       class="h-64 instagram social-btn"
       :class="{ bordered }"
       rel="noreferrer noopener"
@@ -22,16 +22,16 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-  export default defineComponent({
-    props: {
-      bordered: {
-        type: Boolean,
-        default: false,
-      },
+export default defineComponent({
+  props: {
+    bordered: {
+      type: Boolean,
+      default: false,
     },
-  });
+  },
+});
 </script>
 
 <style lang="scss" scoped>

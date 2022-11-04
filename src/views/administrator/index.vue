@@ -21,6 +21,7 @@
       <Input
         v-model="form.date"
         label="Нерабочий день"
+        aria-label="Нерабочий день"
         type="date"
         class="mb-16"
       />
@@ -32,54 +33,55 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, reactive, computed } from "vue";
-  import Layout from "@/components/Layout.vue";
-  import Input from "@/components/Input.vue";
-  import Button from "@/components/Button.vue";
+import {
+  defineComponent, ref, reactive, computed,
+} from 'vue';
+import Input from '@/components/Input.vue';
+import Button from '@/components/Button.vue';
 
-  import { useCalendar } from "@/composables/useCalendar";
+import { useCalendar } from '@/composables/useCalendar';
+import Layout from '@/layouts/Layout.vue';
 
-  export default defineComponent({
-    components: {
-      Layout,
-      Input,
-      Button,
-    },
-    setup() {
-      const { createDate } = useCalendar();
+export default defineComponent({
+  components: {
+    Layout,
+    Input,
+    Button,
+  },
 
-      const excludedDates = ref([
-        new Date(),
-        new Date(),
-        new Date(0),
-        new Date(1),
-      ]);
-      const formattedDates = computed(() =>
-        excludedDates.value
-          .map((date) => new Date(date))
-          .sort()
-          .map((d) => d.toLocaleDateString("ru"))
-      );
+  setup() {
+    const { createDate } = useCalendar();
 
-      const form = reactive({
-        date: "",
-      });
+    const excludedDates = ref([
+      new Date(),
+      new Date(),
+      new Date(0),
+      new Date(1),
+    ]);
+    const formattedDates = computed(() => excludedDates.value
+      .map((date) => new Date(date))
+      .sort()
+      .map((d) => d.toLocaleDateString('ru')));
 
-      const addDate = () => {
-        if (!form.date) return;
+    const form = reactive({
+      date: '',
+    });
 
-        excludedDates.value.push(createDate(new Date(form.date)));
+    const addDate = () => {
+      if (!form.date) return;
 
-        form.date = null;
-      };
+      excludedDates.value.push(createDate(new Date(form.date)));
 
-      return {
-        form,
-        formattedDates,
-        addDate,
-      };
-    },
-  });
+      form.date = '';
+    };
+
+    return {
+      form,
+      formattedDates,
+      addDate,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>

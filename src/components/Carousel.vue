@@ -7,18 +7,18 @@
           mode="out-in"
         >
           <img
-            v-for="slide in slidesCount"
-            :key="slide"
-            :src="require(`@/assets/img/diploma-${slide}.jpg`)"
+            :src="require(`@/assets/img/diploma-${activeSlideIndex}.jpg`)"
             alt=""
             loading="lazy"
           >
         </transition>
       </div>
+
       <div
         class="carousel-prev-btn"
         @click="setPrev"
       />
+
       <div
         class="carousel-next-btn"
         @click="setNext"
@@ -38,40 +38,40 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref } from "vue";
+import { defineComponent, ref } from 'vue';
 
-  export default defineComponent({
-    setup() {
-      const activeSlideIndex = ref<number>(1);
-      const slidesCount = 9;
+export default defineComponent({
+  setup() {
+    const activeSlideIndex = ref<number>(1);
+    const slidesCount = 9;
 
-      const setActive = (index: number) => {
-        activeSlideIndex.value = index;
-      };
-      const setPrev = () => {
-        if (activeSlideIndex.value > 2) {
-          return setActive(activeSlideIndex.value - 1);
-        }
+    const setActive = (index: number) => {
+      activeSlideIndex.value = index;
+    };
+    const setPrev = () => {
+      if (activeSlideIndex.value > 2) {
+        return setActive(activeSlideIndex.value - 1);
+      }
 
-        setActive(9);
-      };
-      const setNext = () => {
-        if (activeSlideIndex.value < 9) {
-          return setActive(activeSlideIndex.value + 1);
-        }
+      setActive(9);
+    };
+    const setNext = () => {
+      if (activeSlideIndex.value < 9) {
+        return setActive(activeSlideIndex.value + 1);
+      }
 
-        setActive(1);
-      };
+      setActive(1);
+    };
 
-      return {
-        slidesCount,
-        activeSlideIndex,
-        setPrev,
-        setNext,
-        setActive,
-      };
-    },
-  });
+    return {
+      slidesCount,
+      activeSlideIndex,
+      setPrev,
+      setNext,
+      setActive,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>

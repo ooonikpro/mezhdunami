@@ -28,7 +28,7 @@ declare global {
 
         interface PatientFormData {
             date: DateNumber;
-            procedures: Array<Cosmo.Procedure>
+            procedures: Array<Procedure>
             name: string;
             phone: string;
             notify: boolean

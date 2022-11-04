@@ -1,52 +1,50 @@
 <template>
-  <ClientOnly>
-    <Teleport to=".modals">
-      <transition
-        name="slide-down"
-        appear
-        @after-leave="$emit('after-leave')"
+  <Teleport to=".modals">
+    <transition
+      name="slide-down"
+      appear
+      @after-leave="$emit('after-leave')"
+    >
+      <div
+        v-if="isOpen"
+        class="modal"
       >
-        <div
-          v-if="isOpen"
-          class="modal"
-        >
-          <Layout>
-            <template #before-title>
-              <slot name="before-title" />
-            </template>
+        <Layout>
+          <template #before-title>
+            <slot name="before-title" />
+          </template>
 
-            <template #default>
-              <slot />
-            </template>
+          <template #default>
+            <slot />
+          </template>
 
-            <template #title>
-              <slot name="title" />
-            </template>
-          </Layout>
-        </div>
-      </transition>
-    </Teleport>
-  </ClientOnly>
+          <template #title>
+            <slot name="title" />
+          </template>
+        </Layout>
+      </div>
+    </transition>
+  </Teleport>
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
-  import Layout from "@/components/Layout.vue";
+import { defineComponent } from 'vue';
+import Layout from '@/layouts/Layout.vue';
 
-  export default defineComponent({
-    components: {
-      Layout,
+export default defineComponent({
+  components: {
+    Layout,
+  },
+
+  props: {
+    isOpen: {
+      type: Boolean,
+      default: false,
     },
+  },
 
-    props: {
-      isOpen: {
-        type: Boolean,
-        default: false,
-      },
-    },
-
-    emits: ["after-leave", "close"],
-  });
+  emits: ['after-leave', 'close'],
+});
 </script>
 
 <style lang="scss" scoped>
