@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
+    "module": "CommonJS",
     "strict": true,
     "jsx": "preserve",
     "moduleResolution": "node",
@@ -32,9 +32,18 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "src/types"
+  ],
+  "typeRoots": [
+    "./node_modules/@types",
+    "./src/types"
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "ts-node": {
+    // Do not forget to `npm i -D tsconfig-paths`
+    "require": ["tsconfig-paths/register"]
+  }
 }

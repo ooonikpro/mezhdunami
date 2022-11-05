@@ -1,9 +1,10 @@
+import { FastifyRequest } from 'fastify';
 import { addToSchedule } from '@/server/db/collections/schedule';
 import { notifyAboutNew } from '@/server/services';
 
-export const postSchedules = async (req) => {
+export const postSchedules = async (req: FastifyRequest) => {
   try {
-    const patient = await readBody<PatientFormData>(event);
+    const patient = req.body as PatientFormData;
     const success = await addToSchedule(patient);
 
     if (success) {
