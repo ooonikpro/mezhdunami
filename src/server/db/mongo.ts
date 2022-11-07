@@ -8,7 +8,7 @@ const connect = (async () => {
   try {
     await client.connect();
 
-    console.log('Connected successfully to server');
+    console.log('Connected successfully to database');
   } catch (e) {
     console.error(e);
   }

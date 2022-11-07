@@ -1,13 +1,30 @@
-import Fastify, { FastifyInstance } from 'fastify'
+import Hapi from '@hapi/hapi';
+import { Server } from '@hapi/hapi';
 import { getSchedules } from '@/server/api/schedules/index.get';
 import { postSchedules } from '@/server/api/schedules/index.post';
 
-const app: FastifyInstance = Fastify({logger: true});
+const server: Server = Hapi.server({
+    port: process.env.PORT,
+    host: process.env.HOST
+});
 
-app.get('/api/schedules', getSchedules);
-app.post('/api/schedules', postSchedules);
+server.route({
+  method: 'GET',
+  path: '/api/schedules',
+  handler: getSchedules
+});
 
-app.listen({
-  host: 'localhost',
-  port: 3000
+server.route({
+  method: 'POST',
+  path: '/api/schedules',
+  handler: postSchedules
+});
+
+console.log(`Listening on ${server.settings.host}:${server.settings.port}`);
+server.start();
+
+process.on('unhandledRejection', (err) => {
+    console.error("unhandledRejection");
+    console.error(err);
+    process.exit(1);
 });

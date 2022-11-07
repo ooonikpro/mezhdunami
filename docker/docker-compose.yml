@@ -2,25 +2,19 @@ version: "3.9"
 services:
   nginx:
     image: macbre/nginx-brotli:latest
+    container_name: webserver
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
+      - ./nginx/nginx.prod.template:/etc/nginx/nginx.conf
       - ./nginx/certs:/etc/nginx/certs
-      - ../../dist:/etc/nginx/www
-    environment:
-      SERVER_NAME: ${SERVER_NAME}
-    command: >
-            /bin/sh -c
-            "envsubst '
-            $${SERVER_NAME}
-            '< /etc/nginx/nginx.conf.template
-            > /etc/nginx/nginx.conf
-            && nginx -g 'daemon off;'"
+      - ./nginx/mime.types:/etc/nginx/conf/mime.types
+      - ../dist:/etc/nginx/www
   mongo_db:
     image: mongo:latest
+    container_name: database
     restart: always
     ports:
       - 27017:27017
@@ -34,10 +28,11 @@ services:
       context: ../
       dockerfile: ./docker/Dockerfile
     restart: always
-    container_name: api_server
+    container_name: api
     ports:
       - "3000:3000"
     environment:
+      HOST: "0.0.0.0"
       PORT: 3000
       MONGO_URI: mongodb://root:example@mongo_db
       DB_NAME: mezhdunami

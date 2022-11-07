@@ -1,5 +1,3 @@
-/// <reference types="../../../types" />
-
 import { getCollection } from '@/server/db/mongo';
 import { getTomorrow, getReservedTimeSlots } from '@/utils';
 

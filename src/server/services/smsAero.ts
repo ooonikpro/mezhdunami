@@ -1,4 +1,4 @@
-import { fetch } from '@/server/httpClient';
+import axios from 'axios';
 
 interface SMSAeroSended {
   id: number
@@ -12,9 +12,13 @@ interface SMSAeroSended {
   dateAnswer: number
 }
 
-const BASE_URL = 'https://gate.smsaero.ru/v2/';
-const username = process.env.EMAIL || '';
-const password = process.env.SMS_API_KEY || '';
+const httpClient = axios.create({
+  baseURL: 'https://gate.smsaero.ru/v2/',
+  auth: {
+    username: process.env.EMAIL || '',
+    password: process.env.SMS_API_KEY || ''
+  }
+})
 
 export const sendMessage = async (to: string, message: string) => {
   try {
@@ -24,19 +28,13 @@ export const sendMessage = async (to: string, message: string) => {
       sign: 'SMSAero',
     };
 
-    let url = BASE_URL + '/sms/testsend';
+    let url = '/sms/testsend';
 
     if (process.env.NODE_ENV === 'production') {
-      url = BASE_URL + '/sms/send';
+      url = '/sms/send';
     }
 
-    const response = await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(formData),
-      headers: {
-        'Authorization': `Basic ${Buffer.from(username + ':' + password).toString('base64')}`
-      }
-    }).then(response => response.json()).then((data) => data as ResponseAPI<SMSAeroSended>);
+    const response = await httpClient.post<ResponseAPI<SMSAeroSended>>(url, formData).then(({data}) => data);
 
     if (!response.success) {
       throw new Error(response.message);

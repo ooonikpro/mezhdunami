@@ -1,13 +1,24 @@
 worker_processes auto;
 
-events { worker_connections 1024; }
+events {
+    worker_connections 4096;
+}
 
 http {
+    charset UTF-8;
+    include       mime.types;
+    default_type  application/octet-stream;
+    keepalive_timeout 65;
+
     server {
+        root /etc/nginx/www;
+        listen 80;
         listen 443 ssl http2;
-        server_name ${SERVER_NAME};
+        server_name mezhdunami.app;
 
         server_tokens off;
+
+        index index.html;
 
         ssl on;
         ssl_certificate /etc/nginx/certs/public.crt;
@@ -29,7 +40,16 @@ http {
                 font/eot font/opentype font/otf font/truetype image/svg+xml image/vnd.microsoft.icon
                 image/x-icon image/x-win-bitmap text/css text/javascript text/plain text/xml;
 
-        location /api {
+        location ^~ /assets/ {
+            expires max;
+            add_header Cache-Control public;
+        }
+
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+
+        location /api/ {
             proxy_redirect                      off;
             proxy_set_header Host               $host;
             proxy_set_header X-Real-IP          $remote_addr;
@@ -38,7 +58,7 @@ http {
 
             proxy_read_timeout                  1m;
             proxy_connect_timeout               1m;
-            proxy_pass                          http://api_server:3000; # set the address of the Node.js instance here
+            proxy_pass                          http://api:3000;
         }
     }
 }

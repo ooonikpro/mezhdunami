@@ -1,0 +1,5 @@
+FROM node:current-alpine
+
+WORKDIR /webpack
+
+CMD ["yarn", "server"]
