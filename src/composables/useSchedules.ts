@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { computed, ref } from 'vue';
 import { useCalendar } from '@/composables/useCalendar';
 
@@ -14,8 +13,7 @@ export const useSchedules = () => {
     isLoading.value = true;
 
     try {
-      const response = await axios.get<ResponseAPI<ScheduleFilters>>(URL)
-        .then(({ data }) => data);
+      const response = await fetch(URL).then<ResponseAPI<ScheduleFilters>>(response => response.json())
 
       if (response.success) {
         excludedDates.value = response.data.excludedDates;
@@ -34,8 +32,10 @@ export const useSchedules = () => {
   const schedule = computed(() => getScheduleForMonth({ excludedDates: excludedDates.value }));
 
   const addToSchedule = async (formData: PatientFormData) => {
-    const response = await axios.post<ResponseAPI<boolean>>(URL, formData)
-      .then(({ data }) => data);
+    const response = await fetch(URL, {
+      method: 'POST',
+      body: JSON.stringify(formData)
+    }).then<ResponseAPI<boolean>>(response => response.json())
 
     if (!response.success) {
       throw new Error(response.message);

@@ -14,7 +14,7 @@ module.exports = defineConfig({
   },
 
   pwa: {
-    workboxPluginMode: 'InjectManifest',
+    workboxPluginMode: 'GenerateSW',
     name: 'Косметология для своих',
     themeColor: '#F3BAB3',
     msTileColor: '#F3BAB3',

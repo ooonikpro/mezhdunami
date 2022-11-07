@@ -1,6 +1,8 @@
 FROM node:16-alpine as builder
-WORKDIR /app
+WORKDIR /apiServer
 
-COPY .output .
+COPY . .
 
-CMD [ "node", "./server/index.mjs" ]
+RUN yarn install
+
+CMD ["yarn", "server"]

@@ -1,9 +1,7 @@
-import axios from 'axios';
+import { fetch } from '@/server/httpClient';
 import { getLocalizedFullDate, getNames } from '@/utils';
 
-const client = axios.create({
-  baseURL: `https://api.telegram.org/bot${process.env.TELEGRAM_BOT || ''}`,
-});
+const BASE_URL = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT || ''}`;
 
 const subscribers = ['209442952'];
 
@@ -11,14 +9,18 @@ if (process.env.NODE_ENV === 'production') {
   subscribers.push('460173300');
 }
 
-const sendMessage = (to: string, message: string) => client.get('/sendMessage', {
-  params: {
+const sendMessage = (to: string, message: string) => {
+  const params = new URLSearchParams();
+
+  Object.entries({
     chat_id: to,
     text: message,
     parse_mode: 'HTML',
     disable_notification: false,
-  },
-}).then(({ data }) => data);
+  }).forEach(([key, value]) => params.set(key, String(value)));
+
+  return fetch(`${BASE_URL}/sendMessage?${params}`).then((response) => response.json());
+}
 
 export const notifySubscribers = (message: string) => subscribers.map((to) => sendMessage(to, message));
 

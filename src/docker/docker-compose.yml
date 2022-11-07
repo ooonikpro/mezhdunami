@@ -9,13 +9,13 @@ services:
     volumes:
       - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
       - ./nginx/certs:/etc/nginx/certs
+      - ../../dist:/etc/nginx/www
     environment:
-      PORT: ${SERVER_PORT}
       SERVER_NAME: ${SERVER_NAME}
     command: >
             /bin/sh -c
             "envsubst '
-            $${PORT} $${SERVER_NAME}
+            $${SERVER_NAME}
             '< /etc/nginx/nginx.conf.template
             > /etc/nginx/nginx.conf
             && nginx -g 'daemon off;'"
@@ -29,12 +29,12 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-  nuxt:
+  api_server:
     build:
       context: ../
       dockerfile: ./docker/Dockerfile
     restart: always
-    container_name: nuxt_container
+    container_name: api_server
     ports:
       - "3000:3000"
     environment:
