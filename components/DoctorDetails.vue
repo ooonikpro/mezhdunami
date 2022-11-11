@@ -1,9 +1,11 @@
 <template>
-    <div class="doctor-details" :class="{ reverted: props.reverted }">
-        <span class="h6">Врач-косметолог</span>
-        <p class="h3">Овечкина</p>
-        <p>Елена Максимовна</p>
-    </div>
+  <div class="doctor-details" :class="{ reverted: props.reverted }">
+    <span class="h6">Врач-косметолог</span>
+    <p class="h3">
+      Овечкина
+    </p>
+    <p>Елена Максимовна</p>
+  </div>
 </template>
 
 <script lang="ts" setup>

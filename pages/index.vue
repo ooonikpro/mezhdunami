@@ -1,63 +1,63 @@
 <template>
-    <NuxtLayout with-gradient>
-        <nav>
-            <Social />
+  <NuxtLayout with-gradient>
+    <nav>
+      <Social />
 
-            <a
-                href="/price-list"
-                class="media-btn h-64 full-width"
-                @click.prevent="goTo('/price-list')"
-            >
-                <span class="h3">Прайс-лист</span>
-                <span class="h5">Цены</span>
-            </a>
+      <a
+        href="/price-list"
+        class="media-btn h-64 full-width"
+        @click.prevent="goTo('/price-list')"
+      >
+        <span class="h3">Прайс-лист</span>
+        <span class="h5">Цены</span>
+      </a>
 
-            <a
-                href="/form"
-                class="media-btn h-64 full-width action-btn i-calendar"
-                @click.prevent="goTo('/form')"
-            >
-                <span class="h2">Записаться</span>
-            </a>
+      <a
+        href="/form"
+        class="media-btn h-64 full-width action-btn i-calendar"
+        @click.prevent="goTo('/form')"
+      >
+        <span class="h2">Записаться</span>
+      </a>
 
-            <a
-                href="/order-page"
-                class="media-btn h-128 full-width i-catalog"
-                @click.prevent="goTo('/order-page')"
-            >
-                <span class="h3">Заказать <br />домашний уход</span>
-            </a>
+      <a
+        href="/order-page"
+        class="media-btn h-128 full-width i-catalog"
+        @click.prevent="goTo('/order-page')"
+      >
+        <span class="h3">Заказать <br>домашний уход</span>
+      </a>
 
-            <a
-                href="#"
-                class="media-btn h-64 full-width"
-                @click.prevent="goTo('/recommendations')"
-            >
-                <span class="h3">Рекомендации</span>
-                <span class="h5">После процедур</span>
-            </a>
+      <a
+        href="#"
+        class="media-btn h-64 full-width"
+        @click.prevent="goTo('/recommendations')"
+      >
+        <span class="h3">Рекомендации</span>
+        <span class="h5">После процедур</span>
+      </a>
 
-            <a
-                href="#"
-                class="media-btn h-64 full-width"
-                @click.prevent="goTo('/about')"
-            >
-                <span class="h3">Обо мне</span>
-                <span class="h5">Дипломы Контакты</span>
-            </a>
-        </nav>
+      <a
+        href="#"
+        class="media-btn h-64 full-width"
+        @click.prevent="goTo('/about')"
+      >
+        <span class="h3">Обо мне</span>
+        <span class="h5">Дипломы Контакты</span>
+      </a>
+    </nav>
 
-        <div class="profile">
-            <img
-                src="@/assets/img/doctor.png"
-                loading="lazy"
-                alt="Овечкина Елена Максимовна"
-                class="photo"
-            />
+    <div class="profile">
+      <img
+        src="@/assets/img/doctor.png"
+        loading="lazy"
+        alt="Овечкина Елена Максимовна"
+        class="photo"
+      >
 
-            <DoctorDetails reverted />
-        </div>
-    </NuxtLayout>
+      <DoctorDetails reverted />
+    </div>
+  </NuxtLayout>
 </template>
 
 <script lang="ts" setup>

@@ -1,24 +1,24 @@
-import { getCollection } from "../mongo";
-import { getTomorrow } from "~~/utils";
+import { getCollection } from '../mongo';
+import { getTomorrow } from '~~/utils';
 
 const collection = getCollection('not_working_days');
 
-export const getNotWorkingDates = async (): Promise<Tech.NotWorkingDates> => {
-    const schedule = await collection;
+export const getNotWorkingDates = async (): Promise<NotWorkingDates> => {
+  const schedule = await collection;
 
-    const result: Tech.PatientFormData[] = await schedule.find({
-        date: {
-            $gt: getTomorrow()
-        }
-    }).sort({ date: 1 }).toArray();
+  const result: PatientFormData[] = await schedule.find({
+    date: {
+      $gt: getTomorrow()
+    }
+  }).sort({ date: 1 }).toArray();
 
-    return result.map(({ date }) => date);
-}
+  return result.map(({ date }) => date);
+};
 
-export const addNotWorkingDate = async (date: Tech.DateNumber) => {
-    const schedule = await collection;
+export const addNotWorkingDate = async (date: DateNumber) => {
+  const schedule = await collection;
 
-    await schedule.insertOne({ date });
+  await schedule.insertOne({ date });
 
-    return true;
-}
+  return true;
+};

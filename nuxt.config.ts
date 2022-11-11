@@ -1,88 +1,74 @@
 const title = 'Между Нами. Косметология для своих';
-const description = 'Записаться онлайн';
+const description = 'Онлайн запись';
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-    buildModules: [
-        '@nuxtjs/pwa',
-    ],
+  buildModules: [
+    '@kevinmarrec/nuxt-pwa'
+  ],
 
-    css: ['@/assets/css/main.scss'],
-    vite: {
-        css: {
-            preprocessorOptions: {
-                scss: {
-                    additionalData: '@import "@/assets/css/_colors.scss"; @import "@/assets/css/_mixins.scss";',
-                }
-            }
-        }
+  pwa: {
+    icon: false,
+    workbox: {
+      enabled: process.env.NODE_ENV === 'production'
     },
 
-    app: {
-        head: {
-            title,
+    meta: {
+      viewport: 'width=device-width, initial-scale=1, user-scalable=no, minimal-ui',
+      mobileApp: 'yes',
+      mobileAppIOS: 'yes',
+      appleStatusBarStyle: 'black',
+      favicon: false,
+      name: title,
+      description,
+      theme_color: '#F3BAB3',
+      lang: 'ru',
+      ogTitle: title,
+      ogDescription: description,
+      ogType: 'website',
+      ogSiteName: 'mezhdunami.app',
+      ogHost: 'https://mezhdunami.app',
+      ogImage: '/preview.jpg',
+      nativeUI: true
+    }
+  },
 
-            meta: [
-                { name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no' },
-                {
-                    name: 'theme-color',
-                    content: '#F3BAB3'
-                },
-                {
-                    name: 'mobile-web-app-capable',
-                    content: 'yes'
-                },
-                {
-                    name: 'apple-mobile-web-app-status-bar-style',
-                    content: 'black',
-                },
-                {
-                    name: 'title',
-                    content: title
-                },
-                {
-                    name: 'og:title',
-                    content: title
-                },
-                {
-                    name: 'description',
-                    content: description
-                },
-                {
-                    name: 'og:description',
-                    content: description,
-                },
-                {
-                    name: 'og:image',
-                    content: '/preview.jpg',
-                },
+  css: ['@/assets/css/main.scss'],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "@/assets/css/_colors.scss"; @import "@/assets/css/_mixins.scss";'
+        }
+      }
+    }
+  },
 
-                {
-                    name: 'format-detection',
-                    content: 'no'
-                }
-            ],
+  app: {
+    head: {
+      meta: [
+        {
+          name: 'format-detection',
+          content: 'no'
+        }
+      ],
 
-            link: [
-                {
-                    rel: 'apple-touch-icon',
-                    href: '/apple-touch-icon.png',
-                },
-                {
-                    rel: 'shortcut icon',
-                    type: 'image/svg+xml',
-                    href: '/favicon.svg',
-                },
-                {
-                    rel: 'manifest',
-                    href: '/manifest.json'
-                }
-            ]
+      link: [
+        {
+          rel: 'apple-touch-icon',
+          href: '/apple-touch-icon.png'
         },
-
-        pageTransition: {
-            name: 'page',
-            mode: 'in-out'
+        {
+          rel: 'shortcut icon',
+          type: 'image/svg+xml',
+          href: '/favicon.svg'
         }
+      ]
     },
-})
+
+    pageTransition: {
+      name: 'page',
+      mode: 'in-out'
+    }
+  }
+});

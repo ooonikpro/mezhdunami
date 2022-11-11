@@ -1,34 +1,34 @@
 <template>
-    <ClientOnly>
-        <Teleport to=".modals">
-            <transition
-                name="slide-down"
-                @after-leave="emit('after-leave')"
-                appear
-            >
-                <div v-if="props.isOpen" class="modal">
-                    <NuxtLayout>
-                        <template #before-title>
-                            <slot name="before-title" />
-                        </template>
+  <ClientOnly>
+    <Teleport to=".modals">
+      <transition
+        name="slide-down"
+        appear
+        @after-leave="emit('after-leave')"
+      >
+        <div v-if="props.isOpen" class="modal">
+          <NuxtLayout>
+            <template #before-title>
+              <slot name="before-title" />
+            </template>
 
-                        <template #default>
-                            <slot />
-                        </template>
+            <template #default>
+              <slot />
+            </template>
 
-                        <template #title>
-                            <slot name="title" />
-                        </template>
-                    </NuxtLayout>
-                </div>
-            </transition>
-        </Teleport>
-    </ClientOnly>
+            <template #title>
+              <slot name="title" />
+            </template>
+          </NuxtLayout>
+        </div>
+      </transition>
+    </Teleport>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>
 const props = defineProps<{ isOpen: boolean }>();
-const emit = defineEmits(["after-leave", "close"]);
+const emit = defineEmits(['after-leave', 'close']);
 </script>
 
 <style lang="scss" scoped>

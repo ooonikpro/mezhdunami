@@ -1,106 +1,105 @@
 <template>
-    <div class="calendar">
-        <div class="calendar-loader"></div>
+  <div class="calendar">
+    <div class="calendar-loader" />
 
-        <div class="calendar-container">
-            <div class="calendar-content">
-                <CalendarSkeleton v-if="isLoading" />
+    <div class="calendar-container">
+      <div class="calendar-content">
+        <CalendarSkeleton v-if="isLoading" />
 
-                <template v-else>
-                    <div
-                        v-for="item in schedule"
-                        :key="item.date"
-                        class="calendar-column"
-                    >
-                        <span class="h4">
-                            <b>{{ getLocalizedWeekday(item.date) }}</b>
-                        </span>
-                        <span class="h4 mb-8">
-                            {{ getLocalizedDate(item.date) }}
-                        </span>
+        <template v-else>
+          <div
+            v-for="item in schedule"
+            :key="item.date"
+            class="calendar-column"
+          >
+            <span class="h4">
+              <b>{{ getLocalizedWeekday(item.date) }}</b>
+            </span>
+            <span class="h4 mb-8">
+              {{ getLocalizedDate(item.date) }}
+            </span>
 
-                        <div class="calendar-slots">
-                            <CalendarSlot
-                                v-for="(slot, $j) in item.slots"
-                                :key="$j"
-                                :isFree="isFree(slot, item.slots)"
-                                :isSelected="isSelected(slot.date)"
-                                @select="select(slot.date)"
-                            >
-                                {{ slot.time }}
-                            </CalendarSlot>
-                        </div>
-                    </div>
-                </template>
+            <div class="calendar-slots">
+              <CalendarSlot
+                v-for="(slot, $j) in item.slots"
+                :key="$j"
+                :is-free="isFree(slot, item.slots)"
+                :is-selected="isSelected(slot.date)"
+                @select="select(slot.date)"
+              >
+                {{ slot.time }}
+              </CalendarSlot>
             </div>
-        </div>
+          </div>
+        </template>
+      </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
 interface CalendarOfDayProps {
     disabledDates?: Array<number>;
-    selectedProcedures: Array<Cosmo.Procedure> | null;
+    selectedProcedures: Array<Procedure> | null;
     modelValue: number | null;
 }
 const props = defineProps<CalendarOfDayProps>();
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue']);
 
 const { schedule, isLoading, refreshSchedule } = useSchedules();
 const { getLocalizedWeekday, getLocalizedDate } = useCalendar();
 const { getTotalDuration, getReservedTimeSlots } = useProcedures();
 
 const selectedProceduresDuration = computed(() => {
-    if (Array.isArray(props.selectedProcedures)) {
-        return getTotalDuration(props.selectedProcedures);
-    }
+  if (Array.isArray(props.selectedProcedures)) {
+    return getTotalDuration(props.selectedProcedures);
+  }
 
-    return 0;
+  return 0;
 });
 
 const isFree = (
-    slot: Tech.ScheduleTimeSlot,
-    slotList: Tech.ScheduleTimeSlot[]
+  slot: ScheduleTimeSlot,
+  slotList: ScheduleTimeSlot[]
 ) => {
-    if (!slot.isFree) return false;
+  if (!slot.isFree) { return false; }
 
-    const hour = new Date(slot.date).getHours();
+  const hour = new Date(slot.date).getHours();
 
-    // Если продолжительность больше 1 часа в последний слот
-    if (18 === hour && selectedProceduresDuration.value / 3600 / 1000 > 1) {
-        return false;
+  // Если продолжительность больше 1 часа в последний слот
+  if (hour === 18 && selectedProceduresDuration.value / 3600 / 1000 > 1) {
+    return false;
+  }
+
+  const availableSlots = slotList.reduce((obj, { date, isFree }) => {
+    if (isFree) {
+      obj[date] = isFree;
     }
 
-    const availableSlots = slotList.reduce((obj, { date, isFree }) => {
-        if (isFree) {
-            obj[date] = isFree;
-        }
+    return obj;
+  }, {});
 
-        return obj;
-    }, {});
+  const neededSlots = getReservedTimeSlots(
+    slot.date,
+    props.selectedProcedures
+  );
 
-    const neededSlots = getReservedTimeSlots(
-        slot.date,
-        props.selectedProcedures
-    );
-
-    return neededSlots.every((s) => availableSlots[s]);
+  return neededSlots.every(s => availableSlots[s]);
 };
 
 const selectedSlot = ref(props.modelValue);
 
 const isSelected = (date: number) => {
-    return selectedSlot.value === date;
+  return selectedSlot.value === date;
 };
 
 const select = (date: number) => {
-    selectedSlot.value = date;
-    emit("update:modelValue", date);
+  selectedSlot.value = date;
+  emit('update:modelValue', date);
 };
 
 onMounted(refreshSchedule);
 </script>
-
 
 <style lang="scss" scoped>
 .calender {

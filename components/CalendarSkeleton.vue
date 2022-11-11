@@ -1,18 +1,18 @@
 <template>
-    <div class="calendar-skeleton">
-        <div v-for="item in 3" :key="item" class="calendar-skeleton-column">
-            <div class="calendar-skeleton-slots">
-                <div
-                    v-for="slot in 8"
-                    :key="slot"
-                    class="calendar-skeleton-slot"
-                >
-                    <div class="calendar-skeleton-slot-time"></div>
-                    <div class="calendar-skeleton-slot-status"></div>
-                </div>
-            </div>
+  <div class="calendar-skeleton">
+    <div v-for="item in 3" :key="item" class="calendar-skeleton-column">
+      <div class="calendar-skeleton-slots">
+        <div
+          v-for="slot in 8"
+          :key="slot"
+          class="calendar-skeleton-slot"
+        >
+          <div class="calendar-skeleton-slot-time" />
+          <div class="calendar-skeleton-slot-status" />
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>

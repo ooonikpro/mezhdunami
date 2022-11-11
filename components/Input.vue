@@ -1,27 +1,27 @@
 <template>
-    <label :class="{ disabled: props.disabled, focused, select: isSelect }" class="input">
-        <span class="label h5">{{ props.label }}</span>
+  <label :class="{ disabled: props.disabled, focused, select: isSelect }" class="input">
+    <span class="label h5">{{ props.label }}</span>
 
-        <IconTriangle v-if="isSelect" class="triangle"/>
+    <IconTriangle v-if="isSelect" class="triangle" />
 
-        <input
-            :type="inputType"
-            :placeholder="props.placeholder"
-            :disabled="props.disabled"
-            :readonly="isSelect"
-            :maxlength="props.maxlength"
-            @focus="onFocus"
-            @blur="onBlur"
-            v-model="value"
-        />
+    <input
+      v-model="value"
+      :type="inputType"
+      :placeholder="props.placeholder"
+      :disabled="props.disabled"
+      :readonly="isSelect"
+      :maxlength="props.maxlength"
+      @focus="onFocus"
+      @blur="onBlur"
+    >
 
-        <IconValid v-if="!props.disabled && isValid" class="status-valid"/>
-    </label>
+    <IconValid v-if="!props.disabled && isValid" class="status-valid" />
+  </label>
 </template>
 
 <script lang="ts" setup>
 interface InputProps {
-    type?: "text" | "select" | "tel";
+    type?: 'text' | 'select' | 'tel';
     label?: string;
     placeholder?: string;
     disabled?: boolean;
@@ -32,43 +32,43 @@ interface InputProps {
 }
 
 const props = defineProps<InputProps>();
-const emit = defineEmits(["update:modelValue", "focus", "blur"]);
+const emit = defineEmits(['update:modelValue', 'focus', 'blur']);
 
-const isSelect = computed(() => props.type === "select");
+const isSelect = computed(() => props.type === 'select');
 const focused = ref(false);
 const isValid = computed(() => {
-    const validator = props.validator || ((v) => !!v);
+  const validator = props.validator || (v => !!v);
 
-    return validator(value.value);
-})
+  return validator(value.value);
+});
 
 const value = computed({
-    get() {
-        return props.modelValue;
-    },
+  get () {
+    return props.modelValue;
+  },
 
-    set(val: string) {
-        const transform = props.transform || ((v) => v);
+  set (val: string) {
+    const transform = props.transform || (v => v);
 
-        emit("update:modelValue", transform(val));
-    },
+    emit('update:modelValue', transform(val));
+  }
 });
 
 const onFocus = () => {
-    focused.value = true;
-    emit('focus');
+  focused.value = true;
+  emit('focus');
 };
 
 const onBlur = () => {
-    focused.value = false;
+  focused.value = false;
 
-    emit('blur');
+  emit('blur');
 };
 
 const inputType = computed(() => {
-    if (props.type === "select") return "text";
+  if (props.type === 'select') { return 'text'; }
 
-    return props.type;
+  return props.type;
 });
 </script>
 

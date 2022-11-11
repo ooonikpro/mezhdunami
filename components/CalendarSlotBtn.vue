@@ -1,15 +1,15 @@
 <template>
-    <button
-        ref="button"
-        class="calendar-slot-btn h4"
-        :class="{ active: props.isSelected }"
-    >
-        <transition name="slide-left" mode="out-in">
-            <span v-if="props.isSelected">Выбрано</span>
+  <button
+    ref="button"
+    class="calendar-slot-btn h4"
+    :class="{ active: props.isSelected }"
+  >
+    <transition name="slide-left" mode="out-in">
+      <span v-if="props.isSelected">Выбрано</span>
 
-            <span v-else>Свободно</span>
-        </transition>
-    </button>
+      <span v-else>Свободно</span>
+    </transition>
+  </button>
 </template>
 
 <script lang="ts" setup>
@@ -18,18 +18,17 @@ const props = defineProps<{ isSelected: boolean }>();
 const button = ref<HTMLButtonElement | null>(null);
 
 onMounted(() => {
-    if (props.isSelected) {
-        setTimeout(() => {
-            button.value.scrollIntoView({
-                inline: "center",
-                block: "nearest",
-                behavior: "smooth",
-            });
-        }, 100);
-    }
+  if (props.isSelected) {
+    setTimeout(() => {
+      button.value.scrollIntoView({
+        inline: 'center',
+        block: 'nearest',
+        behavior: 'smooth'
+      });
+    }, 100);
+  }
 });
 </script>
-
 
 <style lang="scss" scoped>
 .calendar-slot-btn {

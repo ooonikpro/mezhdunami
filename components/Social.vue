@@ -1,24 +1,24 @@
 <template>
-    <div class="social">
-        <a
-            href="https://t.me/lensem"
-            class="social-btn h-64 telegram"
-            :class="{ bordered }"
-            rel="noreferrer noopener"
-        ></a>
-        <a
-            href="https://www.instagram.com/cosmo.kld"
-            class="social-btn h-64 instagram"
-            :class="{ bordered }"
-            rel="noreferrer noopener"
-        ></a>
-        <a
-            href="https://wa.me/79141939603"
-            class="social-btn h-64 whats-app"
-            :class="{ bordered }"
-            rel="noreferrer noopener"
-        ></a>
-    </div>
+  <div class="social">
+    <a
+      href="https://t.me/lensem"
+      class="social-btn h-64 telegram"
+      :class="{ bordered }"
+      rel="noreferrer noopener"
+    />
+    <a
+      href="https://www.instagram.com/cosmo.kld"
+      class="social-btn h-64 instagram"
+      :class="{ bordered }"
+      rel="noreferrer noopener"
+    />
+    <a
+      href="https://wa.me/79141939603"
+      class="social-btn h-64 whats-app"
+      :class="{ bordered }"
+      rel="noreferrer noopener"
+    />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -28,7 +28,6 @@ interface SocialProps {
 
 const props = defineProps<SocialProps>();
 </script>
-
 
 <style lang="scss" scoped>
 .social {

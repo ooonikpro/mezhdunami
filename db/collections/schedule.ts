@@ -1,44 +1,43 @@
-import { getCollection } from "../mongo";
-import { getTomorrow, getReservedTimeSlots } from "~~/utils";
+import { getCollection } from '../mongo';
+import { getTomorrow, getReservedTimeSlots } from '~~/utils';
 
 const collection = getCollection('schedule');
 
-type ScheduleItem = Pick<Tech.PatientFormData, 'date' | 'procedures'>;
+type ScheduleItem = Pick<PatientFormData, 'date' | 'procedures'>;
 
-export const getBookedDates = async (): Promise<Tech.BookedDates> => {
-    const schedule = await collection;
+export const getBookedDates = async (): Promise<BookedDates> => {
+  const schedule = await collection;
 
-    const result: Tech.PatientFormData[] = await schedule.find({
-        date: {
-            $gt: getTomorrow()
-        }
-    }).sort({ date: 1 }).toArray();
+  const result: PatientFormData[] = await schedule.find({
+    date: {
+      $gt: getTomorrow()
+    }
+  }).sort({ date: 1 }).toArray();
 
-
-    return result.reduce((response, { date: startDate, procedures }) => response.concat(getReservedTimeSlots(startDate, procedures)), []);
-}
+  return result.reduce((response, { date: startDate, procedures }) => response.concat(getReservedTimeSlots(startDate, procedures)), []);
+};
 
 export const findOne = async (date: number): Promise<ScheduleItem | undefined> => {
-    const schedule = await collection;
+  const schedule = await collection;
 
-    const result = await schedule.findOne({ date });
+  const result = await schedule.findOne({ date });
 
-    if (!result) return;
+  if (!result) { return; }
 
-    return {
-        date: result.date,
-        procedures: result.procedures,
-    }
-}
+  return {
+    date: result.date,
+    procedures: result.procedures
+  };
+};
 
-export const addToSchedule = async (data: Tech.PatientFormData) => {
-    const schedule = await collection;
+export const addToSchedule = async (data: PatientFormData) => {
+  const schedule = await collection;
 
-    if (await findOne(data.date)) {
-        throw new Error('Это время уже занято. Пожалуйста, выберите другое');
-    }
+  if (await findOne(data.date)) {
+    throw new Error('Это время уже занято. Пожалуйста, выберите другое');
+  }
 
-    await schedule.insertOne(data);
+  await schedule.insertOne(data);
 
-    return true;
-}
+  return true;
+};
