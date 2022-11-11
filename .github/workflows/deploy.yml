@@ -6,20 +6,29 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Sync data
+      - name: Build Frontend
+        uses: actions/checkout@v3
+
+      - run: cd /frontend
+      - run: yarn install
+      - run: yarn build
+      - run: mv ./.output ../
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Sync Data
         uses: actions/checkout@v3
 
       - run: mkdir "$HOME/.ssh"
       - run: echo "${{ secrets.SSH_KEY }}" > "$HOME/.ssh/key"
       - run: chmod 600 "$HOME/.ssh/key"
-      - run: yarn install
-      - run: yarn build
-      - run: rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avh --exclude='*' --include='/.output' --include='/docker' ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/www/public_html ./ --delete --progress
-
+      - run: rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avh --exclude='.env' --exclude='/frontend' --exclude='.eslintrc.json' --exclude='.git*' . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/www/public_html --delete --progress
   dockerize:
       needs: deploy
       runs-on: ubuntu-latest
