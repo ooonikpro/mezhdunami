@@ -1,10 +1,11 @@
 {
-  "name": "mezhdunami-app",
+  "name": "mezhdunami.app",
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:server": "webpack build",
     "lint": "vue-cli-service lint",
     "server": "ts-node --files src/server"
   },
@@ -35,8 +36,11 @@
     "eslint-plugin-vuejs-accessibility": "^1.1.0",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
+    "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.0",
-    "typescript": "~4.5.5"
+    "typescript": "~4.5.5",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^4.10.0"
   }
 }

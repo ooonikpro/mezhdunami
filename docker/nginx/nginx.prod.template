@@ -14,7 +14,7 @@ http {
         root /etc/nginx/www;
         listen 80;
         listen 443 ssl http2;
-        server_name mezhdunami.app;
+        server_name localhost;
 
         server_tokens off;
 
@@ -40,7 +40,7 @@ http {
                 font/eot font/opentype font/otf font/truetype image/svg+xml image/vnd.microsoft.icon
                 image/x-icon image/x-win-bitmap text/css text/javascript text/plain text/xml;
 
-        location ^~ /assets/ {
+        location ~* \.(?:css|cur|js|jpg|jpeg|webp|gif|htc|ico|png|html|xml|otf|ttf|eot|woff|woff2|svg)$ {
             expires max;
             add_header Cache-Control public;
         }
