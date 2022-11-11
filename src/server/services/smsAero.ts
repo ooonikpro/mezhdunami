@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ADMIN_EMAIL, SMS_API_KEY, IS_PROD } from '@/constants/env';
+import type { ResponseAPI } from '@/types';
 
 interface SMSAeroSended {
   id: number
@@ -17,9 +18,9 @@ const httpClient = axios.create({
   baseURL: 'https://gate.smsaero.ru/v2/',
   auth: {
     username: ADMIN_EMAIL,
-    password: SMS_API_KEY
-  }
-})
+    password: SMS_API_KEY,
+  },
+});
 
 export const sendMessage = async (to: string, message: string) => {
   try {
@@ -35,7 +36,7 @@ export const sendMessage = async (to: string, message: string) => {
       url = '/sms/send';
     }
 
-    const response = await httpClient.post<ResponseAPI<SMSAeroSended>>(url, formData).then(({data}) => data);
+    const response = await httpClient.post<ResponseAPI<SMSAeroSended>>(url, formData).then(({ data }) => data);
 
     if (!response.success) {
       throw new Error(response.message);

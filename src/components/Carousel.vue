@@ -53,14 +53,14 @@ export default defineComponent({
         return setActive(activeSlideIndex.value - 1);
       }
 
-      setActive(9);
+      return setActive(9);
     };
     const setNext = () => {
       if (activeSlideIndex.value < 9) {
         return setActive(activeSlideIndex.value + 1);
       }
 
-      setActive(1);
+      return setActive(1);
     };
 
     return {

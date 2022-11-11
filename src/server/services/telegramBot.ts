@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { getLocalizedFullDate, getNames } from '@/utils';
+import type { PatientFormData } from '@/types';
 
 const httpClient = axios.create({
-  baseURL: `https://api.telegram.org/bot${process.env.TELEGRAM_BOT}`
+  baseURL: `https://api.telegram.org/bot${process.env.TELEGRAM_BOT}`,
 });
 
 const subscribers = ['209442952'];
@@ -22,7 +23,7 @@ const sendMessage = (to: string, message: string) => {
   }).forEach(([key, value]) => params.set(key, String(value)));
 
   return httpClient.get(`/sendMessage?${params}`);
-}
+};
 
 export const notifySubscribers = (message: string) => subscribers.map((to) => sendMessage(to, message));
 

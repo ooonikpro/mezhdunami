@@ -23,6 +23,7 @@ import { defineComponent, ref, computed } from 'vue';
 import Input from '@/components/Input.vue';
 import ProcedureListModal from '@/components/ProcedureListModal.vue';
 import { useProcedures } from '@/composables/useProcedures';
+import type { Procedure } from '@/types';
 
 export default defineComponent({
   components: {

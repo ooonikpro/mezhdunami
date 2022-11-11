@@ -1,7 +1,7 @@
 import { reactive, onBeforeMount } from 'vue';
 import { useSchedules } from '@/composables/useSchedules';
 import { useStore } from '@/composables/useStore';
-import { NOTIFICATION_TYPE } from '@/constants';
+import { PatientFormData, NotificationType } from '@/types';
 
 const getInitialFormState = (): PatientFormData => ({
   name: '',
@@ -9,7 +9,7 @@ const getInitialFormState = (): PatientFormData => ({
   procedures: [],
   date: 0,
   notify: false,
-  typeOfNotify: NOTIFICATION_TYPE.SMS,
+  typeOfNotify: NotificationType.SMS,
 });
 
 const form = {

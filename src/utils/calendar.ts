@@ -1,3 +1,7 @@
+import type {
+  DateNumber, Schedule, ScheduleFilters, ScheduleTimeSlot,
+} from '@/types';
+
 const today = new Date();
 const year = today.getFullYear();
 const month = today.getMonth();
@@ -60,8 +64,8 @@ export const getScheduleForMonth = ({ excludedDates }: ScheduleFilters): Schedul
           date: slotTime,
           time: `${slot}:00`,
           isFree,
-        } as ScheduleTimeSlot;
-      });
+        };
+      }) as ScheduleTimeSlot[];
 
       if (dateIsFree) {
         dates.push({

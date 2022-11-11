@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
+  mode: 'production',
   entry: './src/server/index.ts',
   target: 'node',
   module: {
@@ -20,7 +21,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: 'server.js',
+    filename: 'index.js',
     path: path.resolve(__dirname, 'dist-server'),
   },
   plugins: [
@@ -29,7 +30,7 @@ module.exports = {
       ADMIN_EMAIL: process.env.ADMIN_EMAIL,
       TELEGRAM_BOT_KEY: process.env.TELEGRAM_BOT_KEY,
       MONGO_URI: process.env.MONGO_URI,
-      MONGO_DB_NAME: process.env.MONGO_DB_NAME
-    })
-  ]
+      MONGO_DB_NAME: process.env.MONGO_DB_NAME,
+    }),
+  ],
 };

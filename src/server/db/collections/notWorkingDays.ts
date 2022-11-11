@@ -1,4 +1,5 @@
 import { getCollection } from '@/server/db/mongo';
+import type { DateNumber, NotWorkingDates, PatientFormData } from '@/types';
 import { getTomorrow } from '@/utils';
 
 const collection = getCollection('not_working_days');

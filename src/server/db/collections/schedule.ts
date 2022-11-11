@@ -1,4 +1,5 @@
 import { getCollection } from '@/server/db/mongo';
+import type { BookedDates, PatientFormData } from '@/types';
 import { getTomorrow, getReservedTimeSlots } from '@/utils';
 
 const collection = getCollection('schedule');

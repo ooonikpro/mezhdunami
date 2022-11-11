@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts">
+import type { LabelValue } from '@/types';
 import { defineComponent } from 'vue';
 
 export default defineComponent({

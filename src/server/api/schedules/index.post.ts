@@ -1,5 +1,6 @@
 import { addToSchedule } from '@/server/db/collections/schedule';
 import { notifyAboutNew } from '@/server/services';
+import type { PatientFormData } from '@/types';
 
 export const postSchedules = async (req: Record<string, any>) => {
   try {

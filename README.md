@@ -1,4 +1,4 @@
-# mezhdunami1
+# mezhdunami-app
 
 ## Project setup
 ```
@@ -13,11 +13,6 @@ yarn serve
 ### Compiles and minifies for production
 ```
 yarn build
-```
-
-### Run your end-to-end tests
-```
-yarn test:e2e
 ```
 
 ### Lints and fixes files

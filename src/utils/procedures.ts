@@ -1,6 +1,7 @@
 import {
   PROCEDURE, PROCEDURES, PROCEDURE_DURATION, PROCEDURE_PRICE,
 } from '@/constants';
+import type { DateNumber, Procedure } from '@/types';
 
 const ONE_HOURS_MS = 3600000;
 

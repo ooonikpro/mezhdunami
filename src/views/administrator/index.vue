@@ -36,11 +36,11 @@
 import {
   defineComponent, ref, reactive, computed,
 } from 'vue';
+import Layout from '@/layouts/Layout.vue';
 import Input from '@/components/Input.vue';
 import Button from '@/components/Button.vue';
 
 import { useCalendar } from '@/composables/useCalendar';
-import Layout from '@/layouts/Layout.vue';
 
 export default defineComponent({
   components: {

@@ -1,5 +1,6 @@
 import { computed, ref } from 'vue';
 import { useCalendar } from '@/composables/useCalendar';
+import type { PatientFormData, ResponseAPI, ScheduleFilters } from '@/types';
 
 const URL = '/api/schedules';
 
@@ -13,7 +14,7 @@ export const useSchedules = () => {
     isLoading.value = true;
 
     try {
-      const response = await fetch(URL).then<ResponseAPI<ScheduleFilters>>(response => response.json())
+      const response = await fetch(URL).then<ResponseAPI<ScheduleFilters>>((response) => response.json());
 
       if (response.success) {
         excludedDates.value = response.data.excludedDates;
@@ -34,8 +35,8 @@ export const useSchedules = () => {
   const addToSchedule = async (formData: PatientFormData) => {
     const response = await fetch(URL, {
       method: 'POST',
-      body: JSON.stringify(formData)
-    }).then<ResponseAPI<boolean>>(response => response.json())
+      body: JSON.stringify(formData),
+    }).then<ResponseAPI<boolean>>((response) => response.json());
 
     if (!response.success) {
       throw new Error(response.message);
