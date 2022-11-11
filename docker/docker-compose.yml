@@ -29,18 +29,20 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
   nuxt:
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile
+    image: node:16-alpine
     restart: always
     container_name: nuxt_container
     ports:
       - "3000:3000"
+    working_dir: /app
+    volumes:
+      - ../.output:/app
     environment:
       PORT: 3000
       MONGO_URI: mongodb://root:example@mongo_db
       DB_NAME: mezhdunami
     depends_on:
       - mongo_db
+    command: "node ./server/index.mjs"
 volumes:
   mongo_db:
