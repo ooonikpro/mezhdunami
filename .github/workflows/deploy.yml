@@ -18,7 +18,7 @@ jobs:
       - run: chmod 600 "$HOME/.ssh/key"
       - run: yarn install
       - run: yarn build
-      - run: rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avh --exclude='.env' --exclude='/node_modules' --include='/.output' --include='/docker' ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/www/public_html /home/www/public_html --delete
+      - run: rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avh --exclude='.env' --exclude='/node_modules' --include='/.output' --include='/docker' ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/www/public_html ./ --delete
 
   dockerize:
       needs: deploy
