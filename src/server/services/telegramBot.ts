@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getLocalizedFullDate, getNames } from '@/utils';
 
 const httpClient = axios.create({
-  baseURL: `https://api.telegram.org/bot${process.env.TELEGRAM_BOT || ''}`
+  baseURL: `https://api.telegram.org/bot${process.env.TELEGRAM_BOT}`
 });
 
 const subscribers = ['209442952'];

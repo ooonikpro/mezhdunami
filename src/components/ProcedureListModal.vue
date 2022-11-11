@@ -22,24 +22,10 @@
           <h3 class="mb-16 procedure-name">
             {{ option.name }}
           </h3>
-          <span class="h4 procedure-footnote">
-            {{ option.footnote }}
-          </span>
-          <span class="h4 procedure-duration">
-            {{ option.duration }}
-          </span>
-        </div>
-        <div class="h4 mb-24 procedure-body">
-          <span
-            v-for="(item, $index) in getDescription(option.data)"
-            :key="$index"
-          >
-            {{ item }}
-          </span>
-        </div>
-        <div class="procedure-footer">
-          <span class="h2">{{ option.price }}</span>
-          <span class="h4">рублей</span>
+
+          <div class="h4 procedure-duration">
+            <span>Продолжительность:</span> {{ option.duration }}
+          </div>
         </div>
       </div>
     </div>
@@ -151,62 +137,26 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-  .procedure {
+.procedure {
     cursor: pointer;
-    display: grid;
-    grid-template-areas:
-      "checkbox head"
-      "checkbox body"
-      "checkbox body"
-      "footer footer";
-    grid-template-columns: 4.4rem 1fr;
-    padding-bottom: 0.8rem;
+    display: flex;
+    padding: 0.8rem;
 
     &:not(:last-child) {
-      border-bottom: 1px solid $color-pink-700;
+        border-bottom: 1px solid rgba($color-pink-700, .25);
     }
-  }
+}
 
-  .procedure-checkbox {
+.procedure-checkbox {
     width: 4.4rem;
-    grid-area: checkbox;
-  }
+}
 
-  .procedure-head {
-    display: grid;
-    justify-content: space-between;
-    grid-area: head;
-    grid-template-areas:
-      "name name"
-      "footnote duration";
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .procedure-footnote {
-    grid-area: footnote;
-  }
-
-  .procedure-name {
-    grid-area: name;
-  }
-
-  .procedure-duration {
-    grid-area: duration;
-    text-align: right;
-  }
-
-  .procedure-body {
-    max-width: 80%;
+.procedure-head {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
-    grid-area: body;
-  }
+}
 
-  .procedure-footer {
-    display: flex;
-    flex-direction: column;
-    grid-area: footer;
-    text-align: right;
-  }
+.procedure-duration span {
+  opacity: 0.75;
+}
 </style>

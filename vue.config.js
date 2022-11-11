@@ -18,4 +18,12 @@ module.exports = defineConfig({
     manifestPath: 'manifest.json',
     iconPaths: null
   },
+
+  devServer: {
+    proxy: {
+      '^/api': {
+        target: 'http://localhost:3000'
+      }
+    }
+  }
 });

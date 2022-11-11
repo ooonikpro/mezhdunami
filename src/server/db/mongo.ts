@@ -1,7 +1,6 @@
 import { Document, MongoClient } from 'mongodb';
+import { MONGO_DB_NAME, MONGO_URI } from '@/constants/env';
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017';
-const DB_NAME = process.env.DB_NAME || 'default';
 const client: MongoClient = new MongoClient(MONGO_URI);
 
 const connect = (async () => {
@@ -17,5 +16,5 @@ const connect = (async () => {
 export const getCollection = async (name: string): Promise<Document> => {
   await connect;
 
-  return client.db(DB_NAME).collection(name);
+  return client.db(MONGO_DB_NAME).collection(name);
 };

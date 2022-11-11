@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ADMIN_EMAIL, SMS_API_KEY, IS_PROD } from '@/constants/env';
 
 interface SMSAeroSended {
   id: number
@@ -15,8 +16,8 @@ interface SMSAeroSended {
 const httpClient = axios.create({
   baseURL: 'https://gate.smsaero.ru/v2/',
   auth: {
-    username: process.env.EMAIL || '',
-    password: process.env.SMS_API_KEY || ''
+    username: ADMIN_EMAIL,
+    password: SMS_API_KEY
   }
 })
 
@@ -30,7 +31,7 @@ export const sendMessage = async (to: string, message: string) => {
 
     let url = '/sms/testsend';
 
-    if (process.env.NODE_ENV === 'production') {
+    if (IS_PROD) {
       url = '/sms/send';
     }
 

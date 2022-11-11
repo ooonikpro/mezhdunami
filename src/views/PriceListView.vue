@@ -35,18 +35,21 @@
           :key="procedure.label"
           class="mb-16 row"
         >
-          <div class="label">
-            <h4>{{ procedure.label }}</h4>
-            <span
-              v-if="procedure.footnotes"
-              class="description h5"
-            >
-              {{ procedure.footnotes }}
+          <div class="head">
+            <h4 class="label">
+              {{ procedure.label }}
+            </h4>
+            <div class="line" />
+            <span class="price">
+              {{ procedure.price }}
             </span>
           </div>
-          <div class="price">
-            {{ procedure.price }}
-          </div>
+          <span
+            v-if="procedure.footnotes"
+            class="description h5"
+          >
+            {{ procedure.footnotes }}
+          </span>
         </div>
       </div>
     </div>
@@ -98,21 +101,41 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-  .brand {
-    padding-bottom: 1.6rem;
+.brand {
     border-bottom: 1px solid rgba($color-pink-700, 0.5);
-  }
+}
 
-  .brand-title {
+.brand-title {
     font-weight: 400;
-  }
+}
 
-  .row {
+.head {
     display: flex;
-    align-items: flex-start;
-  }
+    align-items: center;
+}
 
-  .label {
-    flex: 1 1 50%;
+.description {
+  width: 100%;
+}
+
+.label {
+    flex: 0 1 auto;
+}
+
+.line {
+  flex: 1 1 auto;
+  margin: 0 .8rem;
+
+  &:not(:last-child) {
+    border-bottom: 1px dashed rgba($color-pink-700, 0.25);
   }
+}
+
+.price {
+  flex: 0 0 auto;
+}
+
+.price {
+    text-align: right;
+}
 </style>

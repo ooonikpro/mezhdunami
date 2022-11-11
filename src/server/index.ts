@@ -1,11 +1,10 @@
-import Hapi from '@hapi/hapi';
-import { Server } from '@hapi/hapi';
+import Hapi, { Server } from '@hapi/hapi';
 import { getSchedules } from '@/server/api/schedules/index.get';
 import { postSchedules } from '@/server/api/schedules/index.post';
 
 const server: Server = Hapi.server({
-    port: process.env.PORT,
-    host: process.env.HOST
+    port: 3000,
+    host: '0.0.0.0'
 });
 
 server.route({

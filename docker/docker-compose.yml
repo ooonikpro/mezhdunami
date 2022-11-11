@@ -23,7 +23,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-  api_server:
+  api:
     build:
       context: ../
       dockerfile: ./docker/Dockerfile
@@ -32,10 +32,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      HOST: "0.0.0.0"
-      PORT: 3000
       MONGO_URI: mongodb://root:example@mongo_db
-      DB_NAME: mezhdunami
+      MONGO_DB_NAME: mezhdunami
     depends_on:
       - mongo_db
 volumes:
