@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 interface SMSAeroSended {
     id: number
@@ -13,33 +13,29 @@ interface SMSAeroSended {
 }
 
 const client = axios.create({
-    baseURL: 'https://gate.smsaero.ru/v2/',
-    auth: {
-        username: process.env.EMAIL,
-        password: process.env.SMS_API_KEY
-    },
+  baseURL: 'https://gate.smsaero.ru/v2/',
+  auth: {
+    username: process.env.EMAIL,
+    password: process.env.SMS_API_KEY
+  }
 });
 
 export const sendMessage = async (to: string, message: string) => {
-    try {
-        let url = '/sms/testsend';
+  let url = '/sms/testsend';
 
-        if (process.env.NODE_ENV === 'production') {
-            url = '/sms/send';
-        }
+  if (process.env.NODE_ENV === 'production') {
+    url = '/sms/send';
+  }
 
-        const response = await client.post<Tech.ResponseAPI<SMSAeroSended>>(url, {
-            number: to,
-            text: message,
-            sign: 'SMSAero'
-        }).then(({ data }) => data);
+  const response = await client.post<ResponseAPI<SMSAeroSended>>(url, {
+    number: to,
+    text: message,
+    sign: 'SMSAero'
+  }).then(({ data }) => data);
 
-        if (!response.success) {
-            throw new Error(response.message);
-        }
+  if (!response.success) {
+    throw new Error(response.message);
+  }
 
-        return response;
-    } catch (e) {
-        throw e;
-    }
-}
+  return response;
+};

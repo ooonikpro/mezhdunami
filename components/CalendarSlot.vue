@@ -1,14 +1,16 @@
 <template>
-    <div class="calendar-slot" :class="rootClasses">
-        <div class="calendar-slot-time h4"><slot /></div>
-        <div class="calendar-slot-status">
-            <CalendarSlotBtn
-                v-if="isFree"
-                :isSelected="isSelected"
-                @click="select"
-            />
-        </div>
+  <div class="calendar-slot" :class="rootClasses">
+    <div class="calendar-slot-time h4">
+      <slot />
     </div>
+    <div class="calendar-slot-status">
+      <CalendarSlotBtn
+        v-if="isFree"
+        :is-selected="isSelected"
+        @click="select"
+      />
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -18,13 +20,13 @@ interface CalendarSlotProps {
 }
 
 const props = defineProps<CalendarSlotProps>();
-const emit = defineEmits(["select"]);
+const emit = defineEmits(['select']);
 
 const rootClasses = computed(() => ({
-    selected: props.isSelected,
+  selected: props.isSelected
 }));
 
-const select = () => emit("select");
+const select = () => emit('select');
 </script>
 
 <style lang="scss" scoped>

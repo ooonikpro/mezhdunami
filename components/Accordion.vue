@@ -1,35 +1,35 @@
 <template>
-    <div ref="el" class="accordion" :class="{ open: isOpen }" :id="id">
-        <a :href="link" class="accordion-head h3" @click="toggle">
-            <h3 class="accordion-title">
-                <slot name="title" />
-            </h3>
+  <div :id="id" ref="el" class="accordion" :class="{ open: isOpen }">
+    <a :href="link" class="accordion-head h3" @click="toggle">
+      <h3 class="accordion-title">
+        <slot name="title" />
+      </h3>
 
-            <i class="angle" :class="angleClasses">
-                <svg
-                    width="17"
-                    height="34"
-                    viewBox="0 0 17 34"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M1 1L16 17L1 33"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    />
-                </svg>
-            </i>
-        </a>
+      <i class="angle" :class="angleClasses">
+        <svg
+          width="17"
+          height="34"
+          viewBox="0 0 17 34"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1 1L16 17L1 33"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </i>
+    </a>
 
-        <transition name="expand">
-            <div v-show="isOpen" class="accordion-body">
-                <slot />
-            </div>
-        </transition>
-    </div>
+    <transition name="expand">
+      <div v-show="isOpen" class="accordion-body">
+        <slot />
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -41,8 +41,8 @@ const props = defineProps<AccordionProps>();
 const route = useRoute();
 
 const angleClasses = computed(() => ({
-    up: isOpen.value,
-    down: !isOpen.value,
+  up: isOpen.value,
+  down: !isOpen.value
 }));
 
 const link = computed(() => `#${props.id}`);
@@ -52,14 +52,13 @@ const el = ref<HTMLDivElement>();
 const toggle = () => (isOpen.value = !isOpen.value);
 
 onMounted(() => {
-    isOpen.value = route.hash === link.value;
+  isOpen.value = route.hash === link.value;
 
-    if (isOpen.value) {
-        el.value.scrollIntoView({ block: "start" });
-    }
+  if (isOpen.value) {
+    el.value.scrollIntoView({ block: 'start' });
+  }
 });
 </script>
-
 
 <style lang="scss" scoped>
 .accordion {

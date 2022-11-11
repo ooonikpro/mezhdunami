@@ -1,50 +1,59 @@
 <template>
-    <NuxtLayout>
-        <template #title>Процедуры и цены</template>
+  <NuxtLayout>
+    <template #title>
+      Процедуры и цены
+    </template>
 
+    <div
+      v-for="category in procedures"
+      :key="category.name"
+      class="category mb-32"
+    >
+      <h2 :class="[!category.footnotes && 'mb-16', 'category-title']">
+        {{ category.name }}
+      </h2>
+      <div v-if="category.footnotes" class="description h5 mb-16">
+        {{ category.footnotes }}
+      </div>
+
+      <div
+        v-for="(brand, $index) in category.data"
+        :key="$index"
+        class="brand mb-16"
+      >
+        <h3 v-if="brand.name" class="brand-title mb-12">
+          {{ brand.name }}
+        </h3>
         <div
-            v-for="category in procedures"
-            :key="category.name"
-            class="category mb-32"
+          v-for="procedure in brand.data"
+          :key="procedure.label"
+          class="row mb-16"
         >
-            <h2 :class="[!category.footnotes && 'mb-16', 'category-title']">
-                {{ category.name }}
-            </h2>
-            <div v-if="category.footnotes" class="description h5 mb-16">
-                {{ category.footnotes }}
-            </div>
-
-            <div
-                v-for="(brand, $index) in category.data"
-                :key="$index"
-                class="brand mb-16"
-            >
-                <h3 v-if="brand.name" class="brand-title mb-12">
-                    {{ brand.name }}
-                </h3>
-                <div
-                    v-for="procedure in brand.data"
-                    :key="procedure.label"
-                    class="row mb-16"
-                >
-                    <div class="label">
-                        <h4>{{ procedure.label }}</h4>
-                        <span v-if="procedure.footnotes" class="description h5">
-                            {{ procedure.footnotes }}
-                        </span>
-                    </div>
-                    <div class="price">{{ procedure.price }}</div>
-                </div>
-            </div>
+          <div class="head">
+            <h4 class="label">
+              {{ procedure.label }}
+            </h4>
+            <div class="line" />
+            <span class="price">
+              {{ procedure.price }}
+            </span>
+          </div>
+          <span v-if="procedure.footnotes" class="description h5">
+            {{ procedure.footnotes }}
+          </span>
         </div>
+      </div>
+    </div>
 
-        <br />
+    <br>
 
-        <Button type="button" @click="goTo('/form')" class="mb-16">
-            Хочу записаться
-        </Button>
-        <Button outline small @click="goToBack('/')">Назад</Button>
-    </NuxtLayout>
+    <Button type="button" class="mb-16" @click="goTo('/form')">
+      Хочу записаться
+    </Button>
+    <Button outline small @click="goToBack('/')">
+      Назад
+    </Button>
+  </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
@@ -54,7 +63,6 @@ const { procedures } = useProcedures();
 
 <style lang="scss" scoped>
 .brand {
-    padding-bottom: 1.6rem;
     border-bottom: 1px solid rgba($color-pink-700, 0.5);
 }
 
@@ -62,12 +70,33 @@ const { procedures } = useProcedures();
     font-weight: 400;
 }
 
-.row {
+.head {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+}
+
+.description {
+  width: 100%;
 }
 
 .label {
-    flex: 1 1 50%;
+    flex: 0 1 auto;
+}
+
+.line {
+  flex: 1 1 auto;
+  margin: 0 .8rem;
+
+  &:not(:last-child) {
+    border-bottom: 1px dashed rgba($color-pink-700, 0.5);
+  }
+}
+
+.price {
+  flex: 0 0 auto;
+}
+
+.price {
+    text-align: right;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
-    <button type="button" :class="rootClasses" :disabled="disabled">
-        <slot />
-    </button>
+  <button type="button" :class="rootClasses" :disabled="disabled">
+    <slot />
+  </button>
 </template>
 
 <script lang="ts" setup>
@@ -14,9 +14,9 @@ interface Props {
 const { outline, disabled, small } = defineProps<Props>();
 
 const rootClasses = computed(() => ({
-    small,
-    outline,
-    h3: true,
+  small,
+  outline,
+  h3: true
 }));
 </script>
 

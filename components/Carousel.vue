@@ -1,99 +1,99 @@
 <template>
-    <div class="carousel">
-        <div class="carousel-container mb-8">
-            <div class="carousel-content">
-                <transition name="fade-in" mode="out-in">
-                    <img
-                        v-if="activeSlideIndex === 1"
-                        src="@/assets/img/diploma-1.jpg"
-                        alt=""
-                        loading="lazy"
-                    />
-                    <img
-                        v-else-if="activeSlideIndex === 2"
-                        src="@/assets/img/diploma-2.jpg"
-                        alt=""
-                        loading="lazy"
-                    />
-                    <img
-                        v-else-if="activeSlideIndex === 3"
-                        src="@/assets/img/diploma-3.jpg"
-                        alt=""
-                        loading="lazy"
-                    />
-                    <img
-                        v-else-if="activeSlideIndex === 4"
-                        src="@/assets/img/diploma-4.jpg"
-                        alt=""
-                        loading="lazy"
-                    />
-                    <img
-                        v-else-if="activeSlideIndex === 5"
-                        src="@/assets/img/diploma-5.jpg"
-                        alt=""
-                        loading="lazy"
-                    />
-                    <img
-                        v-else-if="activeSlideIndex === 6"
-                        src="@/assets/img/diploma-6.jpg"
-                        alt=""
-                        loading="lazy"
-                    />
-                    <img
-                        v-else-if="activeSlideIndex === 7"
-                        src="@/assets/img/diploma-7.jpg"
-                        alt=""
-                        loading="lazy"
-                    />
-                    <img
-                        v-else-if="activeSlideIndex === 8"
-                        src="@/assets/img/diploma-8.jpg"
-                        alt=""
-                        loading="lazy"
-                    />
-                    <img
-                        v-else-if="activeSlideIndex === 9"
-                        src="@/assets/img/diploma-9.jpg"
-                        alt=""
-                        loading="lazy"
-                    />
-                </transition>
-            </div>
-            <div class="carousel-prev-btn" @click="setPrev"></div>
-            <div class="carousel-next-btn" @click="setNext"></div>
-        </div>
-
-        <div class="carousel-dots">
-            <div
-                v-for="$index in 9"
-                :key="$index"
-                :class="{ active: $index === activeSlideIndex }"
-                class="carousel-dot"
-                @click="setActive($index)"
-            ></div>
-        </div>
+  <div class="carousel">
+    <div class="carousel-container mb-8">
+      <div class="carousel-content">
+        <transition name="fade-in" mode="out-in">
+          <img
+            v-if="activeSlideIndex === 1"
+            src="@/assets/img/diploma-1.jpg"
+            alt=""
+            loading="lazy"
+          >
+          <img
+            v-else-if="activeSlideIndex === 2"
+            src="@/assets/img/diploma-2.jpg"
+            alt=""
+            loading="lazy"
+          >
+          <img
+            v-else-if="activeSlideIndex === 3"
+            src="@/assets/img/diploma-3.jpg"
+            alt=""
+            loading="lazy"
+          >
+          <img
+            v-else-if="activeSlideIndex === 4"
+            src="@/assets/img/diploma-4.jpg"
+            alt=""
+            loading="lazy"
+          >
+          <img
+            v-else-if="activeSlideIndex === 5"
+            src="@/assets/img/diploma-5.jpg"
+            alt=""
+            loading="lazy"
+          >
+          <img
+            v-else-if="activeSlideIndex === 6"
+            src="@/assets/img/diploma-6.jpg"
+            alt=""
+            loading="lazy"
+          >
+          <img
+            v-else-if="activeSlideIndex === 7"
+            src="@/assets/img/diploma-7.jpg"
+            alt=""
+            loading="lazy"
+          >
+          <img
+            v-else-if="activeSlideIndex === 8"
+            src="@/assets/img/diploma-8.jpg"
+            alt=""
+            loading="lazy"
+          >
+          <img
+            v-else-if="activeSlideIndex === 9"
+            src="@/assets/img/diploma-9.jpg"
+            alt=""
+            loading="lazy"
+          >
+        </transition>
+      </div>
+      <div class="carousel-prev-btn" @click="setPrev" />
+      <div class="carousel-next-btn" @click="setNext" />
     </div>
+
+    <div class="carousel-dots">
+      <div
+        v-for="$index in 9"
+        :key="$index"
+        :class="{ active: $index === activeSlideIndex }"
+        class="carousel-dot"
+        @click="setActive($index)"
+      />
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
 const activeSlideIndex = ref<number>(1);
 
 const setActive = (index: number) => {
-    activeSlideIndex.value = index;
+  activeSlideIndex.value = index;
 };
 const setPrev = () => {
-    if (activeSlideIndex.value > 2) {
-        return setActive(activeSlideIndex.value - 1);
-    }
+  if (activeSlideIndex.value > 2) {
+    return setActive(activeSlideIndex.value - 1);
+  }
 
-    setActive(9);
+  setActive(9);
 };
 const setNext = () => {
-    if (activeSlideIndex.value < 9) {
-        return setActive(activeSlideIndex.value + 1);
-    }
+  if (activeSlideIndex.value < 9) {
+    return setActive(activeSlideIndex.value + 1);
+  }
 
-    setActive(1);
+  setActive(1);
 };
 </script>
 

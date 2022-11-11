@@ -1,25 +1,25 @@
 <template>
-    <div class="layout" :class="{ white: !withGradient }">
-        <Gradient v-if="withGradient" />
+  <div class="layout" :class="{ white: !withGradient }">
+    <Gradient v-if="withGradient" />
 
-        <div class="layout-container">
-            <template v-if="withGradient">
-                <Logo class="logo" />
-            </template>
+    <div class="layout-container">
+      <template v-if="withGradient">
+        <Logo class="logo" />
+      </template>
 
-            <template v-else>
-                <Head />
+      <template v-else>
+        <Head />
 
-                <slot name="before-title" />
+        <slot name="before-title" />
 
-                <h1 class="mb-24">
-                    <slot name="title" />
-                </h1>
-            </template>
+        <h1 class="mb-24">
+          <slot name="title" />
+        </h1>
+      </template>
 
-            <slot />
-        </div>
+      <slot />
     </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -27,20 +27,20 @@ const { turnOffAnimation } = usePageAnimation();
 const setBodyColor = useBodyBg();
 const statusBar = useStatusBar();
 const { withGradient } = defineProps({
-    withGradient: {
-        type: Boolean,
-        default: false,
-    },
+  withGradient: {
+    type: Boolean,
+    default: false
+  }
 });
 
 onBeforeMount(() => {
-    if (withGradient) {
-        setBodyColor("#F3BAB3");
-        statusBar.setWhite();
-    } else {
-        setBodyColor("white");
-        statusBar.setBlack();
-    }
+  if (withGradient) {
+    setBodyColor('#F3BAB3');
+    statusBar.setWhite();
+  } else {
+    setBodyColor('white');
+    statusBar.setBlack();
+  }
 });
 
 onMounted(turnOffAnimation);
