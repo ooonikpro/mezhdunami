@@ -8,7 +8,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import Switcher from '@/components/Switcher.vue';
-import { NOTIFICATION_TYPE } from '@/constants';
+import { NotificationType } from '@/types';
 
 export default defineComponent({
   components: {
@@ -17,7 +17,7 @@ export default defineComponent({
 
   props: {
     modelValue: {
-      type: Number as () => NOTIFICATION_TYPE,
+      type: Number as () => NotificationType,
       required: true,
     },
   },
@@ -26,15 +26,15 @@ export default defineComponent({
     const options = computed(() => [
       {
         label: 'SMS',
-        value: NOTIFICATION_TYPE.SMS,
+        value: NotificationType.SMS,
       },
       {
         label: 'WhatsApp',
-        value: NOTIFICATION_TYPE.WhatsApp,
+        value: NotificationType.WhatsApp,
       },
       {
         label: 'Viber',
-        value: NOTIFICATION_TYPE.Viber,
+        value: NotificationType.Viber,
       },
     ]);
 

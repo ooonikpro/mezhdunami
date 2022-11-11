@@ -35,6 +35,7 @@ import Modal from '@/components/Modal.vue';
 import Calendar from '@/components/Calendar.vue';
 import StickyBottom from '@/components/StickyBottom.vue';
 import Button from '@/components/Button.vue';
+import type { DateNumber, Procedure } from '@/types';
 
 export default defineComponent({
   components: {

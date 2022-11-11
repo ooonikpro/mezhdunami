@@ -59,6 +59,7 @@ import Checkbox from '@/components/Checkbox.vue';
 import StickyBottom from '@/components/StickyBottom.vue';
 import Button from '@/components/Button.vue';
 import { useProcedures } from '@/composables/useProcedures';
+import type { Procedure } from '@/types';
 
 export default defineComponent({
   components: {

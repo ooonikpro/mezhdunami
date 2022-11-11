@@ -30,11 +30,9 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { outline, small } = props;
-
     const rootClasses = computed(() => ({
-      small,
-      outline,
+      small: props.small,
+      outline: props.outline,
       h3: true,
     }));
 

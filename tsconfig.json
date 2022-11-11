@@ -13,7 +13,11 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env"
+      "webpack-env",
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
     ],
     "paths": {
       "@/*": [
@@ -31,13 +35,6 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx",
-    "src/types"
-  ],
-  "typeRoots": [
-    "./node_modules/@types",
-    "./src/types"
   ],
   "exclude": [
     "node_modules"

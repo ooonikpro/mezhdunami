@@ -46,6 +46,7 @@ import CalendarSlot from '@/components/CalendarSlot.vue';
 import { useSchedules } from '@/composables/useSchedules';
 import { useCalendar } from '@/composables/useCalendar';
 import { useProcedures } from '@/composables/useProcedures';
+import type { ScheduleTimeSlot } from '@/types';
 
 export default defineComponent({
   components: {
@@ -55,12 +56,12 @@ export default defineComponent({
 
   props: {
     selectedProcedures: {
-      type: Array as () => Procedure[],
+      type: Array,
       required: true,
     },
 
     modelValue: {
-      type: Number as () => Procedure,
+      type: Number,
       required: true,
     },
   },

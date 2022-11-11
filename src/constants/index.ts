@@ -1,3 +1,5 @@
+import type { Procedure } from '@/types';
+
 export const ANIMATION_DURATION = 300;
 
 // eslint-disable-next-line
@@ -265,10 +267,3 @@ export const PROCEDURES = [
     price: 10000,
   },
 ];
-
-// eslint-disable-next-line
-export enum NOTIFICATION_TYPE {
-  SMS = 1,
-  WhatsApp = 2,
-  Viber = 3,
-}

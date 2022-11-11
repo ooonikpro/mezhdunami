@@ -24,6 +24,7 @@ import { defineComponent, ref, computed } from 'vue';
 import Input from '@/components/Input.vue';
 import CalendarModal from '@/components/CalendarModal.vue';
 import { useCalendar } from '@/composables/useCalendar';
+import type { DateNumber, Procedure } from '@/types';
 
 export default defineComponent({
   components: {

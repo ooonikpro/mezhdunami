@@ -1,8 +1,6 @@
 const { defineConfig } = require('@vue/cli-service');
 
 module.exports = defineConfig({
-  assetsDir: 'assets',
-  productionSourceMap: false,
   transpileDependencies: true,
 
   css: {
@@ -13,17 +11,11 @@ module.exports = defineConfig({
     },
   },
 
-  pwa: {
-    workboxPluginMode: 'GenerateSW',
-    manifestPath: 'manifest.json',
-    iconPaths: null
-  },
-
   devServer: {
     proxy: {
       '^/api': {
-        target: 'http://localhost:3000'
-      }
-    }
-  }
+        target: 'http://localhost:3000',
+      },
+    },
+  },
 });

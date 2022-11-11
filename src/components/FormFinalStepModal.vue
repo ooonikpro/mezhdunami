@@ -58,6 +58,7 @@ import Button from '@/components/Button.vue';
 
 import { useCalendar } from '@/composables/useCalendar';
 import { useProcedures } from '@/composables/useProcedures';
+import type { PatientFormData } from '@/types';
 
 export default defineComponent({
   components: {

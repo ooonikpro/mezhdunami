@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    <Gradient />
-
     <router-view v-slot="{ Component }">
       <transition name="page">
         <component :is="Component" />

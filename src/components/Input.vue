@@ -33,6 +33,7 @@
 import { defineComponent, ref, computed } from 'vue';
 import IconTriangle from '@/components/IconTriangle.vue';
 import IconValid from '@/components/IconValid.vue';
+import type { HTMLDateInputElement } from '@/types';
 
 export default defineComponent({
   components: {
