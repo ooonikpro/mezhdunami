@@ -4,7 +4,7 @@ import { postSchedules } from '@/server/api/schedules/index.post';
 
 const server: Server = Hapi.server({
   port: 3000,
-  host: '0.0.0.0',
+  host: 'localhost',
 });
 
 server.route({

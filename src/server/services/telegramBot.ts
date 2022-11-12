@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { getLocalizedFullDate, getNames } from '@/utils';
 import type { PatientFormData } from '@/types';
+import { TELEGRAM_BOT_KEY } from '@/constants/env';
 
 const httpClient = axios.create({
-  baseURL: `https://api.telegram.org/bot${process.env.TELEGRAM_BOT}`,
+  baseURL: `https://api.telegram.org/bot${TELEGRAM_BOT_KEY}`,
 });
 
 const subscribers = ['209442952'];

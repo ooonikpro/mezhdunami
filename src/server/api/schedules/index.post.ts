@@ -4,7 +4,7 @@ import type { PatientFormData } from '@/types';
 
 export const postSchedules = async (req: Record<string, any>) => {
   try {
-    const patient = req.payload as PatientFormData;
+    const patient = JSON.parse(req.payload) as PatientFormData;
     const success = await addToSchedule(patient);
 
     if (success) {
