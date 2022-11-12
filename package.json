@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build && yarn build:server",
+    "build": "vue-cli-service build --modern && yarn build:server",
     "build:server": "webpack build",
     "lint": "vue-cli-service lint",
     "server": "ts-node --files src/server"

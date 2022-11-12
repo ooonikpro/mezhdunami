@@ -6,11 +6,11 @@
 
     <section class="head mb-16">
       <img
-        src="@/assets/img/doctor-1.png"
+        src="@/assets/img/doctor-1.webp"
         alt="Овечкина Елена Максимовна"
         class="doctor-picture"
         loading="lazy"
-      >
+      />
       <DoctorDetails class="mb-8" />
     </section>
 

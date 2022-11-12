@@ -7,7 +7,7 @@
           mode="out-in"
         >
           <img
-            :src="require(`@/assets/img/diploma-${activeSlideIndex}.jpg`)"
+            :src="require(`@/assets/img/diploma-${activeSlideIndex}.webp`)"
             alt=""
             loading="lazy"
           >
