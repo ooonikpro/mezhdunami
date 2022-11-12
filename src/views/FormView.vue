@@ -13,6 +13,7 @@
         :validator="isValidName"
         class="mb-16"
       />
+
       <Input
         v-model="form.phone"
         type="tel"
@@ -44,6 +45,13 @@
         v-model="form.typeOfNotify"
         class="mb-24"
       />
+
+      <Checkbox
+        v-model="agree"
+        class="mb-16"
+      >
+        Даю свое согласие на обработку персональных данных
+      </Checkbox>
 
       <Button
         type="submit"
@@ -103,15 +111,20 @@ export default defineComponent({
   setup() {
     const { goToBack } = useAnimatedRouter();
     const { fetchData } = useSchedules();
-    const { isValidName, isValidPhone, toPhoneNumber } = useValidation();
+    const {
+      isValidName, isValidPhone, toPhoneNumber,
+    } = useValidation();
     const {
       state: form,
       reset: resetForm,
       submit: submitForm,
     } = usePatientForm();
 
+    const agree = ref(false);
+
     const isDisabledSubmitBtn = computed(
-      () => !isValidName(form.name || '')
+      () => !agree.value
+          || !isValidName(form.name || '')
           || !isValidPhone(form.phone || '')
           || form.procedures?.length === 0
           || !form.date,
@@ -142,6 +155,7 @@ export default defineComponent({
       isValidPhone,
       toPhoneNumber,
       form,
+      agree,
       resetForm,
       isOpenFinalModal,
       isDisabledSubmitBtn,

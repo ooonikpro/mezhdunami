@@ -46,8 +46,7 @@ export default defineComponent({
     height: 6.4rem;
     flex: 1 1 auto;
     border-radius: 4px;
-    background-color: rgba($color-white, 0.3);
-    border: 1px solid rgba($color-pink-300, 0.6);
+    border: 1px solid rgba($color-pink-700, 0.1);
     outline: none;
     text-decoration: none;
     background-repeat: no-repeat;

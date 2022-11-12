@@ -28,10 +28,10 @@ export default defineComponent({
         label: 'SMS',
         value: NotificationType.SMS,
       },
-      {
-        label: 'WhatsApp',
-        value: NotificationType.WhatsApp,
-      },
+      // {
+      //   label: 'WhatsApp',
+      //   value: NotificationType.WhatsApp,
+      // },
       {
         label: 'Viber',
         value: NotificationType.Viber,

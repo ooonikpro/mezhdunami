@@ -58,6 +58,7 @@ export default defineComponent({
   }
 
   .checkbox {
+    flex: 0 0 auto;
     display: flex;
     width: 3.2rem;
     height: 3.2rem;

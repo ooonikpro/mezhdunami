@@ -22,6 +22,11 @@
       @blur="onBlur"
     >
 
+    <template v-if="type === 'date'">
+      <span v-if="value" class="value">{{ localizedDate }}</span>
+      <span v-else class="placeholder">{{ placeholder }}</span>
+    </template>
+
     <IconValid
       v-if="!disabled && isValid"
       class="status-valid"
@@ -34,6 +39,7 @@ import { defineComponent, ref, computed } from 'vue';
 import IconTriangle from '@/components/IconTriangle.vue';
 import IconValid from '@/components/IconValid.vue';
 import type { HTMLDateInputElement } from '@/types';
+import { getLocaleDate } from '@/utils';
 
 export default defineComponent({
   components: {
@@ -45,7 +51,6 @@ export default defineComponent({
     type: {
       type: String,
       default: 'text',
-      validator: (val: string) => ['text', 'select', 'tel', 'date'].includes(val),
     },
 
     label: {
@@ -100,6 +105,8 @@ export default defineComponent({
       },
     });
 
+    const localizedDate = computed(() => getLocaleDate(new Date(value.value)));
+
     const isValid = computed(() => props.validator(value.value));
 
     const input = ref<HTMLDateInputElement>();
@@ -137,6 +144,7 @@ export default defineComponent({
       onFocus,
       onBlur,
       inputType,
+      localizedDate,
     };
   },
 });
@@ -152,7 +160,7 @@ export default defineComponent({
     align-items: center;
     border: 1px solid rgba($color-pink-700, 0.25);
     border-radius: 4px;
-    background-color: rgba($color-white, 0.2);
+    background-color: $color-pink-100;
     margin-bottom: 2.4rem;
     @include transition;
 
@@ -197,28 +205,49 @@ export default defineComponent({
     height: 100%;
     border: 0;
     outline: none;
-    color: $color-pink-700;
     background: none;
     font-size: 1.8rem;
     padding: 4.5rem 4rem 1rem 1.2rem;
     text-overflow: ellipsis;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    z-index: 1;
 
-    &::placeholder {
-      color: rgba($color-pink-700, 0.5);
-    }
+    &[type="date"] {
+      opacity: 0;
 
-    &[type="date"]::-webkit-calendar-picker-indicator {
-      background: transparent;
-      bottom: 0;
-      color: transparent;
-      cursor: pointer;
-      height: auto;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: auto;
+      &::-webkit-calendar-picker-indicator {
+        background: transparent;
+        bottom: 0;
+        color: transparent;
+        cursor: pointer;
+        height: auto;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: auto;
+      }
     }
+  }
+
+  input::placeholder,
+  .placeholder {
+    color: rgba($color-pink-700, 0.5);
+  }
+
+  input,
+  .value {
+    color: $color-pink-700;
+  }
+
+  .placeholder,
+  .value {
+    position: absolute;
+    left: 1.2rem;
+    bottom: 1.2rem;
+    cursor: text;
+    z-index: 0;
   }
 
   .triangle {

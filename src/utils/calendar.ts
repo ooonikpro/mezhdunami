@@ -35,6 +35,10 @@ export const getLocalizedFullDate = (date: Date | DateNumber) => getUppercase(ne
   month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'long',
 }));
 
+export const getLocaleDate = (date: Date | DateNumber) => getUppercase(new Date(date).toLocaleString('ru', {
+  month: '2-digit', day: '2-digit', year: 'numeric',
+}));
+
 export const getTomorrow = (): DateNumber => createDate(new Date(year, month, day + 1)).getTime();
 
 export const getScheduleForMonth = ({ excludedDates }: ScheduleFilters): Schedule => {
