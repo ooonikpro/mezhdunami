@@ -23,7 +23,7 @@ module.exports = defineConfig({
     themeColor: '#F3BAB3',
     msTileColor: '#F3BAB3',
     appleMobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: 'black-translucent',
+    appleMobileWebAppStatusBarStyle: 'black',
     manifestOptions: {
       name: 'Между Нами. Косметология для своих',
       short_name: 'Между Нами',
