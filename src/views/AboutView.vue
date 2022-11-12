@@ -164,7 +164,7 @@ export default defineComponent({
   .map {
     width: 100%;
     height: 24rem;
-    background: url("@/assets/img/map.png");
+    background: url("@/assets/img/map.webp");
     background-position: center;
     background-size: cover;
     border-radius: 4px;

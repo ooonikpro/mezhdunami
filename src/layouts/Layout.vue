@@ -79,7 +79,6 @@ export default defineComponent({
 
     &::before,
     &::after {
-      top: -3rem;
       content: "";
       position: absolute;
       z-index: 1;
@@ -88,22 +87,22 @@ export default defineComponent({
       background-size: 100%;
       background-position: center;
       background-repeat: no-repeat;
-      transform: scale(1.2);
     }
 
     &:before {
-      left: -6rem;
+      top: -6rem;
+      left: 0;
       width: 23rem;
       height: 43rem;
-      background-image: url("@/assets/img/pero-1.png");
-      opacity: 0.7;
+      background-image: url("@/assets/img/pero-1.webp");
     }
 
     &::after {
-      right: -4rem;
+      top: 0;
+      right: 0;
       width: 23rem;
       height: 39rem;
-      background-image: url("@/assets/img/pero-2.png");
+      background-image: url("@/assets/img/pero-2.webp");
     }
 
     &.white {

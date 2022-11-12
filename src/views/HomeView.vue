@@ -49,7 +49,7 @@
 
     <div class="profile">
       <img
-        src="@/assets/img/doctor.png"
+        src="@/assets/img/doctor.webp"
         loading="lazy"
         alt="Овечкина Елена Максимовна"
         class="photo"
