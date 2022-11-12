@@ -14,7 +14,7 @@
     justify-content: center;
     height: 7.2rem;
     margin-bottom: 2.4rem;
-    border-bottom: 1px solid $color-pink-700;
+    border-bottom: 1px solid rgba($color-pink-700, .5);
 
     img {
         width: 30rem;

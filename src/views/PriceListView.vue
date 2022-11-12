@@ -1,5 +1,16 @@
 <template>
   <Layout>
+    <template #before-title>
+      <Button
+        outline
+        small
+        class="mb-24"
+        @click="goToBack('/')"
+      >
+        Назад
+      </Button>
+    </template>
+
     <template #title>
       Процедуры и цены
     </template>

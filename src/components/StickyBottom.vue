@@ -24,12 +24,12 @@ export default defineComponent({
   .sticky-bottom {
     margin-left: -1.2rem;
     margin-right: -1.2rem;
-    background-color: $color-white;
+    background-color: $color-pink-100;
     padding: 1.2rem 1.2rem 1.6rem 1.2rem;
 
     &.sticky {
       position: sticky;
-      bottom: 0;
+      bottom: -2.4rem;
 
       @include fullscreen {
         bottom: 0rem;

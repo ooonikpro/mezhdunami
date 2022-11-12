@@ -11,7 +11,7 @@
       </template>
 
       <template v-else>
-        <Head />
+        <Head v-if="!hideHead"/>
 
         <slot name="before-title" />
 
@@ -47,6 +47,11 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+
+    hideHead: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup(props) {
@@ -55,12 +60,12 @@ export default defineComponent({
     const statusBar = useStatusBar();
 
     onBeforeMount(() => {
+      statusBar.setBlack();
+
       if (props.withGradient) {
         setBodyColor('#F3BAB3');
-        statusBar.setWhite();
       } else {
-        setBodyColor('white');
-        statusBar.setBlack();
+        setBodyColor('#FFF2EC');
       }
     });
 
@@ -73,7 +78,7 @@ export default defineComponent({
   .layout {
     position: absolute;
     inset: 0;
-    background-color: $color-white;
+    background-color: $color-pink-100;
     overflow: hidden;
     z-index: 2;
 
@@ -87,19 +92,21 @@ export default defineComponent({
       background-size: 100%;
       background-position: center;
       background-repeat: no-repeat;
+      transform: scale(1.5);
+      opacity: 0.5;
     }
 
     &:before {
-      top: -6rem;
-      left: 0;
+      top: 2rem;
+      left: -6rem;
       width: 23rem;
       height: 43rem;
       background-image: url("@/assets/img/pero-1.webp");
     }
 
     &::after {
-      top: 0;
-      right: 0;
+      top: 2rem;
+      right: -7rem;
       width: 23rem;
       height: 39rem;
       background-image: url("@/assets/img/pero-2.webp");
@@ -108,7 +115,7 @@ export default defineComponent({
     &.white {
       &::before,
       &::after {
-        opacity: 0.4;
+        opacity: 0.2;
       }
     }
   }
@@ -130,8 +137,7 @@ export default defineComponent({
       opacity: 0;
     }
   }
-
-  h2 {
+  h1 {
     text-align: center;
   }
 </style>

@@ -105,8 +105,8 @@ export default defineComponent({
   .media-btn {
     flex: 1 1 auto;
     border-radius: 4px;
-    background-color: rgba($color-white, 0.3);
-    border: 1px solid rgba($color-pink-300, 0.6);
+    background-color: rgba($color-white, 0.1);
+    border: 1px solid rgba($color-pink-300, 0.3);
     outline: none;
     text-decoration: none;
     background-repeat: no-repeat;

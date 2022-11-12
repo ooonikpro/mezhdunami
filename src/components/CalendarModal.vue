@@ -1,7 +1,7 @@
 <template>
   <Modal :is-open="isOpen">
     <template #title>
-      Выберите удобные день и время
+      Выберите <br> день и время
     </template>
 
     <Calendar

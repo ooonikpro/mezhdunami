@@ -1,13 +1,11 @@
 <template>
-  <div id="app">
-    <router-view v-slot="{ Component }">
-      <transition name="page">
-        <component :is="Component" />
-      </transition>
-    </router-view>
+  <router-view v-slot="{ Component }">
+    <transition name="page">
+      <component :is="Component" />
+    </transition>
+  </router-view>
 
-    <div class="modals" />
-  </div>
+  <div class="modals" />
 </template>
 
 <script lang="ts">

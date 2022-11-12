@@ -5,19 +5,15 @@
     class="calendar-slot-btn h4"
     :class="{ active: isSelected }"
   >
-    <transition
-      name="slide-left"
-      mode="out-in"
-    >
-      <span v-if="isSelected">Выбрано</span>
-
-      <span v-else>Свободно</span>
-    </transition>
+    <span v-if="isSelected">Выбрано</span>
+    <span v-else>Свободно</span>
   </button>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import {
+  defineComponent, ref, onMounted, watch, toRef,
+} from 'vue';
 
 export default defineComponent({
   props: {
@@ -29,18 +25,37 @@ export default defineComponent({
 
   setup(props) {
     const button = ref<HTMLButtonElement | null>(null);
+    const isMounted = ref(true);
+    const isSelected = toRef(props, 'isSelected');
+
+    const intoScroll = (options = {}) => {
+      button.value?.scrollIntoView({
+        inline: 'center',
+        block: 'nearest',
+        behavior: 'smooth',
+        ...options,
+      });
+    };
 
     onMounted(() => {
+      isMounted.value = true;
+
       if (props.isSelected) {
-        setTimeout(() => {
-          button.value?.scrollIntoView({
-            inline: 'center',
-            block: 'nearest',
-            behavior: 'smooth',
-          });
-        }, 100);
+        setTimeout(intoScroll, 250);
       }
     });
+
+    watch(isSelected, (newVal: boolean) => {
+      if (newVal && isMounted.value) {
+        intoScroll({
+          block: 'center',
+        });
+      }
+    });
+
+    return {
+      button,
+    };
   },
 });
 </script>
@@ -70,21 +85,6 @@ export default defineComponent({
 
       span {
         color: $color-pink-700;
-      }
-
-      .slide-left-enter-active,
-      .slide-left-leave-active {
-        @include transition;
-      }
-
-      .slide-left-leave-to {
-        opacity: 0;
-        transform: translateY(-100%);
-      }
-
-      .slide-left-enter-from {
-        opacity: 0;
-        transform: translateY(100%);
       }
     }
   }

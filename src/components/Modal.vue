@@ -9,7 +9,7 @@
         v-if="isOpen"
         class="modal"
       >
-        <Layout>
+        <Layout hideHead>
           <template #before-title>
             <slot name="before-title" />
           </template>

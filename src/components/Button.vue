@@ -60,7 +60,7 @@ export default defineComponent({
 
     &.outline {
       background-color: transparent;
-      border-color: $color-pink-700;
+      border-color: rgba($color-pink-700, .5);
       color: $color-pink-700;
     }
 
