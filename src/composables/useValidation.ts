@@ -1,6 +1,6 @@
 export const useValidation = () => {
-  const isValidName = (name: string) => /^[а-яА-ЯёЁ-]{3,}/.test(name);
-  const isValidPhone = (phone: string) => /^(\+?79\d{9}|\+7\s9\d{2}\s\d{3}\s\d{2}\s\d{2})/.test(phone);
+  const isValidName = (name: string) => name.length >= 2;
+  const isValidPhone = (phone: string) => /^\+7\d{10}/.test(phone.replace(/\s/g, ''));
   const toPhoneNumber = (str: string) => {
     const numbers = str.replace(/\D/g, '').split('');
 
@@ -14,7 +14,7 @@ export const useValidation = () => {
           }
 
           return res;
-        }, '+x xxx xxx xx xx')
+        }, '+xxxxxxxxxxx')
         .trim();
     }
 

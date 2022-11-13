@@ -1,5 +1,16 @@
 <template>
   <Layout>
+    <template #before-title>
+      <Button
+        outline
+        small
+        @click="goToBack('/')"
+        class="mb-24"
+      >
+        Назад
+      </Button>
+    </template>
+
     <template #title>
       Рекомендации после процедур
     </template>
@@ -306,13 +317,6 @@
         </template>
       </Accordion>
     </div>
-
-    <Button
-      outline
-      @click="goToBack('/')"
-    >
-      Назад
-    </Button>
   </Layout>
 </template>
 

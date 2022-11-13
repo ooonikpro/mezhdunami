@@ -1,5 +1,16 @@
 <template>
   <Modal :is-open="isOpen">
+    <template #before-title>
+      <Button
+        outline
+        small
+        @click="close"
+        class="mb-24"
+      >
+        Закрыть
+      </Button>
+    </template>
+
     <template #title>
       Выберите <br> день и время
     </template>
@@ -19,13 +30,6 @@
         Подтвердить
       </Button>
     </StickyBottom>
-    <Button
-      outline
-      small
-      @click="close"
-    >
-      Закрыть
-    </Button>
   </Modal>
 </template>
 

@@ -1,5 +1,15 @@
 <template>
   <Layout>
+    <template #before-title>
+      <Button
+        outline
+        small
+        @click="goToBack('/')"
+        class="mb-24"
+      >
+        Назад
+      </Button>
+    </template>
     <template #title>
       Почему так важен правильный домашний уход? 🌿
     </template>
@@ -45,13 +55,6 @@
     <a href="https://t.me/lensem">
       <Button class="mb-16">Заказать домашний уход</Button>
     </a>
-    <Button
-      outline
-      small
-      @click="goToBack('/')"
-    >
-      Назад
-    </Button>
   </Layout>
 </template>
 

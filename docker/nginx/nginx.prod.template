@@ -14,7 +14,7 @@ http {
         root /etc/nginx/www;
         listen 80;
         listen 443 ssl http2;
-        server_name localhost;
+        server_name mezhdunami.app;
 
         server_tokens off;
 

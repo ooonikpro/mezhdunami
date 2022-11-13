@@ -7,6 +7,7 @@
     <form @submit.prevent="onSubmit">
       <Input
         v-model="form.name"
+        autocomplete="given-name"
         label="Твое имя"
         aria-label="Твое имя"
         placeholder="Например, Зоя"
@@ -19,12 +20,20 @@
         type="tel"
         label="Номер телефона"
         aria-label="Номер телефона"
-        placeholder="+7 9XX XXX XX XX"
-        :maxlength="16"
+        placeholder="+79XXXXXXXXX"
+        autocomplete="tel"
+        :maxlength="12"
         :validator="isValidPhone"
         :transform="toPhoneNumber"
         class="mb-16"
       />
+
+      <Checkbox
+        v-model="rememberMe"
+        class="mb-24"
+      >
+        Запомнить мои данные на этом устройстве
+      </Checkbox>
 
       <InputProcedure v-model="form.procedures" />
 
@@ -37,18 +46,18 @@
         v-model="form.notify"
         class="mb-16"
       >
-        Напомнить за 2 часа до
+        Напомнить за сутки до
       </Checkbox>
 
       <NotificationSwitcher
         v-if="form.notify"
         v-model="form.typeOfNotify"
-        class="mb-24"
+        class="mb-32"
       />
 
       <Checkbox
         v-model="agree"
-        class="mb-16"
+        class="mb-24"
       >
         Даю свое согласие на обработку персональных данных
       </Checkbox>
@@ -121,20 +130,19 @@ export default defineComponent({
     } = usePatientForm();
 
     const agree = ref(false);
+    const rememberMe = ref(false);
 
-    const isDisabledSubmitBtn = computed(
-      () => !agree.value
+    const isDisabledSubmitBtn = computed(() => !agree.value
           || !isValidName(form.name || '')
           || !isValidPhone(form.phone || '')
           || form.procedures?.length === 0
-          || !form.date,
-    );
+          || !form.date);
 
     const isOpenFinalModal = ref(false);
 
     const onSubmit = async () => {
       try {
-        isOpenFinalModal.value = await submitForm();
+        isOpenFinalModal.value = await submitForm(rememberMe.value);
       } catch (e) {
         fetchData();
         alert(e);
@@ -154,6 +162,7 @@ export default defineComponent({
       isValidName,
       isValidPhone,
       toPhoneNumber,
+      rememberMe,
       form,
       agree,
       resetForm,

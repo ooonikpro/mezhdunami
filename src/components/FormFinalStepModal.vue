@@ -9,8 +9,15 @@
     </template>
 
     <div class="form-summary mb-32">
-      <div class="h3">
+      <div class="h4 label mb-8">
+        Ваше имя:
+      </div>
+      <div class="h3 mb-24">
         {{ formData.name }},
+      </div>
+
+      <div class="h4 label mb-8">
+        Телефон:
       </div>
       <div class="h3 mb-24">
         {{ formData.phone }}
@@ -33,15 +40,8 @@
       <div class="h4 label mb-8">
         Время {{ procedureLabel }}:
       </div>
-      <div class="h3 mb-24">
-        {{ getTotalDurationLocalized(formData.procedures) }}
-      </div>
-
-      <div class="h4 label mb-8">
-        Ориентировочная стоимость:
-      </div>
       <div class="h3">
-        {{ getTotalPrice(formData.procedures) }} рублей
+        ~{{ getTotalDurationLocalized(formData.procedures) }}
       </div>
     </div>
 

@@ -97,7 +97,7 @@ export default defineComponent({
 
     const value = computed({
       get() {
-        return props.modelValue;
+        return props.transform(props.modelValue);
       },
 
       set(val: string) {
@@ -119,12 +119,24 @@ export default defineComponent({
 
     const onFocus = () => {
       focused.value = true;
-      input.value?.showPicker();
+
+      if (props.type.includes('date')) {
+        input.value?.showPicker();
+      }
+
+      if (props.type === 'tel' && !value.value) {
+        value.value = '+ 7';
+      }
+
       emit('focus');
     };
 
     const onBlur = () => {
       focused.value = false;
+
+      if (props.type === 'tel' && /^\+7$/.test(value.value)) {
+        value.value = '';
+      }
 
       emit('blur');
     };

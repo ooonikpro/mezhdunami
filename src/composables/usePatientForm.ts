@@ -29,9 +29,11 @@ export const usePatientForm = () => {
     form.state.phone = get('phone') || '';
   };
 
-  const submit = () => {
-    set('name', form.state.name);
-    set('phone', form.state.phone);
+  const submit = (save: boolean) => {
+    if (save) {
+      set('name', form.state.name);
+      set('phone', form.state.phone);
+    }
 
     return addToSchedule(form.state);
   };

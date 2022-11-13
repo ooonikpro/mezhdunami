@@ -1,5 +1,16 @@
 <template>
   <Modal :is-open="isOpen">
+    <template #before-title>
+      <Button
+        outline
+        small
+        @click="close"
+        class="mb-24"
+      >
+        Закрыть
+      </Button>
+    </template>
+
     <template #title>
       Выберите процедуру
     </template>
@@ -39,14 +50,6 @@
         Подтвердить
       </Button>
     </StickyBottom>
-
-    <Button
-      outline
-      small
-      @click="close"
-    >
-      Отмена
-    </Button>
   </Modal>
 </template>
 

@@ -30,7 +30,7 @@ export default defineComponent({
 
     const intoScroll = (options = {}) => {
       button.value?.scrollIntoView({
-        inline: 'center',
+        inline: 'nearest',
         block: 'nearest',
         behavior: 'smooth',
         ...options,

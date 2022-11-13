@@ -1,5 +1,16 @@
 <template>
   <Layout>
+    <template #before-title>
+      <Button
+        outline
+        small
+        @click="goToBack('/')"
+        class="mb-24"
+      >
+        Назад
+      </Button>
+    </template>
+
     <template #title>
       Обо мне
     </template>
@@ -97,14 +108,6 @@
         bordered
       />
     </section>
-
-    <Button
-      outline
-      small
-      @click="goToBack('/')"
-    >
-      Назад
-    </Button>
   </Layout>
 </template>
 
