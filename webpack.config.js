@@ -22,7 +22,7 @@ module.exports = {
   },
   output: {
     filename: 'index.js',
-    path: path.resolve(__dirname, 'dist-server'),
+    path: path.resolve(__dirname, 'app/backend'),
   },
   plugins: [
     new webpack.DefinePlugin({

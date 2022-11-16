@@ -18,7 +18,7 @@ jobs:
       - run: chmod 600 "$HOME/.ssh/key"
       - run: yarn install
       - run: yarn build
-      - run: rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avh --exclude='.env' --exclude='/node_modules' --exclude='/.git*' . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/www/public_html --delete
+      - run: rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avh ./mezhdunami.app ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home --delete
 
   dockerize:
       needs: deploy
@@ -34,8 +34,8 @@ jobs:
             password: ${{ secrets.REMOTE_PASSWORD }}
             script_stop: true
             script: |
-              cd /home/www/public_html
-              docker compose -f ./docker/docker-compose.yml down
+              cd /home/mezhdunami.app/
+              docker compose up -d --build
+              docker volume prune -f
               docker image prune -a -f
               docker container prune -f
-              docker compose --env-file .env -f ./docker/docker-compose.yml up -d --build

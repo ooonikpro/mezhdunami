@@ -3,6 +3,8 @@ const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
   transpileDependencies: true,
 
+  outputDir: 'app/nginx/www',
+
   css: {
     loaderOptions: {
       scss: {

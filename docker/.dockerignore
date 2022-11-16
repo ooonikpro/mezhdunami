@@ -1,9 +1,0 @@
-**/node_modules/
-**/.github/
-**/.vscode/
-*.log*
-.nuxt
-.nitro
-.cache
-.output
-.idea
