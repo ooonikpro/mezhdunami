@@ -35,6 +35,7 @@ jobs:
             script_stop: true
             script: |
               cd /home/mezhdunami.app/
+              docker compose down
               docker compose up -d --build
               docker volume prune -f
               docker image prune -a -f
