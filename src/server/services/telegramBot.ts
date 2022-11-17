@@ -29,8 +29,9 @@ const sendMessage = (to: string, message: string) => {
 export const notifySubscribers = (message: string) => subscribers.map((to) => sendMessage(to, message));
 
 export const notifyAboutNew = (patient: PatientFormData) => {
+  const comment = patient.comment ? `\nКомментарий: ${patient.comment}` : '';
   // eslint-disable-next-line
-  const text = `<b>${getLocalizedFullDate(patient.date)}</b>\nИмя: <b>${patient.name}</b>\nТелефон: ${patient.phone}\nПроцедуры: <b>${getNames(patient.procedures)}</b>`;
+  const text = `<b>${getLocalizedFullDate(patient.date)}</b>\nИмя: <b>${patient.name}</b>\nТелефон: ${patient.phone}\nПроцедуры: <b>${getNames(patient.procedures)}</b>${comment}`;
 
   return notifySubscribers(text);
 };
