@@ -1,5 +1,5 @@
 import {
-  PROCEDURE, PROCEDURES, PROCEDURE_DURATION, PROCEDURE_PRICE,
+  PROCEDURE, PROCEDURES, PROCEDURE_DURATION,
 } from '@/constants';
 import type { DateNumber, Procedure } from '@/types';
 
@@ -11,7 +11,7 @@ export const getNames = (ids: Array<PROCEDURE | Procedure>) => PROCEDURES.reduce
   }
 
   return names;
-}, [] as string[]).join(',');
+}, [] as string[]).join(', ');
 
 export const getDuration = (procedure: Procedure) => PROCEDURE_DURATION[procedure];
 
@@ -36,8 +36,6 @@ export const getTotalDurationLocalized = (ids: Array<Procedure>) => {
 
   return `${hours} ${label}`;
 };
-
-export const getTotalPrice = (ids: Array<Procedure>) => ids.reduce((sum, id) => sum + PROCEDURE_PRICE[id], 0);
 
 export const getReservedTimeSlots = (dateStart: DateNumber, procedures: Procedure[]) => {
   const reserved = [dateStart];

@@ -2,11 +2,11 @@ import type {
   DateNumber, Schedule, ScheduleFilters, ScheduleTimeSlot,
 } from '@/types';
 
-const today = new Date();
-const year = today.getFullYear();
-const month = today.getMonth();
-const day = today.getDate();
-const timeSlots = [10, 11, 12, 13, 14, 15, 16, 17, 18];
+export const today = new Date();
+export const year = today.getFullYear();
+export const month = today.getMonth();
+export const day = today.getDate();
+export const timeSlots = [10, 11, 12, 13, 14, 15, 16, 17, 18];
 
 export const getUppercase = (str: string) => str[0].toUpperCase() + str.slice(1);
 
@@ -35,13 +35,23 @@ export const getLocalizedFullDate = (date: Date | DateNumber) => getUppercase(ne
   month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'long',
 }));
 
+export const getLocalizedShortDate = (date: Date | DateNumber) => getUppercase(new Date(date).toLocaleString('ru', {
+  month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short',
+}));
+
 export const getLocaleDate = (date: Date | DateNumber) => getUppercase(new Date(date).toLocaleString('ru', {
   month: '2-digit', day: '2-digit', year: 'numeric',
 }));
 
 export const getTomorrow = (): DateNumber => createDate(new Date(year, month, day + 1)).getTime();
+export const getNextMonth = (date: Date = today): Date => {
+  const newDate = new Date(date);
+  newDate.setMonth(newDate.getMonth() + 1);
 
-export const getScheduleForMonth = ({ excludedDates }: ScheduleFilters): Schedule => {
+  return createDate(newDate);
+};
+
+export const getScheduleForMonth = ({ excludedDates = [] }: ScheduleFilters): Schedule => {
   const isExcluded = (date: DateNumber) => excludedDates.includes(date);
 
   const dates = [] as Schedule;
@@ -78,6 +88,21 @@ export const getScheduleForMonth = ({ excludedDates }: ScheduleFilters): Schedul
         });
       }
     }
+  }
+
+  return dates;
+};
+
+export const getCalendarDates = (from: Date, until: Date): Date[] => {
+  const dates = [];
+
+  const totalDays = (until.getTime() - from.getTime()) / 1000 / 3600 / 24;
+  const fromYear = from.getFullYear();
+  const fromMonth = from.getMonth();
+  const fromDate = from.getDate();
+
+  for (let i = 0; i <= totalDays + 1; i++) {
+    dates.push(createDate(new Date(fromYear, fromMonth, fromDate + i)));
   }
 
   return dates;

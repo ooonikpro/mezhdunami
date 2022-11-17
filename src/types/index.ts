@@ -2,16 +2,24 @@ export interface HTMLDateInputElement extends HTMLInputElement {
     showPicker: () => void
 }
 
+export type PhoneNumber = string;
+
 export enum Procedure {
     Peeling = 1,
     Cleaning = 2,
     Bio = 3,
     Mezo = 4,
     LipPlastic = 5,
-    FacePlastic = 6
+    FacePlastic = 6,
+    Botulinum = 7,
 }
 
 export type DateNumber = number;
+
+export interface TimePeriod {
+    from?: DateNumber
+    until?: DateNumber
+}
 
 export enum TypeOfNotify {
     SMS = 1,
@@ -41,14 +49,22 @@ export enum NotificationType {
     Viber = 3,
   }
 
-export interface PatientFormData {
+export interface Patient {
+    _id: string;
+    name: string;
+    phone: PhoneNumber;
+}
+
+export interface PatientFormData extends Pick<Patient, 'name' | 'phone'> {
+    _id?: string;
     date: DateNumber;
     procedures: Array<Procedure>
-    name: string;
-    phone: string;
     notify: boolean
-    typeOfNotify: NotificationType
+    notificationType: NotificationType
+    comment?: string
 }
+
+export type ScheduleItem = Pick<PatientFormData, 'date' | 'procedures'>;
 
 export interface ResponseAPI<T> {
     data: T;
@@ -63,4 +79,9 @@ export type Schedule = Array<ScheduleDate>
 
 export interface ScheduleFilters {
     excludedDates: NotWorkingDates & BookedDates
+}
+
+export interface Period {
+    from?: DateNumber
+    until?: DateNumber
 }

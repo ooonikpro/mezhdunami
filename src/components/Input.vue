@@ -10,7 +10,21 @@
       class="triangle"
     />
 
+    <textarea
+      v-if="type === 'textarea'"
+      ref="input"
+      v-model="value"
+      :type="inputType"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :readonly="isSelect"
+      :maxlength="maxlength"
+      @focus="onFocus"
+      @blur="onBlur"
+    ></textarea>
+
     <input
+      v-else
       ref="input"
       v-model="value"
       :type="inputType"
@@ -166,7 +180,6 @@ export default defineComponent({
   .input {
     position: relative;
     width: 100%;
-    height: 8rem;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -210,7 +223,7 @@ export default defineComponent({
     margin-bottom: 1.2rem;
   }
 
-  input {
+  input, textarea {
     display: flex;
     align-items: flex-end;
     flex: 1 1 auto;
@@ -224,25 +237,30 @@ export default defineComponent({
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
     z-index: 1;
+  }
 
-    &[type="date"] {
-      opacity: 0;
+  textarea {
+    min-height: 10rem;
+  }
 
-      &::-webkit-calendar-picker-indicator {
-        background: transparent;
-        bottom: 0;
-        color: transparent;
-        cursor: pointer;
-        height: auto;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: auto;
-      }
+  input[type="date"] {
+    opacity: 0;
+
+    &::-webkit-calendar-picker-indicator {
+      background: transparent;
+      bottom: 0;
+      color: transparent;
+      cursor: pointer;
+      height: auto;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: auto;
     }
   }
 
+  textarea::placeholder,
   input::placeholder,
   .placeholder {
     color: rgba($color-pink-700, 0.5);

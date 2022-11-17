@@ -5,15 +5,15 @@
     @after-leave="$emit('after-leave')"
   >
     <template #title>
-      Спасибо, вы записаны.
+      Запись
     </template>
 
     <div class="form-summary mb-32">
       <div class="h4 label mb-8">
-        Ваше имя:
+        Имя:
       </div>
       <div class="h3 mb-24">
-        {{ formData.name }},
+        {{ formData.name }}
       </div>
 
       <div class="h4 label mb-8">
@@ -26,9 +26,10 @@
       <div class="h4 label mb-8">
         День записи:
       </div>
-      <div class="h3 mb-24">
-        {{ getLocalizedFullDate(formData.date) }}
-      </div>
+      <InputDate
+        v-model="date"
+        :selectedProcedures="formData.procedures"
+      />
 
       <div class="h4 label mb-8">
         Процедуры:
@@ -36,24 +37,26 @@
       <div class="h3 mb-24">
         {{ getNames(formData.procedures) }}
       </div>
-
-      <div class="h4 label mb-8">
-        Время {{ procedureLabel }}:
-      </div>
-      <div class="h3">
-        ~{{ getTotalDurationLocalized(formData.procedures) }}
-      </div>
     </div>
 
-    <Button @click="close">
-      Хорошо
+    <Button @click="saveFormData" class="mb-16" :disabled="!hasChanges">
+      Сохранить
+    </Button>
+
+    <Button outline @click="close" class="mb-46">
+        Назад
+    </Button>
+
+    <Button outline small color="red" @click="deleteFormData">
+      Удалить
     </Button>
   </Modal>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 import Modal from '@/components/Modal.vue';
+import InputDate from '@/components/InputDate.vue';
 import Button from '@/components/Button.vue';
 
 import { useCalendar } from '@/composables/useCalendar';
@@ -63,6 +66,7 @@ import type { PatientFormData } from '@/types';
 export default defineComponent({
   components: {
     Modal,
+    InputDate,
     Button,
   },
 
@@ -78,7 +82,7 @@ export default defineComponent({
     },
   },
 
-  emits: ['close', 'after-leave'],
+  emits: ['close', 'after-leave', 'update:formData', 'delete:formData'],
 
   setup(props, { emit }) {
     const { getLocalizedFullDate } = useCalendar();
@@ -95,7 +99,30 @@ export default defineComponent({
       return label;
     });
 
+    const date = ref(props.formData?.date);
+    const hasChanges = computed(() => date.value !== props.formData?.date);
+
+    const saveFormData = () => {
+      close();
+
+      emit('update:formData', {
+        ...props.formData,
+        date: date.value,
+      });
+    };
+
+    const deleteFormData = () => {
+      if (window.confirm('Действительно удалить?')) {
+        close();
+        emit('delete:formData', props.formData);
+      }
+    };
+
     return {
+      date,
+      hasChanges,
+      saveFormData,
+      deleteFormData,
       getLocalizedFullDate,
       getNames,
       getTotalDurationLocalized,

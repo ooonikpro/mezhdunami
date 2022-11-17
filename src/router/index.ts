@@ -31,6 +31,25 @@ const routes: Array<RouteRecordRaw> = [
     name: 'recommendations',
     component: () => import('@/views/RecommendationsView.vue'),
   },
+  {
+    path: '/admin',
+    redirect: '/',
+    component: () => import('@/views/admin/AdminContainerView.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/admin/AdminMainView.vue'),
+      },
+      {
+        path: 'schedule',
+        component: () => import('@/views/admin/AdminScheduleView.vue'),
+      },
+    ],
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/',
+  },
 ];
 
 const router = createRouter({

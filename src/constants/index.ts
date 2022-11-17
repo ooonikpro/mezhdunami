@@ -1,4 +1,4 @@
-import type { Procedure } from '@/types';
+import { Procedure } from '@/types';
 
 export const ANIMATION_DURATION = 300;
 
@@ -9,7 +9,8 @@ export enum PROCEDURE {
   Bio = 3,
   Mezo = 4,
   LipPlastic = 5,
-  FacePlastic = 6
+  FacePlastic = 6,
+  Botulinum = 7,
 }
 
 export const PROCEDURE_DURATION: Record<Procedure, number> = {
@@ -19,18 +20,36 @@ export const PROCEDURE_DURATION: Record<Procedure, number> = {
   [PROCEDURE.Mezo]: 3600000,
   [PROCEDURE.LipPlastic]: 3600000,
   [PROCEDURE.FacePlastic]: 3600000,
+  [PROCEDURE.Botulinum]: 3600000,
 };
 
-export const PROCEDURE_PRICE: Record<Procedure, number> = {
-  [PROCEDURE.Peeling]: 1500,
-  [PROCEDURE.Cleaning]: 3000,
-  [PROCEDURE.Bio]: 3500,
-  [PROCEDURE.Mezo]: 2500,
-  [PROCEDURE.LipPlastic]: 7000,
-  [PROCEDURE.FacePlastic]: 10000,
+export const ADDRESS = {
+  city: 'Калининград',
+  street: 'Литовский вал 62',
+  office: '2 этаж, офис 22.',
 };
 
 export const PROCEDURES = [
+  {
+    id: PROCEDURE.Cleaning,
+    name: 'Чистка комбинированная',
+    duration: '~ 2 часа',
+    data: [
+      {
+        data: [
+          {
+            label: 'Лицо',
+            price: '3 000',
+          },
+          {
+            label: 'Спина',
+            price: '4 000',
+          },
+        ],
+      },
+    ],
+    price: 3000,
+  },
   {
     id: PROCEDURE.Peeling,
     name: 'Пиллинг',
@@ -108,24 +127,59 @@ export const PROCEDURES = [
     price: 1500,
   },
   {
-    id: PROCEDURE.Cleaning,
-    name: 'Чистка комбинированная',
-    duration: '~ 2 часа',
+    id: PROCEDURE.Botulinum,
+    name: 'Ботулинотерапия',
+    duration: 'до 30 мин',
     data: [
       {
         data: [
           {
-            label: 'Лицо',
-            price: '3 000',
-          },
-          {
-            label: 'Спина',
-            price: '4 000',
+            label: 'Релатокс 1 Ед',
+            price: '250',
           },
         ],
       },
     ],
-    price: 3000,
+    price: 8000,
+  },
+  {
+    id: PROCEDURE.LipPlastic,
+    name: 'Контурная пластика губ',
+    duration: '~ 45 минут',
+    footnotes: 'Анестезия включена в стоимость.',
+    data: [
+      {
+        data: [
+          {
+            label: 'Belotero Lips 0.6мл',
+            footnotes: 'Германия',
+            price: '9 000',
+          },
+          {
+            label: 'Neuramis Deep 1мл',
+            footnotes: 'Южная Корея',
+            price: '10 000',
+          },
+          {
+            label: 'Stylage M 1мл',
+            footnotes: 'Франция',
+            price: '13 000',
+          },
+
+          {
+            label: 'Juvederm Ultra 3 1мл',
+            footnotes: 'США',
+            price: '13 000',
+          },
+          {
+            label: 'Juvederm Volift 1мл',
+            footnotes: 'США',
+            price: '14 000',
+          },
+        ],
+      },
+    ],
+    price: 9000,
   },
   {
     id: PROCEDURE.Bio,
@@ -186,7 +240,7 @@ export const PROCEDURES = [
   {
     id: PROCEDURE.Mezo,
     name: 'Мезотерапия',
-    duration: 'от 15 минут',
+    duration: '~ 1 час',
     footnotes:
       'Индивидуальный коктейль, анестезия и постпроцедурный уход включены в стоимость.',
     data: [
@@ -210,50 +264,12 @@ export const PROCEDURES = [
     ],
     price: 1500,
   },
-  {
-    id: PROCEDURE.LipPlastic,
-    name: 'Контурная пластика губ',
-    duration: 'от 15 минут',
-    footnotes: 'Анестезия включена в стоимость.',
-    data: [
-      {
-        data: [
-          {
-            label: 'Belotero Lips 0.6мл',
-            footnotes: 'Германия',
-            price: '9 000',
-          },
-          {
-            label: 'Neuramis Deep 1мл',
-            footnotes: 'Южная Корея',
-            price: '10 000',
-          },
-          {
-            label: 'Stylage M 1мл',
-            footnotes: 'Франция',
-            price: '13 000',
-          },
 
-          {
-            label: 'Juvederm Ultra 3 1мл',
-            footnotes: 'США',
-            price: '13 000',
-          },
-          {
-            label: 'Juvederm Volift 1мл',
-            footnotes: 'США',
-            price: '14 000',
-          },
-        ],
-      },
-    ],
-    price: 9000,
-  },
   {
     id: PROCEDURE.FacePlastic,
     name: 'Контурная пластика лица',
     footnote: '',
-    duration: 'от 15 минут',
+    duration: '~ 45 минут',
     data: [
       {
         data: [

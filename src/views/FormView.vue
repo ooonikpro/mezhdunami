@@ -42,6 +42,15 @@
         :selected-procedures="form.procedures"
       />
 
+      <Input
+        v-model="form.comment"
+        type="textarea"
+        label="Комментарий"
+        aria-label="Комментарий"
+        placeholder="Например, есть аллергия или мне нет 18"
+        class="mb-16"
+      />
+
       <Checkbox
         v-model="form.notify"
         class="mb-16"
@@ -51,7 +60,7 @@
 
       <NotificationSwitcher
         v-if="form.notify"
-        v-model="form.typeOfNotify"
+        v-model="form.notificationType"
         class="mb-32"
       />
 
@@ -145,7 +154,7 @@ export default defineComponent({
         isOpenFinalModal.value = await submitForm(rememberMe.value);
       } catch (e) {
         fetchData();
-        alert(e);
+        alert((e! as Error).message);
       }
     };
 

@@ -5,7 +5,6 @@ import {
   getTotalDuration,
   getTotalDurationInHours,
   getTotalDurationLocalized,
-  getTotalPrice,
   getReservedTimeSlots,
 } from '@/utils/procedures';
 import { PROCEDURES } from '@/constants';
@@ -20,7 +19,6 @@ export const useProcedures = () => {
     getTotalDuration,
     getTotalDurationInHours,
     getTotalDurationLocalized,
-    getTotalPrice,
     getReservedTimeSlots,
   };
 };

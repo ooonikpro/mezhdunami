@@ -8,7 +8,7 @@
     "build:server": "webpack build",
     "lint": "vue-cli-service lint",
     "mongo": "docker run --name mongodb -d -p 27017:27017 mongo",
-    "server": "yarn mongo && ts-node --files src/server"
+    "server": "ts-node --files src/server"
   },
   "dependencies": {
     "@hapi/hapi": "^21.0.0",
@@ -24,6 +24,7 @@
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-e2e-cypress": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-pwa": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
@@ -31,6 +32,7 @@
     "@vue/cli-service": "~5.0.0",
     "@vue/eslint-config-airbnb": "^6.0.0",
     "@vue/eslint-config-typescript": "^9.1.0",
+    "cypress": "^9.7.0",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-vue": "^8.0.3",

@@ -9,7 +9,8 @@ const getInitialFormState = (): PatientFormData => ({
   procedures: [],
   date: 0,
   notify: false,
-  typeOfNotify: NotificationType.SMS,
+  notificationType: NotificationType.SMS,
+  comment: '',
 });
 
 const form = {
@@ -17,7 +18,7 @@ const form = {
 };
 
 export const usePatientForm = () => {
-  const { addToSchedule } = useSchedules();
+  const { insertOneSchedule } = useSchedules();
   const { set, get } = useStore();
 
   const init = () => {
@@ -35,7 +36,7 @@ export const usePatientForm = () => {
       set('phone', form.state.phone);
     }
 
-    return addToSchedule(form.state);
+    return insertOneSchedule(form.state);
   };
 
   onBeforeMount(restorePatient);

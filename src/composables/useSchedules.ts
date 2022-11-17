@@ -32,7 +32,7 @@ export const useSchedules = () => {
 
   const schedule = computed(() => getScheduleForMonth({ excludedDates: excludedDates.value }));
 
-  const addToSchedule = async (formData: PatientFormData) => {
+  const insertOneSchedule = async (formData: PatientFormData) => {
     const response = await fetch(URL, {
       method: 'POST',
       body: JSON.stringify(formData),
@@ -49,6 +49,6 @@ export const useSchedules = () => {
     fetchData,
     isLoading,
     schedule,
-    addToSchedule,
+    insertOneSchedule,
   };
 };

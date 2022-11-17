@@ -1,6 +1,9 @@
+import { getLocalizedShortDate, getNames } from '@/utils';
 import axios from 'axios';
 import { ADMIN_EMAIL, SMS_API_KEY, IS_PROD } from '@/constants/env';
 import type { ResponseAPI } from '@/types';
+import { NotificationType, PatientFormData } from '@/types';
+import { ADDRESS } from '@/constants';
 
 interface SMSAeroSended {
   id: number
@@ -22,7 +25,13 @@ const httpClient = axios.create({
   },
 });
 
-export const sendMessage = async (to: string, message: string) => {
+const methods = {
+  [NotificationType.SMS]: 'sms',
+  [NotificationType.Viber]: 'vider',
+  [NotificationType.WhatsApp]: 'whatsapp',
+};
+
+export const sendMessage = async (to: string, message: string, method: NotificationType) => {
   try {
     const formData = {
       number: to,
@@ -30,10 +39,12 @@ export const sendMessage = async (to: string, message: string) => {
       sign: 'SMSAero',
     };
 
-    let url = '/sms/testsend';
+    let url = `/${methods[method]}`;
 
     if (IS_PROD) {
-      url = '/sms/send';
+      url += '/send';
+    } else {
+      url += '/testsend';
     }
 
     const response = await httpClient.post<ResponseAPI<SMSAeroSended>>(url, formData).then(({ data }) => data);
@@ -47,4 +58,13 @@ export const sendMessage = async (to: string, message: string) => {
     console.error(e);
     throw e;
   }
+};
+
+export const notifyPatientAboutNewReg = (data: PatientFormData) => {
+  const date = getLocalizedShortDate(data.date);
+  const procedures = getNames(data.procedures);
+
+  const message = `Между Нами. Вы записаны к косметологу, на ${date}. Процедуры: ${procedures}`;
+
+  return sendMessage(data.phone, message, data.notificationType);
 };

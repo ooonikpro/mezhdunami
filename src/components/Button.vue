@@ -27,10 +27,17 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+
+    color: {
+      type: String,
+      default: 'default',
+      validator: (val: string) => ['default', 'red'].includes(val),
+    },
   },
 
   setup(props) {
     const rootClasses = computed(() => ({
+      [props.color]: true,
       small: props.small,
       outline: props.outline,
       h3: true,
@@ -48,7 +55,6 @@ export default defineComponent({
     width: 100%;
     height: 6.4rem;
     border: none;
-    background-color: $color-pink-700;
     border: 1px solid transparent;
     color: $color-white;
     outline: none;
@@ -57,12 +63,6 @@ export default defineComponent({
     padding: 2.4rem 1.2rem 1rem;
     cursor: pointer;
     @include transition;
-
-    &.outline {
-      background-color: transparent;
-      border-color: rgba($color-pink-700, .5);
-      color: $color-pink-700;
-    }
 
     &.small {
       padding-top: 0;
@@ -80,6 +80,29 @@ export default defineComponent({
       &:not(.outline) {
         background-color: rgba($color-pink-700, 0.1);
       }
+    }
+
+    &.default {
+      background-color: $color-pink-700;
+
+      &.outline {
+        border-color: rgba($color-pink-700, .5);
+        color: $color-pink-700;
+      }
+    }
+
+    &.red {
+      background-color: red;
+
+      &.outline {
+        outline: red;
+        border-color: red;
+        color: red;
+      }
+    }
+
+    &.outline {
+      background-color: transparent;
     }
   }
 </style>

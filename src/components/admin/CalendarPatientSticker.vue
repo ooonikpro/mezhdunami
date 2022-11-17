@@ -1,0 +1,53 @@
+<template>
+  <div v-if="isShow" class="patient-sticker" :style="color" @click="$emit('open-modal', data)">
+    <b class="h5">{{ procedures }}</b>
+    <span class="h6">{{ name }}</span>
+    <span class="h6">{{ phone }}</span>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, computed } from 'vue';
+import { PatientFormData } from '@/types';
+import { getNames } from '@/utils';
+
+export default defineComponent({
+  props: {
+    data: {
+      type: Object as () => PatientFormData,
+      default: () => ({}),
+    },
+  },
+
+  setup(props) {
+    const isShow = computed(() => Object.keys(props.data).length);
+    const name = computed(() => props.data?.name);
+    const phone = computed(() => props.data?.phone);
+    const procedures = computed(() => getNames(props.data?.procedures || []));
+
+    const colors = ['#be99ff', '#e77f9f', '#cf7fe7', '#7fe7c9', '#d2bce0', '#e7927f'];
+    const color = computed(() => `background-color: ${colors[(props.data?.procedures?.length || 1) - 1]}`);
+
+    return {
+      isShow,
+      name,
+      phone,
+      procedures,
+      color,
+    };
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+.patient-sticker:not(:empty) {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 0.6rem;
+  padding: 0.8rem;
+  color: black;
+  border-radius: 4px;
+}
+</style>

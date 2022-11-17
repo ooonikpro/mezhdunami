@@ -12,7 +12,7 @@
 
     <CalendarModal
       v-model="value"
-      :selected-procedures="selectedProcedures"
+      :selectedProcedures="selectedProcedures"
       :is-open="isOpenCalendarModal"
       @close="isOpenCalendarModal = false"
     />
@@ -25,6 +25,7 @@ import Input from '@/components/Input.vue';
 import CalendarModal from '@/components/CalendarModal.vue';
 import { useCalendar } from '@/composables/useCalendar';
 import type { DateNumber, Procedure } from '@/types';
+import { useSchedules } from '@/composables/useSchedules';
 
 export default defineComponent({
   components: {
@@ -53,6 +54,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const { getLocalizedFullDate } = useCalendar();
+    const { fetchData } = useSchedules();
 
     const isOpenCalendarModal = ref(false);
 
@@ -92,6 +94,8 @@ export default defineComponent({
 
       return false;
     });
+
+    fetchData();
 
     return {
       isOpenCalendarModal,
