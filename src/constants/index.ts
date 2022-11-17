@@ -283,3 +283,9 @@ export const PROCEDURES = [
     price: 10000,
   },
 ];
+
+export enum STORE_KEY {
+  name = 'name',
+  phone = 'phone',
+  isConfirmed = 'isConfirmed'
+}

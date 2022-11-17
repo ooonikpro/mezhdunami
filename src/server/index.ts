@@ -1,7 +1,6 @@
 import { server } from '@/server/instance';
 
-import '@/server/api/schedules';
-import '@/server/api/admin';
+import '@/server/api';
 
 server.start();
 

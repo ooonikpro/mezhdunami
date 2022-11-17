@@ -125,6 +125,8 @@ export default defineComponent({
 
     const input = ref<HTMLDateInputElement>();
 
+    const focus = () => input.value?.focus();
+
     const rootClasses = computed(() => ({
       disabled: props.disabled,
       focused,
@@ -167,6 +169,7 @@ export default defineComponent({
       focused,
       isValid,
       value,
+      focus,
       onFocus,
       onBlur,
       inputType,

@@ -22,6 +22,7 @@ module.exports = {
     'vuejs-accessibility/click-events-have-key-events': 'off',
     'vuejs-accessibility/anchor-has-content': 'off',
     'vuejs-accessibility/form-control-has-label': 'off',
+    'vuejs-accessibility/no-autofocus': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'no-prototype-builtins': 'off',
     'no-shadow': 'off',

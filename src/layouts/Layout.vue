@@ -16,7 +16,7 @@
 
       <slot name="before-title" />
 
-      <h1 v-if="$slots.default?.().length" class="mb-24">
+      <h1 v-if="$slots.title?.().length" class="mb-24">
         <slot name="title" />
       </h1>
 

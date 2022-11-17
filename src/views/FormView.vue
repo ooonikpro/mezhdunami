@@ -88,6 +88,8 @@
       </Button>
     </form>
 
+    <ConfirmPhoneModal :isOpen="isOpenConfirmModal" :phone="form.phone" @close="sendForm"/>
+
     <FormFinalStepModal
       :form-data="form"
       :is-open="isOpenFinalModal"
@@ -113,6 +115,7 @@ import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
 import { useSchedules } from '@/composables/useSchedules';
 import { useValidation } from '@/composables/useValidation';
 import { usePatientForm } from '@/composables/usePatientForm';
+import ConfirmPhoneModal from '@/components/ConfirmPhoneModal.vue';
 
 export default defineComponent({
   components: {
@@ -124,6 +127,7 @@ export default defineComponent({
     NotificationSwitcher,
     Button,
     FormFinalStepModal,
+    ConfirmPhoneModal,
   },
 
   setup() {
@@ -136,10 +140,11 @@ export default defineComponent({
       state: form,
       reset: resetForm,
       submit: submitForm,
+      isConfirmed,
     } = usePatientForm();
 
     const agree = ref(false);
-    const rememberMe = ref(false);
+    const rememberMe = ref(true);
 
     const isDisabledSubmitBtn = computed(() => !agree.value
           || !isValidName(form.name || '')
@@ -148,13 +153,22 @@ export default defineComponent({
           || !form.date);
 
     const isOpenFinalModal = ref(false);
+    const isOpenConfirmModal = ref(false);
 
-    const onSubmit = async () => {
+    const sendForm = async () => {
       try {
         isOpenFinalModal.value = await submitForm(rememberMe.value);
       } catch (e) {
         fetchData();
         alert((e! as Error).message);
+      }
+    };
+
+    const onSubmit = async () => {
+      if (isConfirmed.value) {
+        sendForm();
+      } else {
+        isOpenConfirmModal.value = true;
       }
     };
 
@@ -175,7 +189,9 @@ export default defineComponent({
       form,
       agree,
       resetForm,
+      sendForm,
       isOpenFinalModal,
+      isOpenConfirmModal,
       isDisabledSubmitBtn,
     };
   },
