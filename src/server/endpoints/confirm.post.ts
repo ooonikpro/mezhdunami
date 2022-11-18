@@ -20,7 +20,7 @@ server.route({
   path: '/api/confirm',
   handler: async (req: Record<string, any>) => {
     try {
-      const form = JSON.parse(req.payload) as { phone: PhoneNumber, code?: string };
+      const form = req.payload as { phone: PhoneNumber, code?: string };
 
       if (form.code) {
         if (hash.get(form.phone) === form.code) {

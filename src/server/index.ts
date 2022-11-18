@@ -1,6 +1,6 @@
 import { server } from '@/server/instance';
 
-import '@/server/api';
+import '@/server/endpoints';
 
 server.start();
 

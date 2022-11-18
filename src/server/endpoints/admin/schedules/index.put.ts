@@ -7,7 +7,7 @@ server.route({
   path: '/api/admin/schedules/{_id}',
   handler: async (req) => {
     const { _id } = req.params;
-    const formData = JSON.parse(req.payload as string) as PatientFormData;
+    const formData = req.payload as PatientFormData;
 
     try {
       return {

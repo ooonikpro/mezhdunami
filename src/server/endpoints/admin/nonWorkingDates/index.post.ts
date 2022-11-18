@@ -6,7 +6,7 @@ server.route({
   method: 'POST',
   path: '/api/admin/non-working-dates',
   handler: async (req) => {
-    const { dates } = JSON.parse(req.payload as string) as { dates: DateNumber[] };
+    const { dates } = req.payload as { dates: DateNumber[] };
 
     try {
       return {

@@ -35,4 +35,22 @@ module.exports = defineConfig({
       dir: 'ltr',
     },
   },
+
+  configureWebpack: {
+    resolve: {
+      fallback: {
+        url: false,
+        fs: false,
+        tls: false,
+        net: false,
+        path: false,
+        zlib: false,
+        http: false,
+        https: false,
+        stream: false,
+        crypto: false,
+        assert: false,
+      },
+    },
+  },
 });
