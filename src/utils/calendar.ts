@@ -44,6 +44,7 @@ export const getLocaleDate = (date: Date | DateNumber) => getUppercase(new Date(
 }));
 
 export const getTomorrow = (): DateNumber => createDate(new Date(year, month, day + 1)).getTime();
+export const getAfterTomorrow = (): DateNumber => createDate(new Date(year, month, day + 2)).getTime();
 export const getNextMonth = (date: Date = today): Date => {
   const newDate = new Date(date);
   newDate.setMonth(newDate.getMonth() + 1);

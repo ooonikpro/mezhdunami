@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb';
 import { getCollection } from '@/server/db/mongo';
 import type { Patient } from '@/types';
 
-const collection = getCollection('patients');
+const collection = getCollection('notifications');
 
 export const findOnePatient = async (phone: number): Promise<Patient | null> => {
   const patients = await collection;
