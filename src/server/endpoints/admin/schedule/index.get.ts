@@ -1,9 +1,10 @@
+import { ADMIN_API_URL, BASE_ADMIN_API_URL } from '@/constants/adminUrls';
 import { findSchedule } from '@/server/db/collections/schedule';
 import { server } from '@/server/instance';
 
 server.route({
   method: 'GET',
-  path: '/api/admin/schedules',
+  path: BASE_ADMIN_API_URL(ADMIN_API_URL.SCHEDULE),
   handler: async (req) => {
     const from = req.query.from ? Number(req.query.from) : undefined;
     const until = req.query.until ? Number(req.query.until) : undefined;

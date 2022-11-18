@@ -2,8 +2,7 @@ import { getLocalizedShortDate, getNames } from '@/utils';
 import axios from 'axios';
 import { ADMIN_EMAIL, SMS_API_KEY, IS_PROD } from '@/constants/env';
 import type { ResponseAPI } from '@/types';
-import { NotificationType, PatientFormData } from '@/types';
-import { ADDRESS } from '@/constants';
+import { NotificationType, PatientFormData, PhoneNumber } from '@/types';
 
 interface SMSAeroSended {
   id: number
@@ -31,7 +30,7 @@ const methods = {
   [NotificationType.WhatsApp]: 'whatsapp',
 };
 
-export const sendMessage = async (to: string, message: string, method: NotificationType) => {
+export const sendMessage = async (to: string, message: string, method: NotificationType = NotificationType.SMS) => {
   try {
     const formData = {
       number: to,
@@ -62,9 +61,22 @@ export const sendMessage = async (to: string, message: string, method: Notificat
 
 export const notifyPatientAboutNewReg = (data: PatientFormData) => {
   const date = getLocalizedShortDate(data.date);
-  const procedures = getNames(data.procedures);
 
-  const message = `Между Нами. Вы записаны к косметологу, на ${date}. Процедуры: ${procedures}`;
+  const message = `Между Нами. Вы записаны к косметологу, ${date}.`;
 
   return sendMessage(data.phone, message, data.notificationType);
+};
+
+export const notifyPatientAboutUpdate = (data: PatientFormData) => {
+  const date = getLocalizedShortDate(data.date);
+
+  const message = `Между Нами. Ваша запись к косметологу, перенесена на ${date}.`;
+
+  return sendMessage(data.phone, message, data.notificationType);
+};
+
+export const sendOneTimeCode = (phone: PhoneNumber, code: string) => {
+  const message = `Код подтверждения: ${code}`;
+
+  return sendMessage(phone, message);
 };

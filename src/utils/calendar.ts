@@ -107,3 +107,36 @@ export const getCalendarDates = (from: Date, until: Date): Date[] => {
 
   return dates;
 };
+
+export const zipNonWorkingDates = (allDates: DateNumber[]): DateNumber[] => {
+  const uniqDates = Array.from(new Set(allDates)).sort();
+
+  const hashMap: Record<DateNumber, DateNumber[]> = {};
+
+  for (let i = 0; i < uniqDates.length; i++) {
+    const date = createDate(uniqDates[i]).getTime();
+
+    if (date in hashMap) {
+      hashMap[date].push(uniqDates[i]);
+    } else {
+      hashMap[date] = [uniqDates[i]];
+    }
+  }
+
+  const excludedDates = Object.keys(hashMap).reduce((arr, date: string) => {
+    const time = Number(date);
+    const timesSlots = hashMap[time];
+
+    if (timesSlots.length === 9) {
+      arr.push(time);
+    } else {
+      timesSlots.forEach((item: DateNumber) => {
+        arr.push(item);
+      });
+    }
+
+    return arr;
+  }, [] as DateNumber[]);
+
+  return excludedDates;
+};

@@ -32,7 +32,7 @@
         v-model="rememberMe"
         class="mb-24"
       >
-        Запомнить мои данные на этом устройстве
+        Запомнить мои данные на этом устройстве для следующего раза
       </Checkbox>
 
       <InputProcedure v-model="form.procedures" />
@@ -88,7 +88,12 @@
       </Button>
     </form>
 
-    <ConfirmPhoneModal :isOpen="isOpenConfirmModal" :phone="form.phone" @close="sendForm"/>
+    <ConfirmPhoneModal
+      :isOpen="isOpenConfirmModal"
+      :phone="form.phone"
+      :save="rememberMe"
+      @close="sendForm"
+    />
 
     <FormFinalStepModal
       :form-data="form"
@@ -100,7 +105,7 @@
 
 <script lang="ts">
 import {
-  defineComponent, computed, ref, onBeforeUnmount, onMounted,
+  defineComponent, computed, ref, onBeforeUnmount,
 } from 'vue';
 import Layout from '@/layouts/Layout.vue';
 import Input from '@/components/Input.vue';
@@ -144,7 +149,7 @@ export default defineComponent({
     } = usePatientForm();
 
     const agree = ref(false);
-    const rememberMe = ref(true);
+    const rememberMe = ref(isConfirmed.value);
 
     const isDisabledSubmitBtn = computed(() => !agree.value
           || !isValidName(form.name || '')
@@ -175,7 +180,6 @@ export default defineComponent({
     const close = () => goToBack('/');
     const cancel = () => close();
 
-    onMounted(fetchData);
     onBeforeUnmount(resetForm);
 
     return {

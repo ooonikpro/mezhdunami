@@ -233,7 +233,7 @@ export default defineComponent({
     height: 100%;
     border: 0;
     outline: none;
-    background: none;
+    background: transparent !important;
     font-size: 1.8rem;
     padding: 4.5rem 4rem 1rem 1.2rem;
     text-overflow: ellipsis;

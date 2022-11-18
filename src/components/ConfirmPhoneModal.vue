@@ -17,6 +17,7 @@
         autocomplete="one-time-code"
         name="code"
         :maxlength="4"
+        :disabled="isLoading"
       />
 
       <div class="after-input mb-24">
@@ -35,12 +36,11 @@
 
 <script lang="ts">
 import {
-  defineComponent, onMounted, ref, watch,
+  defineComponent, ref, toRef, watch,
 } from 'vue';
 import Modal from '@/components/Modal.vue';
 import Input from '@/components/Input.vue';
 import Button from '@/components/Button.vue';
-import { ResponseAPI } from '@/types';
 import { useStore } from '@/composables/useStore';
 import { STORE_KEY } from '@/constants';
 import { usePatientForm } from '@/composables/usePatientForm';
@@ -62,13 +62,20 @@ export default defineComponent({
       type: String,
       required: true,
     },
+
+    save: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   emits: ['close', 'after-leave'],
 
   setup(props, { emit }) {
+    const isOpen = toRef(props, 'isOpen');
+
     const { set } = useStore();
-    const { isConfirmed } = usePatientForm();
+    const { isConfirmed, confirmPhone, sendOneTimeCodeFor } = usePatientForm();
 
     const close = () => emit('close');
 
@@ -86,24 +93,18 @@ export default defineComponent({
       }
     };
 
-    const toNumbers = (str: string) => str?.replace(/\w/gi, '');
-
     const onSubmit = async () => {
       if (code.value.length === 4) {
         isLoading.value = true;
 
-        const res: ResponseAPI<boolean> = await fetch('/api/confirm', {
-          method: 'POST',
-          body: JSON.stringify({ code: code.value, phone: props.phone }),
-        }).then((res) => res.json());
+        try {
+          isConfirmed.value = await confirmPhone(props.phone, code.value);
 
-        if (res.data) {
-          isConfirmed.value = true;
-          set(STORE_KEY.isConfirmed, true);
+          set(STORE_KEY.isConfirmed, props.save && isConfirmed.value);
 
           close();
-        } else {
-          errorText.value = res.message as string;
+        } catch (e) {
+          errorText.value = (e as Error).message;
         }
 
         isLoading.value = false;
@@ -114,23 +115,28 @@ export default defineComponent({
       count.value = 30;
       errorText.value = '';
 
-      await fetch('/api/confirm', {
-        method: 'POST',
-        body: JSON.stringify({ phone: props.phone }),
-      }).then((res) => res.json());
+      tick();
+
+      try {
+        await sendOneTimeCodeFor(props.phone);
+      } catch (e) {
+        console.error(e);
+      }
     };
 
-    onMounted(() => {
-      sendAgain();
+    watch(isOpen, (val) => {
+      if (val) {
+        sendAgain();
 
-      setTimeout(() => {
-        tick();
+        setTimeout(() => {
+          tick();
 
-        const input = form.value?.elements[0];
+          const input = form.value?.elements[0];
 
-        (input as HTMLInputElement)?.focus();
-        (input as HTMLInputElement)?.click();
-      }, 500);
+          (input as HTMLInputElement)?.focus();
+          (input as HTMLInputElement)?.click();
+        }, 500);
+      }
     });
 
     watch(code, () => {
@@ -145,7 +151,6 @@ export default defineComponent({
       isLoading,
       onSubmit,
       close,
-      toNumbers,
       sendAgain,
     };
   },

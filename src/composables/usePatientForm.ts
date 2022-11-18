@@ -4,7 +4,8 @@ import {
 import { useSchedules } from '@/composables/useSchedules';
 import { useStore } from '@/composables/useStore';
 import { PatientFormData, NotificationType } from '@/types';
-import { STORE_KEY } from '../constants/index';
+import { confirmPhone, sendOneTimeCodeFor } from '@/providers/guest/confirm.provider';
+import { STORE_KEY } from '@/constants';
 
 const getInitialFormState = (): PatientFormData => ({
   name: '',
@@ -63,5 +64,7 @@ export const usePatientForm = () => {
     reset: init,
     submit,
     isConfirmed,
+    confirmPhone,
+    sendOneTimeCodeFor,
   };
 };

@@ -1,14 +1,15 @@
+import { ADMIN_API_URL, BASE_ADMIN_API_URL } from '@/constants/adminUrls';
 import { deleteOneSchedule } from '@/server/db/collections/schedule';
 import { server } from '@/server/instance';
 
 server.route({
   method: 'DELETE',
-  path: '/api/admin/schedules/{_id}',
+  path: BASE_ADMIN_API_URL(`${ADMIN_API_URL.SCHEDULE}/{id}`),
   handler: async (req) => {
-    const { _id } = req.params;
+    const { id } = req.params;
 
     try {
-      const res = await deleteOneSchedule(_id);
+      const res = await deleteOneSchedule(id);
 
       return {
         data: res,

@@ -2,8 +2,7 @@ import { server } from '@/server/instance';
 import { insertOneSchedule } from '@/server/db/collections/schedule';
 import { notifyAboutNew } from '@/server/services';
 import type { PatientFormData } from '@/types';
-import { BASE_API_URL } from '@/constants/baseAPIUrl';
-import { API_URL } from '@/constants/clientUrls';
+import { BASE_API_URL, API_URL } from '@/constants/urls';
 import { notifyPatientAboutNewReg } from '@/server/services/smsAero';
 
 server.route({

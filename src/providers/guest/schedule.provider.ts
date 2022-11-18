@@ -1,7 +1,6 @@
 import { ResponseAPI, PatientFormData, ScheduleFilters } from '@/types';
 import axios from 'axios';
-import { API_URL } from '@/constants/clientUrls';
-import { BASE_API_URL } from '@/constants/baseAPIUrl';
+import { API_URL, BASE_API_URL } from '@/constants/urls';
 
 const httpClient = axios.create({
   baseURL: BASE_API_URL(),

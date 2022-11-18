@@ -1,7 +1,7 @@
 export * from './calendar';
 export * from './procedures';
 
-export const debounce = (fn: (args?: any[]) => void, duration = 0) => {
+export const debounce = <T extends (args?: any | any[]) => void>(fn: T, duration = 0) => {
   let timer: string | number | NodeJS.Timeout | null | undefined = null;
 
   return (...args: any) => {

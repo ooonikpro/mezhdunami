@@ -1,15 +1,25 @@
+import { BASE_API_URL, API_URL } from '@/constants/urls';
 import { server } from '@/server/instance';
 import { PhoneNumber } from '@/types';
+import { sendOneTimeCode } from '@/server/services';
+import { debounce } from '@/utils';
+import { IS_PROD } from '@/constants/env';
 
-const hash = new Map();
+const oneTimeCodes = new Map();
 
-const digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const tryRemove = debounce((phone: PhoneNumber) => {
+  const note = oneTimeCodes.get(phone);
 
-const generatePassword = (size = 4): string => {
+  if (note && note.until <= Date.now()) {
+    oneTimeCodes.delete(phone);
+  }
+}, 60000); // 1 мин
+
+const generateOneTimeCode = (size = 4): string => {
   let code = '';
 
   for (let i = 0; i < size; i++) {
-    code += digits[Math.floor(Math.random() * digits.length - 1)];
+    code += Math.floor(Math.random() * 10);
   }
 
   return code;
@@ -17,25 +27,32 @@ const generatePassword = (size = 4): string => {
 
 server.route({
   method: 'POST',
-  path: '/api/confirm',
+  path: BASE_API_URL(API_URL.CONFIRM),
   handler: async (req: Record<string, any>) => {
     try {
       const form = req.payload as { phone: PhoneNumber, code?: string };
 
       if (form.code) {
-        if (hash.get(form.phone) === form.code) {
-          hash.delete(form.phone);
+        if (oneTimeCodes.get(form.phone)?.code === form.code) {
+          oneTimeCodes.delete(form.phone);
         } else {
           throw new Error('Неверный код');
         }
-      } else {
-        const code = generatePassword();
+      } else if (form.phone) {
+        const code = generateOneTimeCode();
 
-        hash.set(form.phone, code);
+        oneTimeCodes.set(form.phone, {
+          code,
+          until: Date.now() + 60000,
+        });
 
-        console.log(code);
+        tryRemove(form.phone);
 
-        // send sms
+        if (IS_PROD) {
+          sendOneTimeCode(form.phone, code);
+        } else {
+          console.log(code);
+        }
       }
 
       return {
