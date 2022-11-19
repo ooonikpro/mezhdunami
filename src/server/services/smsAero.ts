@@ -1,4 +1,4 @@
-import { getLocalizedShortDate, getNames } from '@/utils';
+import { getLocalizedShortDate, getNames, getNames } from '@/utils';
 import axios from 'axios';
 import { ADMIN_EMAIL, SMS_API_KEY, IS_PROD } from '@/constants/env';
 import type { ResponseAPI } from '@/types';
@@ -61,8 +61,9 @@ export const sendMessage = async (to: string, message: string, method: Notificat
 
 export const notifyPatientAboutNewReg = (data: PatientFormData) => {
   const date = getLocalizedShortDate(data.date);
+  const procedures = getNames(data.procedures);
 
-  const message = `Между Нами. Вы записаны к косметологу, ${date}.`;
+  const message = `Между Нами. Вы записаны к косметологу, ${date}, ${procedures}`;
 
   return sendMessage(data.phone, message, data.notificationType);
 };
