@@ -1,8 +1,8 @@
-import { getLocalizedShortDate, getNames, getNames } from '@/utils';
 import axios from 'axios';
 import { ADMIN_EMAIL, SMS_API_KEY, IS_PROD } from '@/constants/env';
 import type { ResponseAPI } from '@/types';
 import { NotificationType, PatientFormData, PhoneNumber } from '@/types';
+import { oneTimeCodeMsg, patientScheduleUpdatedMsg, newRegMsg } from '@/templates/messages';
 
 interface SMSAeroSended {
   id: number
@@ -59,25 +59,8 @@ export const sendMessage = async (to: string, message: string, method: Notificat
   }
 };
 
-export const notifyPatientAboutNewReg = (data: PatientFormData) => {
-  const date = getLocalizedShortDate(data.date);
-  const procedures = getNames(data.procedures);
+export const notifyPatientAboutNewReg = (data: PatientFormData) => sendMessage(data.phone, newRegMsg(data), data.notificationType);
 
-  const message = `Между Нами. Вы записаны к косметологу, ${date}, ${procedures}`;
+export const notifyPatientAboutUpdate = (data: PatientFormData) => sendMessage(data.phone, patientScheduleUpdatedMsg(data), data.notificationType);
 
-  return sendMessage(data.phone, message, data.notificationType);
-};
-
-export const notifyPatientAboutUpdate = (data: PatientFormData) => {
-  const date = getLocalizedShortDate(data.date);
-
-  const message = `Между Нами. Ваша запись к косметологу, перенесена на ${date}.`;
-
-  return sendMessage(data.phone, message, data.notificationType);
-};
-
-export const sendOneTimeCode = (phone: PhoneNumber, code: string) => {
-  const message = `Код подтверждения: ${code}`;
-
-  return sendMessage(phone, message);
-};
+export const sendOneTimeCode = (phone: PhoneNumber, code: string) => sendMessage(phone, oneTimeCodeMsg(code));

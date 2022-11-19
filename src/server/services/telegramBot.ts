@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { getLocalizedFullDate, getNames } from '@/utils';
 import type { PatientFormData } from '@/types';
 import { TELEGRAM_BOT_KEY } from '@/constants/env';
+import { newPatientMsg } from '@/templates/messages';
 
 const httpClient = axios.create({
   baseURL: `https://api.telegram.org/bot${TELEGRAM_BOT_KEY}`,
@@ -28,10 +28,4 @@ const sendMessage = (to: string, message: string) => {
 
 export const notifySubscribers = (message: string) => subscribers.map((to) => sendMessage(to, message));
 
-export const notifyAboutNew = (patient: PatientFormData) => {
-  const comment = patient.comment ? `\nКомментарий: ${patient.comment}` : '';
-  // eslint-disable-next-line
-  const text = `<b>${getLocalizedFullDate(patient.date)}</b>\nИмя: <b>${patient.name}</b>\nТелефон: ${patient.phone}\nПроцедуры: <b>${getNames(patient.procedures)}</b>${comment}`;
-
-  return notifySubscribers(text);
-};
+export const notifyAboutNew = (patient: PatientFormData) => notifySubscribers(newPatientMsg(patient));
