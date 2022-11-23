@@ -1,46 +1,31 @@
 import { ObjectId } from 'mongodb';
 import { getCollection } from '@/server/db/mongo';
-import type { Patient } from '@/types';
+import type { NotificationPayload } from '@/types';
 
 const collection = getCollection('notifications');
 
-export const findOnePatient = async (phone: number): Promise<Patient | null> => {
-  const patients = await collection;
+export const findNotifications = async (): Promise<NotificationPayload[]> => {
+  const notifications = await collection;
 
-  const result = await patients.findOne({ phone });
-
-  if (!result) return null;
-
-  return result;
+  return notifications.find().sort({ date: 1 }).toArray();
 };
 
-export const updateOnePatient = async (_id: string, { _id: id, ...newData }: Patient): Promise<boolean> => {
-  const schedule = await collection;
+export const insertOneNotification = async (data: NotificationPayload) => {
+  const notifications = await collection;
 
-  try {
-    const result = await schedule.updateOne(
-      { _id: new ObjectId(_id) },
-      {
-        $set: { ...newData },
-      },
-    );
+  const result = await notifications.insertOne(data);
 
-    if (result.modifiedCount > 0) {
-      return true;
-    }
-
-    throw new Error('Не удалось обновить запись!');
-  } catch (e) {
-    console.error(e);
-
-    return false;
+  if (result.insertedCount > 0) {
+    return true;
   }
+
+  throw new Error('Не удалось добавить запись!');
 };
 
-export const deleteOnePatient = async (_id: string): Promise<boolean> => {
-  const schedule = await collection;
+export const deleteOneNotification = async (_id: string): Promise<boolean> => {
+  const notifications = await collection;
 
-  const result = await schedule.deleteOne({ _id: new ObjectId(_id) });
+  const result = await notifications.deleteOne({ _id: new ObjectId(_id) });
 
   if (result.deletedCount > 0) {
     return true;

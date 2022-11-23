@@ -7,13 +7,7 @@ const httpClient = axios.create({
   baseURL: `https://api.telegram.org/bot${TELEGRAM_BOT_KEY}`,
 });
 
-const subscribers = ['209442952'];
-
-if (process.env.NODE_ENV === 'production') {
-  subscribers.push('460173300');
-}
-
-const sendMessage = (to: string, message: string) => {
+export const sendMessage = (to: string, message: string) => {
   const params = new URLSearchParams();
 
   Object.entries({
@@ -25,7 +19,5 @@ const sendMessage = (to: string, message: string) => {
 
   return httpClient.get(`/sendMessage?${params}`);
 };
-
-export const notifySubscribers = (message: string) => subscribers.map((to) => sendMessage(to, message));
 
 export const notifyAboutNew = (patient: PatientFormData) => notifySubscribers(newPatientMsg(patient));

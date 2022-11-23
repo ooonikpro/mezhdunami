@@ -3,6 +3,7 @@ export interface HTMLDateInputElement extends HTMLInputElement {
 }
 
 export type PhoneNumber = string;
+export type TelegramChatId = string;
 
 export enum Procedure {
     Peeling = 1,
@@ -19,11 +20,6 @@ export type DateNumber = number;
 export interface TimePeriod {
     from?: DateNumber
     until?: DateNumber
-}
-
-export enum TypeOfNotify {
-    SMS = 1,
-    MESSENGER = 2
 }
 
 export interface LabelValue<T> {
@@ -47,7 +43,15 @@ export enum NotificationType {
     SMS = 1,
     WhatsApp = 2,
     Viber = 3,
-  }
+    Telegram = 4,
+}
+
+export interface NotificationPayload {
+    to: PhoneNumber | TelegramChatId,
+    method: NotificationType
+    date: DateNumber
+    message: string
+}
 
 export interface Patient {
     _id: string;

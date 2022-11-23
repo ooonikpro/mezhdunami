@@ -30,7 +30,7 @@ const methods = {
   [NotificationType.WhatsApp]: 'whatsapp',
 };
 
-export const sendMessage = async (to: string, message: string, method: NotificationType = NotificationType.SMS) => {
+const sendMessage = async (to: string, message: string, method: keyof typeof methods = NotificationType.SMS) => {
   try {
     const formData = {
       number: to,
@@ -57,6 +57,24 @@ export const sendMessage = async (to: string, message: string, method: Notificat
     console.error(e);
     throw e;
   }
+};
+
+export const sendSMSMessage = async (to: string, message: string) => {
+  await sendMessage(to, message, NotificationType.SMS);
+
+  return true;
+};
+
+export const sendViberMessage = async (to: string, message: string) => {
+  await sendMessage(to, message, NotificationType.Viber);
+
+  return true;
+};
+
+export const sendWhatsAppMessage = async (to: string, message: string) => {
+  await sendMessage(to, message, NotificationType.WhatsApp);
+
+  return true;
 };
 
 export const notifyPatientAboutNewReg = (data: PatientFormData) => sendMessage(data.phone, newRegMsg(data), data.notificationType);
