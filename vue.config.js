@@ -3,7 +3,7 @@ const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
   transpileDependencies: true,
 
-  outputDir: 'app/nginx/www',
+  outputDir: 'mezhdunami.app/nginx/www',
 
   css: {
     loaderOptions: {

@@ -28,4 +28,4 @@ export const sendMessage = async (to: string, message: string) => {
   return false;
 };
 
-export const notifyAboutNew = (patient: PatientFormData) => notifySubscribers(newPatientMsg(patient));
+export const notifyAboutNew = (patient: PatientFormData) => newPatientMsg(patient);

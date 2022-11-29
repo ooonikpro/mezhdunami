@@ -12,6 +12,7 @@ services:
       - ./nginx/certs:/etc/nginx/certs
       - ./nginx/mime.types:/etc/nginx/conf/mime.types
       - ./nginx/www:/etc/nginx/www
+      - ./nginx/.htpasswd:/etc/nginx/.htpasswd
   mongo_db:
     image: mongo:latest
     container_name: database

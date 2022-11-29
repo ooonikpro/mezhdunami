@@ -49,10 +49,16 @@ http {
             try_files $uri $uri/ /index.html;
         }
 
+        location /admin {
+            try_files $uri $uri/ /index.html;
+            auth_basic "Admin area";
+            auth_basic_user_file /etc/nginx/.htpasswd;
+        }
+
         location /api/ {
             add_header Access-Control-Allow-Origin 'https://mezhdunami.app';
-            add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS, PUT, DELETE';
-            add_header Access-Control-Allow-Headers 'Origin, Content-Type, Accept, Authorization';
+            add_header Access-Control-Allow-Methods 'GET, POST';
+            add_header Access-Control-Allow-Headers 'Content-Type, Accept';
 
             proxy_redirect                      off;
             proxy_set_header Host               $host;

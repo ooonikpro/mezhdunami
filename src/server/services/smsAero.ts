@@ -77,8 +77,8 @@ export const sendWhatsAppMessage = async (to: string, message: string) => {
   return true;
 };
 
-export const notifyPatientAboutNewReg = (data: PatientFormData) => sendMessage(data.phone, newRegMsg(data), data.notificationType);
+export const notifyPatientAboutNewReg = (data: PatientFormData) => sendMessage(data.phone, newRegMsg(data));
 
-export const notifyPatientAboutUpdate = (data: PatientFormData) => sendMessage(data.phone, patientScheduleUpdatedMsg(data), data.notificationType);
+export const notifyPatientAboutUpdate = (data: PatientFormData) => sendMessage(data.phone, patientScheduleUpdatedMsg(data));
 
 export const sendOneTimeCode = (phone: PhoneNumber, code: string) => sendMessage(phone, oneTimeCodeMsg(code));
