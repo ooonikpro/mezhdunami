@@ -4,7 +4,7 @@ import { API_URL, BASE_API_URL } from '@/constants/urls';
 import { zipNonWorkingDates } from '@/utils/calendar';
 
 server.route({
-  method: 'POST',
+  method: 'GET',
   path: BASE_API_URL(API_URL.SCHEDULE),
   handler: async () => {
     try {

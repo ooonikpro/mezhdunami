@@ -8,7 +8,7 @@ const httpClient = axios.create({
 });
 
 export const fetchScheduleFilter = async () => {
-  const { data, success, message } = await httpClient.post<ResponseAPI<ScheduleFilters>>(API_URL.SCHEDULE).then(({ data }) => data);
+  const { data, success, message } = await httpClient.get<ResponseAPI<ScheduleFilters>>(API_URL.SCHEDULE).then(({ data }) => data);
 
   if (success) {
     return data.excludedDates;
