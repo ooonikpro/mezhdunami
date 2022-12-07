@@ -1,9 +1,10 @@
 import { BASE_API_URL, API_URL } from '@/constants/urls';
 import { server } from '@/server/instance';
 import { PhoneNumber } from '@/types';
-import { sendOneTimeCode } from '@/server/services';
 import { debounce } from '@/utils';
 import { IS_PROD } from '@/constants/env';
+import { generateOneTimeCode } from '@/utils/generateOneTimeCode';
+import { notifyPatientOneTimeCode } from '../services';
 
 const oneTimeCodes = new Map();
 
@@ -14,16 +15,6 @@ const tryRemove = debounce((phone: PhoneNumber) => {
     oneTimeCodes.delete(phone);
   }
 }, 60000); // 1 мин
-
-const generateOneTimeCode = (size = 4): string => {
-  let code = '';
-
-  for (let i = 0; i < size; i++) {
-    code += Math.floor(Math.random() * 10);
-  }
-
-  return code;
-};
 
 server.route({
   method: 'POST',
@@ -49,7 +40,7 @@ server.route({
         tryRemove(form.phone);
 
         if (IS_PROD) {
-          sendOneTimeCode(form.phone, code);
+          notifyPatientOneTimeCode(form.phone, code);
         } else {
           console.log(code);
         }

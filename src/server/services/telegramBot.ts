@@ -1,7 +1,5 @@
 import axios from 'axios';
-import type { PatientFormData } from '@/types';
 import { TELEGRAM_BOT_KEY } from '@/constants/env';
-import { newPatientMsg } from '@/templates/messages';
 
 const httpClient = axios.create({
   baseURL: `https://api.telegram.org/bot${TELEGRAM_BOT_KEY}`,
@@ -27,5 +25,3 @@ export const sendMessage = async (to: string, message: string) => {
 
   return false;
 };
-
-export const notifyAboutNew = (patient: PatientFormData) => newPatientMsg(patient);

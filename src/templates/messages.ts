@@ -19,7 +19,9 @@ export const newRegMsg = (data: PatientFormData) => {
 export const patientScheduleUpdatedMsg = (data: PatientFormData) => {
   const date = getLocalizedShortDate(data.date);
 
-  return `${signature} Ваша запись к косметологу, перенесена на ${date}.`;
+  return `${signature} Ваша запись к косметологу перенесена на ${date}.`;
 };
 
 export const oneTimeCodeMsg = (code: string) => `Тсс... ${signature} Код подтверждения: ${code}`;
+
+export const patientScheduleRemoveMsg = () => `${signature} Ваша запись к косметологу отменена.`;

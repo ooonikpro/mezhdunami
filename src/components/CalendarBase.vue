@@ -2,35 +2,21 @@
   <div class="calendar" :class="{ 'full-width': fullWidth }">
     <div class="calendar-container">
       <div class="calendar-content">
-        <div class="calendar-row">
-          <div
-            v-for="date in calendar"
-            :key="date.getTime()"
-            :class="['calendar-column', isSelect(date) && 'selected']"
-            @click="$emit('click:day', date)"
-          >
-            <div class="calendar-date">
-              <span class="h4">
-                <b>{{ getLocalizedWeekday(date) }}</b>
-              </span>
+        <div v-for="date in calendar" :key="date.getTime()" class="calendar-date">
+          <div class="calendar-date-label" @click="$emit('click:day', date)">
+            <span class="h4">
+              <b>{{ getLocalizedWeekday(date) }}</b>
+            </span>
 
-              <span class="h4">
-                {{ getLocalizedDate(date) }}
-              </span>
-            </div>
+            <span class="h4">
+              {{ getLocalizedDate(date) }}
+            </span>
           </div>
-        </div>
 
-        <div v-for="hour in hours" :key="hour" class="calendar-row">
-          <div
-            v-for="date in calendar"
-            :key="date.getTime()"
-            :class="['calendar-column calendar-date-slot', isSelect(date, hour) && 'selected']"
-            @click="$emit('click:hour', { date, hour })"
-          >
-            <div class="calendar-date-slot-time">{{ hour }}</div>
+          <div v-for="hour in hours" :key="hour" class="calendar-date-time" @click="$emit('click:hour', { date, hour })">
+            <div class="calendar-date-time-label">{{ hour }}</div>
 
-            <div class="calendar-date-slot-content">
+            <div class="calendar-date-time-content">
                 <slot v-bind="{ date, hour, isSelected: isSelect(date, hour) }"/>
             </div>
           </div>
@@ -118,16 +104,16 @@ export default defineComponent({
 
 <style lang="scss" scoped>
   $calendar-time-label-width: 4rem;
-  $calendar-date-slot-width: 22rem;
-  $calendar-row-height: 5rem;
+  $calendar-column-width: 30rem;
+  $calendar-row-height: 10rem;
   $calendar-border-color: rgba($color-pink-700, .25);
 
   .calendar {
     position: relative;
 
     &.full-width {
-      .calendar-column {
-        width: 30rem;
+      .calendar-date-time {
+        height: $calendar-row-height;
       }
     }
   }
@@ -142,71 +128,70 @@ export default defineComponent({
 
   .calendar-content {
     padding-left: 1.2rem;
-  }
-
-  .calendar-row {
     display: flex;
     gap: 1rem;
   }
 
-  .calendar-column {
+  .calendar-date {
     flex: 0 0 auto;
-    width: $calendar-date-slot-width;
-    min-height: $calendar-row-height;
-    border: 1px solid transparent;
-    @include transition;
-
-    @media screen and (min-width: 480px) {
-      width: 30rem;
-    }
+    width: $calendar-column-width;
   }
 
-  .calendar-date-slot-time {
+  .calendar-date-label {
     display: flex;
-    align-items: flex-end;
-    flex: 0 0 auto;
-    padding: 0.4rem;
-    width: $calendar-time-label-width;
-    color: $color-pink-700;
-  }
-
-  .calendar-date-slot-content {
-    display: flex;
-    flex: 1 1 auto;
     flex-direction: column;
-    padding: 0.4rem;
-
-    &:empty {
-      background-color: rgba($color-pink-700, 0.1);
-    }
+    gap: 0.2rem;
+    margin-bottom: 0.8rem;
   }
 
-  .calendar-date-slot {
-    display: flex;
-    flex-direction: row;
-    border: 1px solid $calendar-border-color;
-
-    &.selected {
-      border-top-color: $color-pink-700;
-      border-bottom-color: $color-pink-700;
-      background-color: rgba($color-pink-700, 0.25);
-    }
-  }
-
-  .calendar-row:nth-child(1) .calendar-date-slot,
-  .calendar-row:nth-child(2) .calendar-date-slot {
+  .calendar-date-label + .calendar-date-time {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
   }
 
-  .calendar-row:last-child .calendar-date-slot {
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+  .calendar-date-time {
+    position: relative;
+    display: flex;
+    height: 5rem;
+    border: 1px solid $calendar-border-color;
+
+    @include transition;
+
+    &:not(:last-child) {
+      border-bottom: 0;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
   }
 
-  .calendar-date {
+  .calendar-date-time-label {
+    flex: 0 0 auto;
     display: flex;
-    flex-direction: column;
-    padding: 0.5rem;
+    align-items: flex-end;
+    padding: 0.8rem;
+    width: $calendar-time-label-width;
+  }
+
+  .calendar-date-time-content {
+    $padding: 0.4rem;
+
+    display: flex;
+    flex: 1 0 auto;
+    background-color: rgba($color-pink-700, 0.1);
+
+    @include transition;
+
+    ::v-deep {
+      .patient-sticker {
+        position: absolute;
+        top: 0;
+        left: $calendar-time-label-width;
+        right: 0;
+        z-index: 1;
+      }
+    }
   }
 </style>

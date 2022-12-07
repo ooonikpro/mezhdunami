@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isShow" class="patient-sticker" :style="color" @click="$emit('open-modal', data)">
+  <div v-if="isShow" class="patient-sticker" :style="styles" @click="$emit('open-modal', data)">
     <b class="h5">{{ procedures }}</b>
     <span class="h6">{{ name }}</span>
     <span class="h6">{{ phone }}</span>
@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { PatientFormData } from '@/types';
-import { getNames } from '@/utils';
+import { getNames, getTotalDurationInHours } from '@/utils';
 
 export default defineComponent({
   props: {
@@ -24,9 +24,15 @@ export default defineComponent({
     const name = computed(() => props.data?.name);
     const phone = computed(() => props.data?.phone);
     const procedures = computed(() => getNames(props.data?.procedures || []));
+    const duration = computed(() => getTotalDurationInHours(props.data?.procedures));
 
     const colors = ['#be99ff', '#e77f9f', '#cf7fe7', '#7fe7c9', '#d2bce0', '#e7927f'];
-    const color = computed(() => `background-color: ${colors[(props.data?.procedures?.length || 1) - 1]}`);
+    const color = computed(() => colors[(props.data?.procedures?.length || 1) - 1]);
+
+    const styles = computed(() => ({
+      height: `${100 * duration.value}%`,
+      'background-color': color.value,
+    }));
 
     return {
       isShow,
@@ -34,6 +40,7 @@ export default defineComponent({
       phone,
       procedures,
       color,
+      styles,
     };
   },
 });
@@ -44,7 +51,6 @@ export default defineComponent({
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  height: 100%;
   gap: 0.6rem;
   padding: 0.8rem;
   color: black;

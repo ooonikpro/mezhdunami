@@ -2,7 +2,6 @@
   <CalendarBase
     :from="from"
     :until="until"
-    fullWidth
     :selectedDates="selectedDates"
     class="mb-24"
     @click:day="onClickDay"

@@ -13,7 +13,7 @@
         Ваше имя:
       </div>
       <div class="h3 mb-24">
-        {{ formData.name }},
+        {{ formData.name }}
       </div>
 
       <div class="h4 label mb-8">

@@ -44,7 +44,7 @@ import Layout from '@/layouts/Layout.vue';
 import CalendarWithPatients from '@/components/admin/CalendarWithPatients.vue';
 import CalendarWithNonWorkingDates from '@/components/admin/CalendarWithNonWorkingDates.vue';
 import Input from '@/components/Input.vue';
-import { createDate, getNextMonth, today } from '@/utils';
+import { createDate } from '@/utils';
 import Switcher from '@/components/Switcher.vue';
 import { useAdminCalendar } from '@/composables/useAdminCalendar';
 

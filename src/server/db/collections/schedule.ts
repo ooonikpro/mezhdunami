@@ -43,6 +43,18 @@ export const findOneSchedule = async (date: number): Promise<ScheduleItem | null
   };
 };
 
+export const findOneScheduleById = async (_id: string): Promise<PatientFormData> => {
+  const schedule = await collection;
+
+  const result = await schedule.findOne({ _id: new ObjectId(_id) });
+
+  if (result) {
+    return result;
+  }
+
+  throw new Error('Не удалось найти запись!');
+};
+
 export const updateOneSchedule = async (_id: string, { _id: id, ...newData }: PatientFormData): Promise<boolean> => {
   const schedule = await collection;
 

@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { ADMIN_EMAIL, SMS_API_KEY, IS_PROD } from '@/constants/env';
 import type { ResponseAPI } from '@/types';
-import { NotificationType, PatientFormData, PhoneNumber } from '@/types';
-import { oneTimeCodeMsg, patientScheduleUpdatedMsg, newRegMsg } from '@/templates/messages';
+import { NotificationType } from '@/types';
 
 interface SMSAeroSended {
   id: number
@@ -76,9 +75,3 @@ export const sendWhatsAppMessage = async (to: string, message: string) => {
 
   return true;
 };
-
-export const notifyPatientAboutNewReg = (data: PatientFormData) => sendMessage(data.phone, newRegMsg(data));
-
-export const notifyPatientAboutUpdate = (data: PatientFormData) => sendMessage(data.phone, patientScheduleUpdatedMsg(data));
-
-export const sendOneTimeCode = (phone: PhoneNumber, code: string) => sendMessage(phone, oneTimeCodeMsg(code));

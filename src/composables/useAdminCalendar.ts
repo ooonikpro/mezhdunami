@@ -1,12 +1,13 @@
+import axios from 'axios';
 import {
-  computed, ref, watch, readonly,
+  computed, ref, watch,
 } from 'vue';
 import { createDate, getNextMonth, today } from '@/utils';
 import { DateNumber, PatientFormData, ResponseAPI } from '@/types';
+import { ADMIN_API_URL, BASE_ADMIN_API_URL } from '@/constants/adminUrls';
 
-const createUrl = (collection: string) => `/api/admin/${collection}`;
-const scheduleUrl = createUrl('schedules');
-const nonWorkingDatesUrl = createUrl('non-working-dates');
+const scheduleUrl = BASE_ADMIN_API_URL(ADMIN_API_URL.SCHEDULE);
+const nonWorkingDatesUrl = BASE_ADMIN_API_URL(ADMIN_API_URL.NON_WORKING_DATES);
 
 const from = ref(createDate(today));
 const until = ref(getNextMonth());
@@ -31,8 +32,8 @@ const setSchedule = (val: Record<DateNumber, PatientFormData>) => {
 
 const fetchNonWorkingDates = async () => {
   try {
-    const response: ResponseAPI<DateNumber[]> = await fetch(`${nonWorkingDatesUrl}?${searchParams.value}`)
-      .then((res) => res.json());
+    const response: ResponseAPI<DateNumber[]> = await axios.get(`${nonWorkingDatesUrl}?${searchParams.value}`)
+      .then((response) => response.data);
 
     if (response.success) {
       response.data.forEach((date) => {
@@ -58,12 +59,9 @@ const onUpdateNonWorkingDates = async (selectedDates: DateNumber[]) => {
     }
   }
 
-  const response: ResponseAPI<DateNumber[]> = await fetch(nonWorkingDatesUrl, {
-    method: 'POST',
-    body: JSON.stringify({
-      dates: Object.keys(newNonWorkingDates).map(Number),
-    }),
-  }).then((res) => res.json());
+  const response: ResponseAPI<DateNumber[]> = await axios.post(nonWorkingDatesUrl, {
+    dates: Object.keys(newNonWorkingDates).map(Number),
+  }).then((response) => response.data);
 
   if (response.success) {
     setNonWorkingDates(newNonWorkingDates);
@@ -78,7 +76,9 @@ const onUpdateNonWorkingDates = async (selectedDates: DateNumber[]) => {
 const fetchSchedule = async () => {
   try {
     const newSchedule: Record<DateNumber, PatientFormData> = {};
-    const response = await fetch(`${scheduleUrl}?${searchParams.value}`).then((response) => response.json()).then(({ data }) => data as PatientFormData[]);
+    const response = await axios.get(`${scheduleUrl}?${searchParams.value}`)
+      .then((response) => response.data)
+      .then(({ data }) => data as PatientFormData[]);
 
     response.forEach((item) => {
       newSchedule[item.date] = item;
@@ -93,10 +93,9 @@ const fetchSchedule = async () => {
 const onUpdateScheduleItem = async (formData: PatientFormData) => {
   try {
     // eslint-disable-next-line
-    const response = await fetch(`${scheduleUrl}/${formData._id}`, {
-      method: 'PUT',
-      body: JSON.stringify(formData),
-    }).then((response) => response.json()).then(({ data }) => data as boolean);
+    const response = await axios.put(`${scheduleUrl}/${formData._id}`, formData)
+      .then((response) => response.data)
+      .then(({ data }) => data as boolean);
 
     if (response) {
       schedule.value[formData.date] = formData;
@@ -111,9 +110,9 @@ const onUpdateScheduleItem = async (formData: PatientFormData) => {
 const onDeleteScheduleItem = async (formData: PatientFormData) => {
   try {
     // eslint-disable-next-line
-    const response = await fetch(`${scheduleUrl}/${formData._id}`, {
-      method: 'DELETE',
-    }).then((response) => response.json()).then(({ data }) => data as boolean);
+    const response = await axios.delete(`${scheduleUrl}/${formData._id}`)
+      .then((response) => response.data)
+      .then(({ data }) => data as boolean);
 
     if (response) {
       fetchSchedule();
