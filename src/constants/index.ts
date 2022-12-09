@@ -11,7 +11,7 @@ export const ADDRESS = {
 };
 
 export enum STORE_KEY {
-  name = 'name',
-  phone = 'phone',
-  isConfirmed = 'isConfirmed'
+  name = 'user.name',
+  phone = 'user.phone',
+  isConfirmed = 'user.isConfirmed'
 }

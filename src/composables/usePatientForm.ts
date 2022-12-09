@@ -26,13 +26,13 @@ const isConfirmed = ref(false);
 
 watch(form.state, ({ phone }) => {
   if (restoredPhone) {
-    isConfirmed.value = phone !== restoredPhone;
+    isConfirmed.value = phone === restoredPhone;
   }
 });
 
 export const usePatientForm = () => {
   const { insertOneSchedule } = useSchedules();
-  const { set, get } = useStore();
+  const { set, get, remove } = useStore();
 
   const init = () => {
     form.state = reactive(getInitialFormState());
@@ -52,6 +52,10 @@ export const usePatientForm = () => {
     if (save) {
       set(STORE_KEY.name, form.state.name);
       set(STORE_KEY.phone, form.state.phone);
+    } else {
+      remove(STORE_KEY.name);
+      remove(STORE_KEY.phone);
+      remove(STORE_KEY.isConfirmed);
     }
 
     return insertOneSchedule(form.state);

@@ -27,7 +27,7 @@ export default defineComponent({
     const duration = computed(() => getTotalDurationInHours(props.data?.procedures));
 
     const colors = ['#be99ff', '#56accc8c', '#e77f9f', '#cf7fe7', '#7fe7c9', '#d2bce0', '#e7927f', '#cc5677'];
-    const color = computed(() => colors[(props.data?.procedures?.length || 1) - 1]);
+    const color = computed(() => colors[(props.data?.procedures?.length || 1)]);
 
     const styles = computed(() => ({
       height: `${100 * duration.value}%`,

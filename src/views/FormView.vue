@@ -105,7 +105,7 @@
 
 <script lang="ts">
 import {
-  defineComponent, computed, ref, onBeforeUnmount,
+  defineComponent, computed, ref, onBeforeUnmount, watch,
 } from 'vue';
 import Layout from '@/layouts/Layout.vue';
 import Input from '@/components/Input.vue';
@@ -149,7 +149,11 @@ export default defineComponent({
     } = usePatientForm();
 
     const agree = ref(false);
-    const rememberMe = ref(isConfirmed.value);
+    const rememberMe = ref(false);
+
+    watch(isConfirmed, () => {
+      rememberMe.value = isConfirmed.value;
+    }, { immediate: true });
 
     const isDisabledSubmitBtn = computed(() => !agree.value
           || !isValidName(form.name || '')
