@@ -20,12 +20,14 @@ const notificationMethod: Record<NotificationType, NotificationMethod<PhoneNumbe
   [NotificationType.Telegram]: tg.sendMessage,
 };
 
-const notify = ({
-  method, to, message,
-}: Pick<NotificationPayload, 'message' | 'to' | 'method'>) => {
+export const notify = ({ method, to, message }: NotificationPayload) => {
   const sendMessage = notificationMethod[method];
 
-  sendMessage(to, message);
+  if (sendMessage) {
+    return sendMessage(to, message);
+  }
+
+  throw new TypeError(`Неверный способ доставки! "${method}" не найден`);
 };
 
 export const notifyAboutNew = (patient: PatientFormData) => {

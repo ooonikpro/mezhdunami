@@ -1,3 +1,5 @@
+import type { ObjectId } from 'mongodb';
+
 export interface HTMLDateInputElement extends HTMLInputElement {
     showPicker: () => void
 }
@@ -49,7 +51,6 @@ export enum NotificationType {
 export interface NotificationPayload {
     to: PhoneNumber | TelegramChatId,
     method: NotificationType
-    date: DateNumber
     message: string
 }
 
@@ -66,6 +67,16 @@ export interface PatientFormData extends Pick<Patient, 'name' | 'phone'> {
     notify: boolean
     notificationType: NotificationType
     comment?: string
+}
+
+export interface ReminderPayload {
+    scheduleId: ObjectId
+    deliveryDate: DateNumber
+    notificationPayload: NotificationPayload
+}
+
+export interface Reminder extends ReminderPayload {
+    _id: string
 }
 
 export type ScheduleItem = Pick<PatientFormData, 'date' | 'procedures'>;

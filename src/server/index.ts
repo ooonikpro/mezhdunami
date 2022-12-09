@@ -1,6 +1,7 @@
 import { server } from '@/server/instance';
 
 import '@/server/endpoints';
+import '@/server/services/reminders';
 
 server.start();
 

@@ -7,12 +7,12 @@ const collection = getCollection('not_working_days');
 export const findNonWorkingDates = async ({ from, until }: TimePeriod = {}): Promise<NotWorkingDates> => {
   const schedule = await collection;
 
-  const result: { date: DateNumber }[] = await schedule.find({
+  const result = await schedule.find<{ date: DateNumber }>({
     date: {
       $gte: from || getTomorrow(),
       ...(until ? { $lte: until } : {}),
     },
-  }).sort().toArray();
+  }).sort('date', 'asc').toArray();
 
   return result.map(({ date }) => date);
 };

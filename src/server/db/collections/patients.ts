@@ -7,7 +7,7 @@ const collection = getCollection('patients');
 export const findOnePatient = async (phone: number): Promise<Patient | null> => {
   const patients = await collection;
 
-  const result = await patients.findOne({ phone });
+  const result = await patients.findOne<Patient>({ phone });
 
   if (!result) return null;
 

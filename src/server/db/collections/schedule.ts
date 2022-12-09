@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { ObjectId, OptionalId } from 'mongodb';
 import { getCollection } from '@/server/db/mongo';
 import type {
   BookedDates, PatientFormData, ScheduleItem, TimePeriod,
@@ -10,7 +10,7 @@ const collection = getCollection('schedule');
 export const findBookedDates = async (): Promise<BookedDates> => {
   const schedule = await collection;
 
-  const result: PatientFormData[] = await schedule.find({
+  const result = await schedule.find<PatientFormData>({
     date: {
       $gt: getTomorrow(),
     },
@@ -19,10 +19,10 @@ export const findBookedDates = async (): Promise<BookedDates> => {
   return result.reduce((response, { date: startDate, procedures }) => response.concat(getReservedTimeSlots(startDate, procedures)), [] as number[]);
 };
 
-export const findSchedule = async ({ from, until }: TimePeriod = {}): Promise<PatientFormData> => {
+export const findSchedule = async ({ from, until }: TimePeriod = {}): Promise<PatientFormData[]> => {
   const schedule = await collection;
 
-  return schedule.find({
+  return schedule.find<PatientFormData>({
     date: {
       $gte: from || getTomorrow(),
       ...(until ? { $lte: until } : {}),
@@ -33,7 +33,7 @@ export const findSchedule = async ({ from, until }: TimePeriod = {}): Promise<Pa
 export const findOneSchedule = async (date: number): Promise<ScheduleItem | null> => {
   const schedule = await collection;
 
-  const result = await schedule.findOne({ date });
+  const result = await schedule.findOne<ScheduleItem>({ date });
 
   if (!result) return null;
 
@@ -46,7 +46,7 @@ export const findOneSchedule = async (date: number): Promise<ScheduleItem | null
 export const findOneScheduleById = async (_id: string): Promise<PatientFormData> => {
   const schedule = await collection;
 
-  const result = await schedule.findOne({ _id: new ObjectId(_id) });
+  const result = await schedule.findOne<PatientFormData>({ _id: new ObjectId(_id) });
 
   if (result) {
     return result;
@@ -90,7 +90,7 @@ export const deleteOneSchedule = async (_id: string): Promise<boolean> => {
   }
 };
 
-export const insertOneSchedule = async (data: PatientFormData) => {
+export const insertOneSchedule = async (data: Omit<PatientFormData, '_id'>) => {
   const schedule = await collection;
 
   if (await findOneSchedule(data.date)) {
@@ -98,10 +98,10 @@ export const insertOneSchedule = async (data: PatientFormData) => {
   }
 
   try {
-    await schedule.insertOne(data);
+    const result = await schedule.insertOne(data);
+
+    return result.insertedId;
   } catch (e) {
     throw new Error('Не удалось записать. Попробуйте чуть позже');
   }
-
-  return true;
 };
