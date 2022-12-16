@@ -127,6 +127,7 @@ export default defineComponent({
 
 .description {
   width: 100%;
+  opacity: .5;
 }
 
 .label {
