@@ -1,7 +1,5 @@
-import { Procedure } from '@/types';
-
 // eslint-disable-next-line
-export enum PROCEDURE {
+export const enum PROCEDURE {
   Peeling = 1,
   Cleaning = 2,
   Bio = 3,
@@ -9,16 +7,20 @@ export enum PROCEDURE {
   LipPlastic = 5,
   FacePlastic = 6,
   Botulinum = 7,
+  RemoveLip = 8,
+  MezoFractional = 9,
 }
 
-export const PROCEDURE_DURATION: Record<Procedure, number> = {
-  [PROCEDURE.Peeling]: 3600000, // 1 hours
-  [PROCEDURE.Cleaning]: 7200000, // 2 hours
-  [PROCEDURE.Bio]: 3600000,
-  [PROCEDURE.Mezo]: 3600000,
-  [PROCEDURE.LipPlastic]: 3600000,
-  [PROCEDURE.FacePlastic]: 3600000,
-  [PROCEDURE.Botulinum]: 3600000,
+export const PROCEDURE_DURATION: { [key in PROCEDURE]: number } = {
+  [PROCEDURE.Peeling]: 36e5, // 1 hours
+  [PROCEDURE.Cleaning]: 72e5, // 2 hours
+  [PROCEDURE.Bio]: 36e5,
+  [PROCEDURE.Mezo]: 36e5,
+  [PROCEDURE.LipPlastic]: 36e5,
+  [PROCEDURE.FacePlastic]: 36e5,
+  [PROCEDURE.Botulinum]: 36e5,
+  [PROCEDURE.RemoveLip]: 36e5,
+  [PROCEDURE.MezoFractional]: 36e5,
 };
 
 export const PROCEDURES = [
@@ -174,6 +176,20 @@ export const PROCEDURES = [
     price: 9000,
   },
   {
+    id: PROCEDURE.RemoveLip,
+    name: 'Удаление филлера',
+    duration: '~ 30 минут',
+    data: [{
+      data: [
+        {
+          label: 'Лонгидаза',
+          price: '4 000',
+        },
+      ],
+    }],
+    price: 4000,
+  },
+  {
     id: PROCEDURE.Bio,
     name: 'Биоревитализация',
     duration: '~ 1 час',
@@ -256,7 +272,23 @@ export const PROCEDURES = [
     ],
     price: 1500,
   },
-
+  {
+    id: PROCEDURE.MezoFractional,
+    name: 'Фракционная мезотерапия',
+    duration: '~ 1 час',
+    footnotes: '',
+    data: [
+      {
+        data: [
+          {
+            label: 'Микронидлинг',
+            price: '4 000',
+          },
+        ],
+      },
+    ],
+    price: 4000,
+  },
   {
     id: PROCEDURE.FacePlastic,
     name: 'Контурная пластика лица',
