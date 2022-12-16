@@ -43,8 +43,10 @@
 
     <IconValid
       v-if="!disabled && isValid"
-      class="status-valid"
+      class="icon-valid"
     />
+
+    <span v-if="isInvalid" class="icon-invalid">!</span>
   </label>
 </template>
 
@@ -122,6 +124,7 @@ export default defineComponent({
     const localizedDate = computed(() => getLocaleDate(new Date(value.value)));
 
     const isValid = computed(() => props.validator(value.value));
+    const isInvalid = computed(() => !isValid.value && !focused.value && value.value);
 
     const input = ref<HTMLDateInputElement>();
 
@@ -129,8 +132,10 @@ export default defineComponent({
 
     const rootClasses = computed(() => ({
       disabled: props.disabled,
-      focused,
+      focused: focused.value,
       select: isSelect.value,
+      valid: !props.disabled && isValid.value,
+      invalid: isInvalid.value,
     }));
 
     const onFocus = () => {
@@ -168,6 +173,7 @@ export default defineComponent({
       isSelect,
       focused,
       isValid,
+      isInvalid,
       value,
       focus,
       onFocus,
@@ -189,11 +195,14 @@ export default defineComponent({
     border: 1px solid rgba($color-pink-700, 0.25);
     border-radius: 4px;
     background-color: $color-pink-100;
-    margin-bottom: 2.4rem;
     @include transition;
 
     &.focused {
       border-color: $color-pink-700;
+    }
+
+    &.invalid {
+      animation: 1s ease input-invalid infinite;
     }
 
     &.select {
@@ -292,9 +301,28 @@ export default defineComponent({
     margin-right: 0.8rem;
   }
 
-  .status-valid {
+  .icon-valid {
     position: absolute;
     bottom: 1.6rem;
     right: 1.2rem;
+    color: $color-green-400;
+  }
+
+  .icon-invalid {
+    position: absolute;
+    bottom: 1rem;
+    right: 1.7rem;
+    font-size: 3rem;
+  }
+
+  @keyframes input-invalid {
+    20% {
+      border-color: rgba($color-pink-700, 0.25);
+    }
+
+    to {
+
+      border-color: red;
+    }
   }
 </style>
