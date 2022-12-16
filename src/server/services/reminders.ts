@@ -1,5 +1,6 @@
+import cron from 'node-cron';
 import { ReminderPayload } from '@/types';
-import { deleteOneReminder, findAllReminders, insertOneReminder } from '@/server/db/collections';
+import { deleteOneReminder, findNearestReminders } from '@/server/db/collections';
 import { notify } from '@/server/services/notifications';
 
 const queue = new Map();
@@ -12,7 +13,7 @@ export const deleteReminder = (scheduleId: ReminderPayload['scheduleId']) => {
   queue.delete(scheduleId);
 };
 
-const addToQueue = (payload: ReminderPayload) => {
+const addToQueue = (payload: ReminderPayload, timeoutInSec = 0) => {
   const timer = setTimeout(async () => {
     try {
       await notify(payload.notificationPayload);
@@ -21,18 +22,19 @@ const addToQueue = (payload: ReminderPayload) => {
     } finally {
       deleteReminder(payload.scheduleId);
     }
-  }, payload.deliveryDate - Date.now());
+  }, timeoutInSec * 1000);
 
   queue.set(payload.scheduleId, timer);
 };
 
-export const createReminder = (payload: ReminderPayload) => {
-  insertOneReminder(payload);
-  addToQueue(payload);
+const sendReminders = async () => {
+  const reminders = await findNearestReminders();
+
+  reminders.forEach(addToQueue);
+
+  console.log(new Date(), '[Reminders] It\'s time to choose...', reminders.map((item) => item.deliveryDate));
 };
 
-(async function restore() {
-  const reminders = await findAllReminders();
-
-  await reminders.forEach(addToQueue);
-}());
+export const createCronJob = () => {
+  cron.schedule('0 11 1-31 * *', sendReminders);
+};

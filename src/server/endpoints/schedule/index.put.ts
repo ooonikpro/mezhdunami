@@ -4,7 +4,7 @@ import { notifyAboutNew, notifyPatientAboutNewReg } from '@/server/services';
 import type { PatientFormData } from '@/types';
 import { BASE_API_URL, API_URL } from '@/constants/urls';
 import { patientReminderMsg } from '@/templates/messages';
-import { insertOneReminder } from '../../db/collections/reminders';
+import { insertOneReminder } from '@/server/db/collections/reminders';
 
 server.route({
   method: 'PUT',

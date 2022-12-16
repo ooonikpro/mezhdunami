@@ -1,7 +1,9 @@
 import { server } from '@/server/instance';
+import { createCronJob } from '@/server/services/reminders';
 
 import '@/server/endpoints';
-import '@/server/services/reminders';
+
+createCronJob();
 
 server.start();
 

@@ -4,12 +4,14 @@ import type { PatientFormData, Reminder, ReminderPayload } from '@/types';
 
 const collection = getCollection('reminders');
 
-export const findAllReminders = async () => {
+export const findNearestReminders = async () => {
   const reminders = await collection;
 
   return reminders.find<Reminder>({
+    // c 10-18
     deliveryDate: {
-      $gt: 1,
+      $gt: Date.now() - 36e5,
+      $lt: Date.now() + 288e5,
     },
   }).toArray();
 };
