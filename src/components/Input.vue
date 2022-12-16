@@ -85,7 +85,7 @@ export default defineComponent({
     },
 
     modelValue: {
-      type: String,
+      type: [String, Date],
       default: null,
     },
 
@@ -190,6 +190,7 @@ export default defineComponent({
     position: relative;
     width: 100%;
     display: flex;
+    min-height: 8rem;
     flex-wrap: wrap;
     align-items: center;
     border: 1px solid rgba($color-pink-700, 0.25);
@@ -199,6 +200,10 @@ export default defineComponent({
 
     &.focused {
       border-color: $color-pink-700;
+
+      .triangle {
+        opacity: 1;
+      }
     }
 
     &.invalid {
@@ -246,6 +251,7 @@ export default defineComponent({
     font-size: 1.8rem;
     padding: 4.5rem 4rem 1rem 1.2rem;
     text-overflow: ellipsis;
+    color: $color-pink-700;
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
     z-index: 1;
@@ -299,6 +305,9 @@ export default defineComponent({
     width: 1.2rem;
     height: 0.8rem;
     margin-right: 0.8rem;
+    opacity: 0.75;
+
+    @include transition;
   }
 
   .icon-valid {

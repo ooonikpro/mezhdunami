@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <template #title>
-      Записаться
+      {{ title }}
     </template>
 
     <form @submit.prevent="onSubmit">
@@ -28,18 +28,12 @@
         class="mb-16"
       />
 
-      <Checkbox
-        v-model="rememberMe"
-        class="mb-24"
-      >
-        Запомнить мои данные на этом устройстве для следующего раза
-      </Checkbox>
-
       <InputProcedure v-model="form.procedures" />
 
       <InputDate
         v-model="form.date"
         :selected-procedures="form.procedures"
+        class="mb-24"
       />
 
       <Input
@@ -48,25 +42,13 @@
         label="Комментарий"
         aria-label="Комментарий"
         placeholder="Например, есть аллергия или мне нет 18"
-        class="mb-16"
-      />
-
-      <Checkbox
-        v-model="form.notify"
-        class="mb-16"
-      >
-        Напомнить за сутки до
-      </Checkbox>
-
-      <NotificationSwitcher
-        v-if="form.notify"
-        v-model="form.notificationType"
         class="mb-32"
       />
 
       <Checkbox
+        v-if="!withoutConfirm"
         v-model="agree"
-        class="mb-24"
+        class="mb-32"
       >
         Даю свое согласие на обработку персональных данных
       </Checkbox>
@@ -76,7 +58,7 @@
         class="mb-16"
         :disabled="isDisabledSubmitBtn"
       >
-        Записаться
+        {{ submitButtonText }}
       </Button>
       <Button
         type="button"
@@ -89,6 +71,7 @@
     </form>
 
     <ConfirmPhoneModal
+      v-if="!withoutConfirm"
       :isOpen="isOpenConfirmModal"
       :phone="form.phone"
       :save="rememberMe"
@@ -112,7 +95,6 @@ import Input from '@/components/Input.vue';
 import InputProcedure from '@/components/InputProcedure.vue';
 import InputDate from '@/components/InputDate.vue';
 import Checkbox from '@/components/Checkbox.vue';
-import NotificationSwitcher from '@/components/NotificationSwitcher.vue';
 import Button from '@/components/Button.vue';
 import FormFinalStepModal from '@/components/FormFinalStepModal.vue';
 
@@ -121,21 +103,48 @@ import { useSchedules } from '@/composables/useSchedules';
 import { useValidation } from '@/composables/useValidation';
 import { usePatientForm } from '@/composables/usePatientForm';
 import ConfirmPhoneModal from '@/components/ConfirmPhoneModal.vue';
+import { IS_PROD } from '@/constants/env';
 
 export default defineComponent({
+  props: {
+    title: {
+      type: String,
+      default: 'Записаться',
+    },
+
+    restoreUser: {
+      type: Boolean,
+      default: false,
+    },
+
+    withoutConfirm: {
+      type: Boolean,
+      default: !IS_PROD,
+    },
+
+    backUrl: {
+      type: String,
+      default: '/',
+    },
+
+    submitButtonText: {
+      type: String,
+      default: 'Записаться',
+    },
+  },
+
   components: {
     Layout,
     Input,
     InputProcedure,
     InputDate,
     Checkbox,
-    NotificationSwitcher,
     Button,
     FormFinalStepModal,
     ConfirmPhoneModal,
   },
 
-  setup() {
+  setup(props) {
     const { goToBack } = useAnimatedRouter();
     const { fetchData } = useSchedules();
     const {
@@ -146,14 +155,16 @@ export default defineComponent({
       reset: resetForm,
       submit: submitForm,
       isConfirmed,
-    } = usePatientForm();
+    } = usePatientForm({ restoreUser: props.restoreUser });
 
-    const agree = ref(false);
+    const agree = ref(props.withoutConfirm);
     const rememberMe = ref(false);
 
-    watch(isConfirmed, () => {
-      rememberMe.value = isConfirmed.value;
-    }, { immediate: true });
+    if (!props.withoutConfirm) {
+      watch(isConfirmed, () => {
+        rememberMe.value = isConfirmed.value;
+      }, { immediate: true });
+    }
 
     const isDisabledSubmitBtn = computed(() => !agree.value
           || !isValidName(form.name || '')
@@ -174,14 +185,14 @@ export default defineComponent({
     };
 
     const onSubmit = async () => {
-      if (isConfirmed.value) {
+      if (isConfirmed.value || props.withoutConfirm) {
         sendForm();
       } else {
         isOpenConfirmModal.value = true;
       }
     };
 
-    const close = () => goToBack('/');
+    const close = () => goToBack(props.backUrl);
     const cancel = () => close();
 
     onBeforeUnmount(resetForm);

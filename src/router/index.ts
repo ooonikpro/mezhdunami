@@ -33,18 +33,21 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/admin',
-    redirect: '/',
-    component: () => import('@/views/admin/AdminContainerView.vue'),
-    children: [
-      {
-        path: '',
-        component: () => import('@/views/admin/AdminMainView.vue'),
-      },
-      {
-        path: 'schedule',
-        component: () => import('@/views/admin/AdminScheduleView.vue'),
-      },
-    ],
+    component: () => import('@/views/admin/AdminMainView.vue'),
+  },
+  {
+    path: '/admin/new-patient',
+    component: () => import('@/views/FormView.vue'),
+    props: {
+      title: 'Запись пациента',
+      withoutConfirm: true,
+      backUrl: '/admin',
+      submitButtonText: 'Записать',
+    },
+  },
+  {
+    path: '/admin/schedule',
+    component: () => import('@/views/admin/AdminScheduleView.vue'),
   },
   {
     path: '/:pathMatch(.*)*',

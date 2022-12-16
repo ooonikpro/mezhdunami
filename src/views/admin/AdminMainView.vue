@@ -12,6 +12,14 @@
       </a>
 
       <a
+        href="/new-patient"
+        class="action-btn full-width h-64 i-catalog media-btn"
+        @click.prevent="goTo('/admin/new-patient')"
+      >
+        <span class="h2">Записать пациента</span>
+      </a>
+
+      <a
         href="/form"
         class="action-btn full-width h-64 i-catalog media-btn"
         @click.prevent="goTo('/admin/patients')"

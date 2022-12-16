@@ -1,10 +1,21 @@
 <template>
-  <Layout hideHead>
+  <Layout>
+    <template #before-title>
+      <Button
+        outline
+        small
+        @click="goToBack('/admin')"
+        class="mb-24"
+      >
+        Назад
+      </Button>
+    </template>
+
     <template #title>
       Мое расписание
     </template>
 
-    <div class="form-group">
+    <div class="form-group mb-24">
       <Input
         v-model="from"
         type="date"
@@ -24,17 +35,9 @@
 
     <Switcher v-model="calendarType" :options="calendarTypeOptions" class="mb-24"/>
 
-    <CalendarWithPatients
-      v-if="calendarType === 0"
-      :from="from"
-      :until="until"
-    />
+    <CalendarWithPatients v-if="calendarType === 0"/>
 
-    <CalendarWithNonWorkingDates
-      v-else
-      :from="from"
-      :until="until"
-    />
+    <CalendarWithNonWorkingDates v-else/>
   </Layout>
 </template>
 
@@ -47,10 +50,13 @@ import Input from '@/components/Input.vue';
 import { createDate } from '@/utils';
 import Switcher from '@/components/Switcher.vue';
 import { useAdminCalendar } from '@/composables/useAdminCalendar';
+import Button from '@/components/Button.vue';
+import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
 
 export default defineComponent({
   components: {
     Layout,
+    Button,
     Input,
     CalendarWithPatients,
     CalendarWithNonWorkingDates,
@@ -59,6 +65,7 @@ export default defineComponent({
 
   setup() {
     const { from, until } = useAdminCalendar();
+    const { goToBack } = useAnimatedRouter();
 
     const toDate = (str: string) => createDate(new Date(str));
 
@@ -77,6 +84,7 @@ export default defineComponent({
       calendarType,
       calendarTypeOptions,
       toDate,
+      goToBack,
     };
   },
 });

@@ -12,7 +12,7 @@ const getInitialFormState = (): PatientFormData => ({
   phone: '',
   procedures: [],
   date: 0,
-  notify: false,
+  notify: true,
   notificationType: NotificationType.SMS,
   comment: '',
 });
@@ -30,7 +30,11 @@ watch(form.state, ({ phone }) => {
   }
 });
 
-export const usePatientForm = () => {
+interface UsePatientFormPayload {
+  restoreUser?: boolean
+}
+
+export const usePatientForm = ({ restoreUser = false }: UsePatientFormPayload = {}) => {
   const { insertOneSchedule } = useSchedules();
   const { set, get, remove } = useStore();
 
@@ -61,7 +65,9 @@ export const usePatientForm = () => {
     return insertOneSchedule(form.state);
   };
 
-  onBeforeMount(restorePatient);
+  if (restoreUser) {
+    onBeforeMount(restorePatient);
+  }
 
   return {
     state: form.state as PatientFormData,
