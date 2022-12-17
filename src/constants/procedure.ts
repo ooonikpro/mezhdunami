@@ -66,18 +66,6 @@ export const PROCEDURES = [
           },
           {
             label: 'Мультикислотный Retin A A.L.U.S Peeling',
-            price: '2 500',
-          },
-          {
-            label: 'Срединный отбеливающий',
-            price: '3 000',
-          },
-          {
-            label: 'Срединный Акнепил',
-            price: '3 000',
-          },
-          {
-            label: 'Срединный Дермапил',
             price: '3 000',
           },
         ],
@@ -88,37 +76,22 @@ export const PROCEDURES = [
           {
             label: 'Salicylic Peel',
             footnotes: 'Салициловый, анти-акне',
-            price: '1 500',
-          },
-          {
-            label: 'M-Peel',
-            footnotes: 'Миндальный, для жирной кожи',
-            price: '1 500',
-          },
-          {
-            label: 'L-Peel',
-            footnotes: 'Молочная кислота, увлажнение',
-            price: '1 600',
-          },
-          {
-            label: 'Pyruvic Peel',
-            footnotes: 'Пировиноградный, увлажнение и обновление',
-            price: '1 600',
-          },
-          {
-            label: 'Age-stop Peel',
-            footnotes: 'Антивозрастной',
-            price: '1 600',
+            price: '1 700',
           },
           {
             label: 'Jess Peel',
             footnotes: 'Пилинг Джесснера',
-            price: '1 700',
+            price: '2 500',
+          },
+          {
+            label: 'RetiSet Duo',
+            footnotes: 'Желтый пилинг',
+            price: '3 000',
           },
         ],
       },
     ],
-    price: 1500,
+    price: 1700,
   },
   {
     id: PROCEDURE.Botulinum,
