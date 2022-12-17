@@ -1,7 +1,7 @@
 import { PatientFormData } from '@/types';
 import { getNames, getLocalizedShortDate, getLocalizedFullDate } from '@/utils';
 
-const signature = 'Между нами.';
+const signature = 'Косметология для своих';
 
 export const newPatientMsg = (data: PatientFormData) => {
   const comment = data.comment ? `\nКомментарий: ${data.comment}` : '';
@@ -13,22 +13,22 @@ export const newRegMsg = (data: PatientFormData) => {
   const date = getLocalizedShortDate(data.date);
   const procedures = getNames(data.procedures);
 
-  return `${signature} Вы записаны к косметологу, ${date}, ${procedures}`;
+  return `"${signature}". Вы записаны к косметологу, ${date}, ${procedures}`;
 };
 
 export const patientReminderMsg = (data: PatientFormData) => {
   const date = getLocalizedShortDate(data.date);
   const procedures = getNames(data.procedures);
 
-  return `${signature} Напоминаем вы записаны к косметологу, ${date}, ${procedures}`;
+  return `Напоминаем вы записаны к косметологу, ${date}, ${procedures}`;
 };
 
 export const patientScheduleUpdatedMsg = (data: PatientFormData) => {
   const date = getLocalizedShortDate(data.date);
 
-  return `${signature} Ваша запись к косметологу перенесена на ${date}.`;
+  return `Ваша запись к косметологу перенесена на ${date}.`;
 };
 
-export const oneTimeCodeMsg = (code: string) => `Тсс... ${signature} Код подтверждения: ${code}`;
+export const oneTimeCodeMsg = (code: string) => `Тcс... "Между Нами". Код подтверждения: ${code}`;
 
-export const patientScheduleRemoveMsg = () => `${signature} Ваша запись к косметологу отменена.`;
+export const patientScheduleRemoveMsg = () => 'Ваша запись к косметологу отменена.';
