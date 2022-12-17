@@ -52,16 +52,21 @@
       </p>
     </section>
 
+    <Button class="mb-16" outline @click="openModal" >Определить тип кожи</Button>
+
     <a href="https://t.me/lensem">
       <Button class="mb-16">Заказать домашний уход</Button>
     </a>
+
+    <TypeOfSkinModal :is-open="isOpenTypeOfSkinModal" @close="closeModal"/>
   </Layout>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import Layout from '@/layouts/Layout.vue';
 import Button from '@/components/Button.vue';
+import TypeOfSkinModal from '@/components/TypeOfSkinModal.vue';
 
 import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
 
@@ -69,13 +74,26 @@ export default defineComponent({
   components: {
     Layout,
     Button,
+    TypeOfSkinModal,
   },
 
   setup() {
     const { goToBack } = useAnimatedRouter();
+    const isOpenTypeOfSkinModal = ref(false);
+
+    const openModal = () => {
+      isOpenTypeOfSkinModal.value = true;
+    };
+
+    const closeModal = () => {
+      isOpenTypeOfSkinModal.value = false;
+    };
 
     return {
       goToBack,
+      isOpenTypeOfSkinModal,
+      openModal,
+      closeModal,
     };
   },
 });

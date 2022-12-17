@@ -20,7 +20,7 @@ export const patientReminderMsg = (data: PatientFormData) => {
   const date = getLocalizedShortDate(data.date);
   const procedures = getNames(data.procedures);
 
-  return `Напоминаем вы записаны к косметологу, ${date}, ${procedures}`;
+  return `Напоминаем, что Вы записаны к косметологу, ${date}, ${procedures}`;
 };
 
 export const patientScheduleUpdatedMsg = (data: PatientFormData) => {
