@@ -33,6 +33,7 @@
       <InputDate
         v-model="form.date"
         :selected-procedures="form.procedures"
+        :from-hour="fromHour"
         class="mb-24"
       />
 
@@ -131,6 +132,11 @@ export default defineComponent({
     submitButtonText: {
       type: String,
       default: 'Записаться',
+    },
+
+    fromHour: {
+      type: Number,
+      default: 10,
     },
   },
 

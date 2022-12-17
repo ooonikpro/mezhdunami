@@ -12,6 +12,7 @@
 
     <CalendarModal
       v-model="value"
+      :from-hour="fromHour"
       :selectedProcedures="selectedProcedures"
       :is-open="isOpenCalendarModal"
       @close="isOpenCalendarModal = false"
@@ -47,6 +48,11 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false,
+    },
+
+    fromHour: {
+      type: Number,
+      default: 10,
     },
   },
 

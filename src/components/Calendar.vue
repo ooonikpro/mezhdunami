@@ -21,7 +21,7 @@
 
             <div class="calendar-slots">
               <CalendarSlot
-                v-for="(slot, $j) in item.slots"
+                v-for="(slot, $j) in getAvailableSlots(item.slots)"
                 :key="$j"
                 :is-free="isFree(slot, item.slots)"
                 :is-selected="isSelected(slot.date)"
@@ -63,6 +63,11 @@ export default defineComponent({
     modelValue: {
       type: Number,
       required: true,
+    },
+
+    fromHour: {
+      type: Number,
+      default: 10,
     },
   },
 
@@ -118,6 +123,8 @@ export default defineComponent({
       emit('update:modelValue', date);
     };
 
+    const getAvailableSlots = (slots: ScheduleTimeSlot[]) => slots.filter((hour) => parseInt(hour.time, 10) >= props.fromHour);
+
     return {
       isFree,
       isSelected,
@@ -126,6 +133,7 @@ export default defineComponent({
       select,
       getLocalizedWeekday,
       getLocalizedDate,
+      getAvailableSlots,
     };
   },
 });

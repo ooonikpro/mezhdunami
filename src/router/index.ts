@@ -47,6 +47,7 @@ const routes: Array<RouteRecordRaw> = [
       restoreUser: false,
       backUrl: '/admin',
       submitButtonText: 'Записать',
+      fromHour: 9,
     },
   },
   {

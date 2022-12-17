@@ -16,6 +16,7 @@
     </template>
 
     <Calendar
+      :from-hour="fromHour"
       :model-value="modelValue"
       :selected-procedures="selectedProcedures"
       class="mb-24"
@@ -63,6 +64,11 @@ export default defineComponent({
     isOpen: {
       type: Boolean,
       default: false,
+    },
+
+    fromHour: {
+      type: Number,
+      default: 10,
     },
   },
 

@@ -6,7 +6,7 @@ export const today = new Date();
 export const year = today.getFullYear();
 export const month = today.getMonth();
 export const day = today.getDate();
-export const timeSlots = [10, 11, 12, 13, 14, 15, 16, 17, 18];
+export const timeSlots = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
 export const getUppercase = (str: string) => str[0].toUpperCase() + str.slice(1);
 
