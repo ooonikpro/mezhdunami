@@ -3,7 +3,7 @@ const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
   transpileDependencies: true,
 
-  outputDir: 'app/nginx/www',
+  outputDir: 'mezhdunami.app/nginx/www',
 
   css: {
     loaderOptions: {
@@ -33,6 +33,24 @@ module.exports = defineConfig({
       background_color: '#F3BAB3',
       lang: 'ru',
       dir: 'ltr',
+    },
+  },
+
+  configureWebpack: {
+    resolve: {
+      fallback: {
+        url: false,
+        fs: false,
+        tls: false,
+        net: false,
+        path: false,
+        zlib: false,
+        http: false,
+        https: false,
+        stream: false,
+        crypto: false,
+        assert: false,
+      },
     },
   },
 });

@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <template #title>
-      Записаться
+      {{ title }}
     </template>
 
     <form @submit.prevent="onSubmit">
@@ -28,36 +28,27 @@
         class="mb-16"
       />
 
-      <Checkbox
-        v-model="rememberMe"
-        class="mb-24"
-      >
-        Запомнить мои данные на этом устройстве
-      </Checkbox>
-
       <InputProcedure v-model="form.procedures" />
 
       <InputDate
         v-model="form.date"
         :selected-procedures="form.procedures"
+        class="mb-24"
       />
 
-      <Checkbox
-        v-model="form.notify"
-        class="mb-16"
-      >
-        Напомнить за сутки до
-      </Checkbox>
-
-      <NotificationSwitcher
-        v-if="form.notify"
-        v-model="form.typeOfNotify"
+      <Input
+        v-model="form.comment"
+        type="textarea"
+        label="Комментарий"
+        aria-label="Комментарий"
+        placeholder="Например, есть аллергия или мне нет 18"
         class="mb-32"
       />
 
       <Checkbox
+        v-if="!withoutConfirm"
         v-model="agree"
-        class="mb-24"
+        class="mb-32"
       >
         Даю свое согласие на обработку персональных данных
       </Checkbox>
@@ -67,7 +58,7 @@
         class="mb-16"
         :disabled="isDisabledSubmitBtn"
       >
-        Записаться
+        {{ submitButtonText }}
       </Button>
       <Button
         type="button"
@@ -79,6 +70,15 @@
       </Button>
     </form>
 
+    <ConfirmPhoneModal
+      v-if="!withoutConfirm"
+      :isOpen="isOpenConfirmModal"
+      :phone="form.phone"
+      :save="rememberMe"
+      @success="sendForm"
+      @close="isOpenConfirmModal = false"
+    />
+
     <FormFinalStepModal
       :form-data="form"
       :is-open="isOpenFinalModal"
@@ -89,14 +89,13 @@
 
 <script lang="ts">
 import {
-  defineComponent, computed, ref, onBeforeUnmount, onMounted,
+  defineComponent, computed, ref, onBeforeUnmount, watch,
 } from 'vue';
 import Layout from '@/layouts/Layout.vue';
 import Input from '@/components/Input.vue';
 import InputProcedure from '@/components/InputProcedure.vue';
 import InputDate from '@/components/InputDate.vue';
 import Checkbox from '@/components/Checkbox.vue';
-import NotificationSwitcher from '@/components/NotificationSwitcher.vue';
 import Button from '@/components/Button.vue';
 import FormFinalStepModal from '@/components/FormFinalStepModal.vue';
 
@@ -104,20 +103,49 @@ import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
 import { useSchedules } from '@/composables/useSchedules';
 import { useValidation } from '@/composables/useValidation';
 import { usePatientForm } from '@/composables/usePatientForm';
+import ConfirmPhoneModal from '@/components/ConfirmPhoneModal.vue';
+import { IS_PROD } from '@/constants/env';
 
 export default defineComponent({
+  props: {
+    title: {
+      type: String,
+      default: 'Записаться',
+    },
+
+    restoreUser: {
+      type: Boolean,
+      default: false,
+    },
+
+    withoutConfirm: {
+      type: Boolean,
+      default: !IS_PROD,
+    },
+
+    backUrl: {
+      type: String,
+      default: '/',
+    },
+
+    submitButtonText: {
+      type: String,
+      default: 'Записаться',
+    },
+  },
+
   components: {
     Layout,
     Input,
     InputProcedure,
     InputDate,
     Checkbox,
-    NotificationSwitcher,
     Button,
     FormFinalStepModal,
+    ConfirmPhoneModal,
   },
 
-  setup() {
+  setup(props) {
     const { goToBack } = useAnimatedRouter();
     const { fetchData } = useSchedules();
     const {
@@ -127,10 +155,11 @@ export default defineComponent({
       state: form,
       reset: resetForm,
       submit: submitForm,
-    } = usePatientForm();
+      isConfirmed,
+    } = usePatientForm({ restoreUser: props.restoreUser });
 
-    const agree = ref(false);
-    const rememberMe = ref(false);
+    const agree = ref(props.withoutConfirm);
+    const rememberMe = ref(props.restoreUser);
 
     const isDisabledSubmitBtn = computed(() => !agree.value
           || !isValidName(form.name || '')
@@ -139,20 +168,28 @@ export default defineComponent({
           || !form.date);
 
     const isOpenFinalModal = ref(false);
+    const isOpenConfirmModal = ref(false);
 
-    const onSubmit = async () => {
+    const sendForm = async () => {
       try {
         isOpenFinalModal.value = await submitForm(rememberMe.value);
       } catch (e) {
         fetchData();
-        alert(e);
+        alert((e! as Error).message);
       }
     };
 
-    const close = () => goToBack('/');
+    const onSubmit = async () => {
+      if (isConfirmed.value || props.withoutConfirm) {
+        sendForm();
+      } else {
+        isOpenConfirmModal.value = true;
+      }
+    };
+
+    const close = () => goToBack(props.backUrl);
     const cancel = () => close();
 
-    onMounted(fetchData);
     onBeforeUnmount(resetForm);
 
     return {
@@ -166,7 +203,9 @@ export default defineComponent({
       form,
       agree,
       resetForm,
+      sendForm,
       isOpenFinalModal,
+      isOpenConfirmModal,
       isDisabledSubmitBtn,
     };
   },

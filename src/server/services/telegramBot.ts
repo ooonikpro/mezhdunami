@@ -1,36 +1,27 @@
 import axios from 'axios';
-import { getLocalizedFullDate, getNames } from '@/utils';
-import type { PatientFormData } from '@/types';
 import { TELEGRAM_BOT_KEY } from '@/constants/env';
 
 const httpClient = axios.create({
   baseURL: `https://api.telegram.org/bot${TELEGRAM_BOT_KEY}`,
 });
 
-const subscribers = ['209442952'];
+export const sendMessage = async (to: string, message: string) => {
+  try {
+    const params = new URLSearchParams();
 
-if (process.env.NODE_ENV === 'production') {
-  subscribers.push('460173300');
-}
+    Object.entries({
+      chat_id: to,
+      text: message,
+      parse_mode: 'HTML',
+      disable_notification: false,
+    }).forEach(([key, value]) => params.set(key, String(value)));
 
-const sendMessage = (to: string, message: string) => {
-  const params = new URLSearchParams();
+    await httpClient.get(`/sendMessage?${params}`);
 
-  Object.entries({
-    chat_id: to,
-    text: message,
-    parse_mode: 'HTML',
-    disable_notification: false,
-  }).forEach(([key, value]) => params.set(key, String(value)));
+    return true;
+  } catch (e) {
+    console.error(e);
+  }
 
-  return httpClient.get(`/sendMessage?${params}`);
-};
-
-export const notifySubscribers = (message: string) => subscribers.map((to) => sendMessage(to, message));
-
-export const notifyAboutNew = (patient: PatientFormData) => {
-  // eslint-disable-next-line
-  const text = `<b>${getLocalizedFullDate(patient.date)}</b>\nИмя: <b>${patient.name}</b>\nТелефон: ${patient.phone}\nПроцедуры: <b>${getNames(patient.procedures)}</b>`;
-
-  return notifySubscribers(text);
+  return false;
 };

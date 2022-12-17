@@ -13,7 +13,7 @@
         Ваше имя:
       </div>
       <div class="h3 mb-24">
-        {{ formData.name }},
+        {{ formData.name }}
       </div>
 
       <div class="h4 label mb-8">
@@ -82,7 +82,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const { getLocalizedFullDate } = useCalendar();
-    const { getNames, getTotalDurationLocalized, getTotalPrice } = useProcedures();
+    const { getNames, getTotalDurationLocalized } = useProcedures();
     const close = () => emit('close');
 
     const procedureLabel = computed(() => {
@@ -99,7 +99,6 @@ export default defineComponent({
       getLocalizedFullDate,
       getNames,
       getTotalDurationLocalized,
-      getTotalPrice,
       close,
       procedureLabel,
     };

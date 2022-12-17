@@ -75,17 +75,17 @@
     </section>
 
     <section class="mb-16">
-      <h3 class="mb-24">
+      <h3 id="route" class="mb-24">
         Как найти?
       </h3>
 
-      <div class="mb-16">
-        <p>г. Калининград</p>
+      <address class="mb-16">
+        <p>{{ address.city }}</p>
         <p class="h2">
-          Литовский вал 62
+          {{ address.street }}
         </p>
-        <p>2 этаж, офис 22.</p>
-      </div>
+        <p>{{ address.office }}</p>
+      </address>
 
       <div class="map mb-16">
         <a
@@ -120,6 +120,7 @@ import Social from '@/components/Social.vue';
 import Button from '@/components/Button.vue';
 
 import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
+import { ADDRESS } from '@/constants';
 
 export default defineComponent({
   components: {
@@ -135,6 +136,7 @@ export default defineComponent({
 
     return {
       goToBack,
+      address: ADDRESS,
     };
   },
 });

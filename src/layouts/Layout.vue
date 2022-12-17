@@ -12,13 +12,13 @@
 
       <template v-else>
         <Head v-if="!hideHead"/>
-
-        <slot name="before-title" />
-
-        <h1 class="mb-24">
-          <slot name="title" />
-        </h1>
       </template>
+
+      <slot name="before-title" />
+
+      <h1 v-if="$slots.title?.().length" class="mb-24">
+        <slot name="title" />
+      </h1>
 
       <slot />
     </div>

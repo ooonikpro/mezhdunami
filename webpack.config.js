@@ -22,7 +22,7 @@ module.exports = {
   },
   output: {
     filename: 'index.js',
-    path: path.resolve(__dirname, 'app/backend'),
+    path: path.resolve(__dirname, 'mezhdunami.app/backend'),
   },
   plugins: [
     new webpack.DefinePlugin({

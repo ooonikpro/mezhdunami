@@ -1,6 +1,11 @@
+import type { ObjectId } from 'mongodb';
+
 export interface HTMLDateInputElement extends HTMLInputElement {
     showPicker: () => void
 }
+
+export type PhoneNumber = string;
+export type TelegramChatId = string;
 
 export enum Procedure {
     Peeling = 1,
@@ -8,14 +13,15 @@ export enum Procedure {
     Bio = 3,
     Mezo = 4,
     LipPlastic = 5,
-    FacePlastic = 6
+    FacePlastic = 6,
+    Botulinum = 7,
 }
 
 export type DateNumber = number;
 
-export enum TypeOfNotify {
-    SMS = 1,
-    MESSENGER = 2
+export interface TimePeriod {
+    from?: DateNumber
+    until?: DateNumber
 }
 
 export interface LabelValue<T> {
@@ -39,16 +45,48 @@ export enum NotificationType {
     SMS = 1,
     WhatsApp = 2,
     Viber = 3,
-  }
+    Telegram = 4,
+}
 
-export interface PatientFormData {
+export interface NotificationPayload {
+    to: PhoneNumber | TelegramChatId,
+    method: NotificationType
+    message: string
+}
+
+export interface Patient {
+    _id: string;
+    createdAt: Date,
+    name: string;
+    phone: PhoneNumber;
+    comments?: Array<{
+        createdAt: Date,
+        body: string
+    }>;
+    gender?: 'male' | 'female';
+    birdthday?: Date;
+}
+
+export interface PatientFormData extends Pick<Patient, 'name' | 'phone'> {
+    _id?: string;
     date: DateNumber;
     procedures: Array<Procedure>
-    name: string;
-    phone: string;
     notify: boolean
-    typeOfNotify: NotificationType
+    notificationType: NotificationType
+    comment?: string
 }
+
+export interface ReminderPayload {
+    scheduleId: ObjectId
+    deliveryDate: DateNumber
+    notificationPayload: NotificationPayload
+}
+
+export interface Reminder extends ReminderPayload {
+    _id: string
+}
+
+export type ScheduleItem = Pick<PatientFormData, 'date' | 'procedures'>;
 
 export interface ResponseAPI<T> {
     data: T;
@@ -63,4 +101,9 @@ export type Schedule = Array<ScheduleDate>
 
 export interface ScheduleFilters {
     excludedDates: NotWorkingDates & BookedDates
+}
+
+export interface Period {
+    from?: DateNumber
+    until?: DateNumber
 }

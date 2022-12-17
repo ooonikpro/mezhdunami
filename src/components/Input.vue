@@ -10,7 +10,21 @@
       class="triangle"
     />
 
+    <textarea
+      v-if="type === 'textarea'"
+      ref="input"
+      v-model="value"
+      :type="inputType"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :readonly="isSelect"
+      :maxlength="maxlength"
+      @focus="onFocus"
+      @blur="onBlur"
+    ></textarea>
+
     <input
+      v-else
       ref="input"
       v-model="value"
       :type="inputType"
@@ -29,8 +43,10 @@
 
     <IconValid
       v-if="!disabled && isValid"
-      class="status-valid"
+      class="icon-valid"
     />
+
+    <span v-if="isInvalid" class="icon-invalid">!</span>
   </label>
 </template>
 
@@ -69,7 +85,7 @@ export default defineComponent({
     },
 
     modelValue: {
-      type: String,
+      type: [String, Date],
       default: null,
     },
 
@@ -108,13 +124,18 @@ export default defineComponent({
     const localizedDate = computed(() => getLocaleDate(new Date(value.value)));
 
     const isValid = computed(() => props.validator(value.value));
+    const isInvalid = computed(() => !isValid.value && !focused.value && value.value);
 
     const input = ref<HTMLDateInputElement>();
 
+    const focus = () => input.value?.focus();
+
     const rootClasses = computed(() => ({
       disabled: props.disabled,
-      focused,
+      focused: focused.value,
       select: isSelect.value,
+      valid: !props.disabled && isValid.value,
+      invalid: isInvalid.value,
     }));
 
     const onFocus = () => {
@@ -152,7 +173,9 @@ export default defineComponent({
       isSelect,
       focused,
       isValid,
+      isInvalid,
       value,
+      focus,
       onFocus,
       onBlur,
       inputType,
@@ -166,18 +189,25 @@ export default defineComponent({
   .input {
     position: relative;
     width: 100%;
-    height: 8rem;
     display: flex;
+    min-height: 8rem;
     flex-wrap: wrap;
     align-items: center;
     border: 1px solid rgba($color-pink-700, 0.25);
     border-radius: 4px;
     background-color: $color-pink-100;
-    margin-bottom: 2.4rem;
     @include transition;
 
     &.focused {
       border-color: $color-pink-700;
+
+      .triangle {
+        opacity: 1;
+      }
+    }
+
+    &.invalid {
+      animation: 1s ease input-invalid infinite;
     }
 
     &.select {
@@ -210,39 +240,45 @@ export default defineComponent({
     margin-bottom: 1.2rem;
   }
 
-  input {
+  input, textarea {
     display: flex;
     align-items: flex-end;
     flex: 1 1 auto;
     height: 100%;
     border: 0;
     outline: none;
-    background: none;
+    background: transparent !important;
     font-size: 1.8rem;
     padding: 4.5rem 4rem 1rem 1.2rem;
     text-overflow: ellipsis;
+    color: $color-pink-700;
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
     z-index: 1;
+  }
 
-    &[type="date"] {
-      opacity: 0;
+  textarea {
+    min-height: 10rem;
+  }
 
-      &::-webkit-calendar-picker-indicator {
-        background: transparent;
-        bottom: 0;
-        color: transparent;
-        cursor: pointer;
-        height: auto;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: auto;
-      }
+  input[type="date"] {
+    opacity: 0;
+
+    &::-webkit-calendar-picker-indicator {
+      background: transparent;
+      bottom: 0;
+      color: transparent;
+      cursor: pointer;
+      height: auto;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: auto;
     }
   }
 
+  textarea::placeholder,
   input::placeholder,
   .placeholder {
     color: rgba($color-pink-700, 0.5);
@@ -269,11 +305,33 @@ export default defineComponent({
     width: 1.2rem;
     height: 0.8rem;
     margin-right: 0.8rem;
+    opacity: 0.75;
+
+    @include transition;
   }
 
-  .status-valid {
+  .icon-valid {
     position: absolute;
     bottom: 1.6rem;
     right: 1.2rem;
+    color: $color-green-400;
+  }
+
+  .icon-invalid {
+    position: absolute;
+    bottom: 1rem;
+    right: 1.7rem;
+    font-size: 3rem;
+  }
+
+  @keyframes input-invalid {
+    20% {
+      border-color: rgba($color-pink-700, 0.25);
+    }
+
+    to {
+
+      border-color: red;
+    }
   }
 </style>

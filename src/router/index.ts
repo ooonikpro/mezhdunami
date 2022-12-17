@@ -15,6 +15,9 @@ const routes: Array<RouteRecordRaw> = [
     path: '/form',
     name: 'form',
     component: () => import('@/views/FormView.vue'),
+    props: {
+      restoreUser: true,
+    },
   },
   {
     path: '/price-list',
@@ -30,6 +33,29 @@ const routes: Array<RouteRecordRaw> = [
     path: '/recommendations',
     name: 'recommendations',
     component: () => import('@/views/RecommendationsView.vue'),
+  },
+  {
+    path: '/admin',
+    component: () => import('@/views/admin/AdminMainView.vue'),
+  },
+  {
+    path: '/admin/new-patient',
+    component: () => import('@/views/FormView.vue'),
+    props: {
+      title: 'Запись пациента',
+      withoutConfirm: true,
+      restoreUser: false,
+      backUrl: '/admin',
+      submitButtonText: 'Записать',
+    },
+  },
+  {
+    path: '/admin/schedule',
+    component: () => import('@/views/admin/AdminScheduleView.vue'),
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/',
   },
 ];
 
