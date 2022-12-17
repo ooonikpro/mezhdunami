@@ -27,8 +27,17 @@
         <a v-else href="#" @click.prevent="sendAgain">Отправить еще раз</a>
       </div>
 
-      <Button type="submit" :disabled="isLoading && code.length != 4">
+      <Button type="submit" :disabled="isLoading && code.length != 4" class="mb-16">
         Подтвердить
+      </Button>
+
+      <Button
+        type="button"
+        outline
+        small
+        @click="close"
+      >
+        Отмена
       </Button>
     </form>
   </Modal>
@@ -69,7 +78,7 @@ export default defineComponent({
     },
   },
 
-  emits: ['close', 'after-leave'],
+  emits: ['close', 'after-leave', 'success'],
 
   setup(props, { emit }) {
     const isOpen = toRef(props, 'isOpen');
@@ -102,6 +111,7 @@ export default defineComponent({
 
           set(STORE_KEY.isConfirmed, props.save && isConfirmed.value);
 
+          emit('success');
           close();
         } catch (e) {
           errorText.value = (e as Error).message;

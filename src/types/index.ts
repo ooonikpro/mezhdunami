@@ -56,8 +56,15 @@ export interface NotificationPayload {
 
 export interface Patient {
     _id: string;
+    createdAt: Date,
     name: string;
     phone: PhoneNumber;
+    comments?: Array<{
+        createdAt: Date,
+        body: string
+    }>;
+    gender?: 'male' | 'female';
+    birdthday?: Date;
 }
 
 export interface PatientFormData extends Pick<Patient, 'name' | 'phone'> {

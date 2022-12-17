@@ -4,7 +4,7 @@ import type { Patient } from '@/types';
 
 const collection = getCollection('patients');
 
-export const findOnePatient = async (phone: number): Promise<Patient | null> => {
+export const findOnePatient = async (phone: Patient['phone']): Promise<Patient | null> => {
   const patients = await collection;
 
   const result = await patients.findOne<Patient>({ phone });
@@ -14,11 +14,11 @@ export const findOnePatient = async (phone: number): Promise<Patient | null> => 
   return result;
 };
 
-export const updateOnePatient = async (_id: string, { _id: id, ...newData }: Patient): Promise<boolean> => {
-  const schedule = await collection;
+export const updateOnePatient = async (_id: Patient['_id'], { _id: id, ...newData }: Patient): Promise<boolean> => {
+  const patients = await collection;
 
   try {
-    const result = await schedule.updateOne(
+    const result = await patients.updateOne(
       { _id: new ObjectId(_id) },
       {
         $set: { ...newData },
@@ -37,14 +37,30 @@ export const updateOnePatient = async (_id: string, { _id: id, ...newData }: Pat
   }
 };
 
-export const deleteOnePatient = async (_id: string): Promise<boolean> => {
-  const schedule = await collection;
+export const deleteOnePatient = async (_id: Patient['_id']): Promise<boolean> => {
+  const patients = await collection;
 
-  const result = await schedule.deleteOne({ _id: new ObjectId(_id) });
+  const result = await patients.deleteOne({ _id: new ObjectId(_id) });
 
   if (result.deletedCount > 0) {
     return true;
   }
 
   throw new Error('Не удалось удалить запись!');
+};
+
+export const insertOnePatient = async (data: Omit<Patient, '_id'>) => {
+  const patients = await collection;
+
+  if (await findOnePatient(data.phone)) {
+    return true;
+  }
+
+  try {
+    const result = await patients.insertOne(data);
+
+    return result.insertedId;
+  } catch (e) {
+    throw new Error('Не удалось записать. Попробуйте чуть позже');
+  }
 };

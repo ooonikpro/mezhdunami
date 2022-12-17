@@ -2,6 +2,7 @@ import { server } from '@/server/instance';
 import { findBookedDates, findNonWorkingDates } from '@/server/db/collections';
 import { API_URL, BASE_API_URL } from '@/constants/urls';
 import { zipNonWorkingDates } from '@/utils/calendar';
+import { getRouteOptions } from '@/utils/getRouteOptions';
 
 server.route({
   method: 'GET',
@@ -27,4 +28,5 @@ server.route({
       };
     }
   },
+  options: getRouteOptions(),
 });

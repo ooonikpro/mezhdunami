@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue';
-import type { PatientFormData, ResponseAPI, ScheduleFilters } from '@/types';
+import type { PatientFormData, ScheduleFilters } from '@/types';
 import { useCalendar } from '@/composables/useCalendar';
 import { addToSchedule, fetchScheduleFilter } from '@/providers/guest/schedule.provider';
 

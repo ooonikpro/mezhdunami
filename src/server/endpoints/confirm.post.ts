@@ -4,6 +4,7 @@ import { PhoneNumber } from '@/types';
 import { debounce } from '@/utils';
 import { IS_PROD } from '@/constants/env';
 import { generateOneTimeCode } from '@/utils/generateOneTimeCode';
+import { getRouteOptions } from '@/utils/getRouteOptions';
 import { notifyPatientOneTimeCode } from '../services';
 
 const oneTimeCodes = new Map();
@@ -61,4 +62,5 @@ server.route({
       };
     }
   },
+  options: getRouteOptions(),
 });

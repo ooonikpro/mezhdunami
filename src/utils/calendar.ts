@@ -26,21 +26,22 @@ export const createDate = (date: Date | DateNumber, hour = 0, minutes = 0): Date
 export const getLocalizedWeekday = (date: Date | DateNumber): string => getUppercase(
   new Date(date).toLocaleString('ru', {
     weekday: 'long',
+    timeZone: 'Europe/Kaliningrad',
   }),
 );
 
-export const getLocalizedDate = (date: Date | DateNumber): string => new Date(date).toLocaleString('ru', { month: 'long', day: '2-digit' });
+export const getLocalizedDate = (date: Date | DateNumber): string => new Date(date).toLocaleString('ru', { month: 'long', day: '2-digit', timeZone: 'Europe/Kaliningrad' });
 
 export const getLocalizedFullDate = (date: Date | DateNumber) => getUppercase(new Date(date).toLocaleString('ru', {
-  month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'long',
+  month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'long', timeZone: 'Europe/Kaliningrad',
 }));
 
 export const getLocalizedShortDate = (date: Date | DateNumber) => getUppercase(new Date(date).toLocaleString('ru', {
-  month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short',
+  month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short', timeZone: 'Europe/Kaliningrad',
 }));
 
 export const getLocaleDate = (date: Date | DateNumber) => getUppercase(new Date(date).toLocaleString('ru', {
-  month: '2-digit', day: '2-digit', year: 'numeric',
+  month: '2-digit', day: '2-digit', year: 'numeric', timeZone: 'Europe/Kaliningrad',
 }));
 
 export const getTomorrow = (): DateNumber => createDate(new Date(year, month, day + 1)).getTime();

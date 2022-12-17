@@ -3,11 +3,12 @@ import { insertOneSchedule } from '@/server/db/collections/schedule';
 import { notifyAboutNew, notifyPatientAboutNewReg } from '@/server/services';
 import type { PatientFormData } from '@/types';
 import { BASE_API_URL, API_URL } from '@/constants/urls';
-import { patientReminderMsg } from '@/templates/messages';
-import { insertOneReminder } from '@/server/db/collections/reminders';
+import { createReminder } from '@/server/services/reminders';
+import { getRouteOptions } from '@/utils/getRouteOptions';
+import { insertOnePatient } from '@/server/db/collections';
 
 server.route({
-  method: 'PUT',
+  method: 'POST',
   path: BASE_API_URL(API_URL.SCHEDULE),
   handler: async (req: Record<string, any>) => {
     try {
@@ -15,19 +16,19 @@ server.route({
       const scheduleId = await insertOneSchedule(patient);
 
       if (scheduleId) {
+        insertOnePatient({
+          name: patient.name,
+          phone: patient.phone,
+          createdAt: new Date(),
+          comments: [],
+          gender: 'female',
+        });
+
         notifyAboutNew(patient);
         notifyPatientAboutNewReg(patient);
 
         if (patient.notify) {
-          insertOneReminder({
-            scheduleId,
-            deliveryDate: patient.date - 24 * 36e5,
-            notificationPayload: {
-              to: patient.phone,
-              method: patient.notificationType,
-              message: patientReminderMsg(patient),
-            },
-          });
+          createReminder(scheduleId, patient);
         }
       }
 
@@ -46,4 +47,5 @@ server.route({
       };
     }
   },
+  options: getRouteOptions(),
 });

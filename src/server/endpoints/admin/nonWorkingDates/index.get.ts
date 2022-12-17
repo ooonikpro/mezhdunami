@@ -1,6 +1,7 @@
 import { server } from '@/server/instance';
 import { findNonWorkingDates } from '@/server/db/collections';
 import { ADMIN_API_URL, BASE_ADMIN_API_URL } from '@/constants/adminUrls';
+import { getRouteOptions } from '@/utils/getRouteOptions';
 
 server.route({
   method: 'GET',
@@ -24,4 +25,5 @@ server.route({
       };
     }
   },
+  options: getRouteOptions(),
 });

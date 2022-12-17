@@ -15,6 +15,9 @@ const routes: Array<RouteRecordRaw> = [
     path: '/form',
     name: 'form',
     component: () => import('@/views/FormView.vue'),
+    props: {
+      restoreUser: true,
+    },
   },
   {
     path: '/price-list',
@@ -41,6 +44,7 @@ const routes: Array<RouteRecordRaw> = [
     props: {
       title: 'Запись пациента',
       withoutConfirm: true,
+      restoreUser: false,
       backUrl: '/admin',
       submitButtonText: 'Записать',
     },

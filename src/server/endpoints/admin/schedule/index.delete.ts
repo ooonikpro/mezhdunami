@@ -3,6 +3,7 @@ import { findOneScheduleById } from '@/server/db/collections';
 import { deleteOneSchedule } from '@/server/db/collections/schedule';
 import { server } from '@/server/instance';
 import { notifyPatientAboutCancel } from '@/server/services';
+import { getRouteOptions } from '@/utils/getRouteOptions';
 
 server.route({
   method: 'DELETE',
@@ -32,4 +33,5 @@ server.route({
       };
     }
   },
+  options: getRouteOptions(),
 });

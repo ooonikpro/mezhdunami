@@ -75,7 +75,8 @@
       :isOpen="isOpenConfirmModal"
       :phone="form.phone"
       :save="rememberMe"
-      @close="sendForm"
+      @success="sendForm"
+      @close="isOpenConfirmModal = false"
     />
 
     <FormFinalStepModal
@@ -158,13 +159,7 @@ export default defineComponent({
     } = usePatientForm({ restoreUser: props.restoreUser });
 
     const agree = ref(props.withoutConfirm);
-    const rememberMe = ref(false);
-
-    if (!props.withoutConfirm) {
-      watch(isConfirmed, () => {
-        rememberMe.value = isConfirmed.value;
-      }, { immediate: true });
-    }
+    const rememberMe = ref(props.restoreUser);
 
     const isDisabledSubmitBtn = computed(() => !agree.value
           || !isValidName(form.name || '')

@@ -9,6 +9,4 @@ server.start();
 
 console.log(`Listening on ${server.settings.host}:${server.settings.port}`);
 
-process.on('unhandledRejection', (err) => {
-  console.error(err);
-});
+process.on('unhandledRejection', console.error);

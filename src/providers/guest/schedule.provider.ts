@@ -18,7 +18,7 @@ export const fetchScheduleFilter = async () => {
 };
 
 export const addToSchedule = async (formData: PatientFormData) => {
-  const { data, success, message } = await httpClient.put<ResponseAPI<boolean>>(API_URL.SCHEDULE, formData).then(({ data }) => data);
+  const { data, success, message } = await httpClient.post<ResponseAPI<boolean>>(API_URL.SCHEDULE, formData).then(({ data }) => data);
 
   if (success) {
     return data;

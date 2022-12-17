@@ -1,7 +1,9 @@
+import { ObjectId } from 'mongodb';
 import cron from 'node-cron';
-import { ReminderPayload } from '@/types';
-import { deleteOneReminder, findNearestReminders } from '@/server/db/collections';
+import { ReminderPayload, PatientFormData } from '@/types';
+import { deleteOneReminder, findNearestReminders, insertOneReminder } from '@/server/db/collections';
 import { notify } from '@/server/services/notifications';
+import { patientReminderMsg } from '@/templates/messages';
 
 const queue = new Map();
 
@@ -25,6 +27,18 @@ const addToQueue = (payload: ReminderPayload, timeoutInSec = 0) => {
   }, timeoutInSec * 1000);
 
   queue.set(payload.scheduleId, timer);
+};
+
+export const createReminder = (scheduleId: ObjectId, patient: PatientFormData) => {
+  insertOneReminder({
+    scheduleId,
+    deliveryDate: patient.date - 24 * 36e5,
+    notificationPayload: {
+      to: patient.phone,
+      method: patient.notificationType,
+      message: patientReminderMsg(patient),
+    },
+  });
 };
 
 const sendReminders = async () => {
