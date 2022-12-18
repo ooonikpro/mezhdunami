@@ -4,7 +4,7 @@
       <Button
         outline
         small
-        @click="goToBack('/')"
+        @click="goToBack($routes.main)"
         class="mb-24"
       >
         Назад

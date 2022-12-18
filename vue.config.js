@@ -14,6 +14,10 @@ module.exports = defineConfig({
   },
 
   devServer: {
+    allowedHosts: [
+      'localhost',
+      'doctor.localhost',
+    ],
     proxy: {
       '^/api': {
         target: 'http://localhost:3000',
