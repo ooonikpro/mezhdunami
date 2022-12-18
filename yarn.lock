@@ -1821,6 +1821,16 @@
   dependencies:
     "@hapi/boom" "^10.0.0"
 
+"@hapi/cookie@^12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@hapi/cookie/-/cookie-12.0.0.tgz#2aebc7e2f34c838b2939c45c1312065eeef68289"
+  integrity sha512-piL4xyjWIbRy8zRvIx12IEc1YZeb5VhXGaf57MNxfOgFcVrlXxHTTdxiUOLJF+XrGEupBuw/eW6Ny1+1vp2BsA==
+  dependencies:
+    "@hapi/boom" "^10.0.0"
+    "@hapi/bounce" "^3.0.0"
+    "@hapi/hoek" "^10.0.0"
+    "@hapi/validate" "^2.0.0"
+
 "@hapi/cryptiles@5.x.x":
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/@hapi/cryptiles/-/cryptiles-5.1.0.tgz#655de4cbbc052c947f696148c83b187fc2be8f43"
@@ -4499,6 +4509,11 @@ dotenv@^10.0.0:
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
   integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
+
+dotenv@^16.0.3:
+  version "16.0.3"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
+  integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
 
 duplexer@^0.1.2:
   version "0.1.2"

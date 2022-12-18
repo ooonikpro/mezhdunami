@@ -31,6 +31,10 @@ module.exports = {
       TELEGRAM_BOT_KEY: process.env.TELEGRAM_BOT_KEY,
       MONGO_URI: process.env.MONGO_URI,
       MONGO_DB_NAME: process.env.MONGO_DB_NAME,
+      TOKENS: [
+        process.env.T1,
+        process.env.T2,
+      ],
     }),
   ],
 };

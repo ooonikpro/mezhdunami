@@ -1,5 +1,5 @@
 import {
-  reactive, onBeforeMount, ref, watch, readonly,
+  reactive, onBeforeMount, ref, watch,
 } from 'vue';
 import { useSchedules } from '@/composables/useSchedules';
 import { useStore } from '@/composables/useStore';
