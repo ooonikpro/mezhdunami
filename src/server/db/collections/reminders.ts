@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongodb';
 import { getCollection } from '@/server/db/mongo';
 import type { PatientFormData, Reminder, ReminderPayload } from '@/types';
+import { createDate } from '@/utils';
 
 const collection = getCollection('reminders');
 
@@ -10,8 +11,8 @@ export const findNearestReminders = async () => {
   return reminders.find<Reminder>({
     // c 10-18
     deliveryDate: {
-      $gt: Date.now() - 36e5,
-      $lt: Date.now() + 288e5,
+      $gte: createDate(Date.now() - 36e5).getTime(),
+      $lte: createDate(Date.now() + 288e5).getTime(),
     },
   }).toArray();
 };
@@ -38,4 +39,20 @@ export const deleteOneReminder = async (scheduleId: PatientFormData['_id']): Pro
   }
 
   throw new Error('Не удалось удалить запись!');
+};
+
+export const deleteOldReminders = async (): Promise<boolean> => {
+  const reminders = await collection;
+
+  const result = await reminders.deleteMany({
+    deliveryDate: {
+      $lte: Date.now(),
+    },
+  });
+
+  if (result.deletedCount > 0) {
+    return true;
+  }
+
+  throw new Error('Не удалось удалить записи!');
 };
