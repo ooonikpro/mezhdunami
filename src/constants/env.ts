@@ -5,4 +5,3 @@ export const SERVER_NAME = process.env.SERVER_NAME || 'localhost';
 export const SMS_API_KEY = process.env.SMS_API_KEY || 'LQuBqt2q1IqmKLm6zvIbT7bI6hub';
 export const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'pumpingmonster04b63@gmail.com';
 export const TELEGRAM_BOT_KEY = process.env.TELEGRAM_BOT_KEY || '5748298393:AAEO8tIpMq-Eh2-VBo8VffizEEdA2Yp1jTs';
-export const SITE_ORIGIN = IS_PROD ? 'https://mezhdunami.app' : 'http://localhost:8080';
