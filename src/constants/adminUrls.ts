@@ -6,4 +6,5 @@ export const ADMIN_API_URL = {
   SCHEDULE: '/schedule',
   NON_WORKING_DATES: '/non-working-dates',
   PATIENT: '/patient',
+  LOGIN: '/login',
 };

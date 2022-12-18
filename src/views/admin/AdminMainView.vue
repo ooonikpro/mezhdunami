@@ -4,25 +4,25 @@
 
     <nav>
       <a
-        href="/order-page"
+        :href="$adminRoutes.schedule"
         class="action-btn full-width h-128 i-calendar media-btn"
-        @click.prevent="goTo('/admin/schedule')"
+        @click.prevent="goTo($adminRoutes.schedule)"
       >
         <span class="h2">Мое расписание</span>
       </a>
 
       <a
-        href="/new-patient"
+        :href="$adminRoutes.newPatient"
         class="action-btn full-width h-64 i-catalog media-btn"
-        @click.prevent="goTo('/admin/new-patient')"
+        @click.prevent="goTo($adminRoutes.newPatient)"
       >
         <span class="h2">Записать пациента</span>
       </a>
 
       <a
-        href="/form"
+        :href="$adminRoutes.patients"
         class="action-btn full-width h-64 i-catalog media-btn"
-        @click.prevent="goTo('/admin/patients')"
+        @click.prevent="goTo($adminRoutes.patients)"
       >
         <span class="h2">База пациентов</span>
       </a>

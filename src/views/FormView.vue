@@ -90,7 +90,7 @@
 
 <script lang="ts">
 import {
-  defineComponent, computed, ref, onBeforeUnmount, watch,
+  defineComponent, computed, ref, onBeforeUnmount,
 } from 'vue';
 import Layout from '@/layouts/Layout.vue';
 import Input from '@/components/Input.vue';

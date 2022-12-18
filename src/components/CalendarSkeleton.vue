@@ -19,6 +19,14 @@
   </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'CalendarSkeleton',
+});
+</script>
+
 <style lang="scss" scoped>
   .calendar-skeleton {
     display: flex;
