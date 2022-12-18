@@ -11,8 +11,15 @@ http {
     keepalive_timeout 65;
 
     server {
+        listen 80 default_server;
+
+        server_name mezhdunami.app;
+
+        return 301 https://$host$request_uri;
+    }
+
+    server {
         root /etc/nginx/www;
-        listen 80;
         listen 443 ssl http2;
         server_name mezhdunami.app;
 
