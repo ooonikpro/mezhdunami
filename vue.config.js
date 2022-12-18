@@ -16,7 +16,7 @@ module.exports = defineConfig({
   devServer: {
     allowedHosts: [
       'localhost',
-      'doctor.localhost',
+      'dr-helen.localhost',
     ],
     proxy: {
       '^/api': {

@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import App from '@/App.vue';
 import '@/registerServiceWorker';
 
-const IS_ADMIN_DOMAIN = /doctor\./.test(window.location.host);
+const IS_ADMIN_DOMAIN = /dr-helen\./.test(window.location.host);
 
 const app = createApp(App);
 
