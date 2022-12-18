@@ -7,14 +7,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'Head',
-});
-</script>
-
 <style lang="scss" scoped>
 .head {
     display: flex;

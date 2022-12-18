@@ -5,17 +5,15 @@
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build --modern && yarn build:server",
-    "build:server": "webpack build --progress --color --no-devtool",
+    "build:server": "webpack build",
     "lint": "vue-cli-service lint",
     "mongo": "docker run --name mongodb -d -p 27017:27017 mongo",
     "server": "ts-node --files src/server"
   },
   "dependencies": {
-    "@hapi/cookie": "^12.0.0",
     "@hapi/hapi": "^21.0.0",
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
-    "dotenv": "^16.0.3",
     "localforage": "^1.10.0",
     "mongodb": "^4.11.0",
     "node-cron": "^3.0.2",

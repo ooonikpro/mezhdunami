@@ -5,7 +5,7 @@
         outline
         small
         class="mb-24"
-        @click="goToBack($routes.main)"
+        @click="goToBack('/')"
       >
         Назад
       </Button>
@@ -70,14 +70,14 @@
     <Button
       type="button"
       class="mb-16"
-      @click="goTo($routes.form)"
+      @click="goTo('/form')"
     >
       Хочу записаться
     </Button>
     <Button
       outline
       small
-      @click="goToBack($routes.main)"
+      @click="goToBack('/')"
     >
       Назад
     </Button>

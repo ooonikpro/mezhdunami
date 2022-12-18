@@ -4,43 +4,43 @@
       <Social />
 
       <a
-        :href="$routes.priceList"
+        href="/price-list"
         class="full-width h-64 media-btn"
-        @click.prevent="goTo($routes.priceList)"
+        @click.prevent="goTo('/price-list')"
       >
         <span class="h3">Прайс-лист</span>
         <span class="h5">Цены</span>
       </a>
 
       <a
-        :href="$routes.form"
+        href="/form"
         class="action-btn full-width h-64 i-calendar media-btn"
-        @click.prevent="goTo($routes.form)"
+        @click.prevent="goTo('/form')"
       >
         <span class="h2">Записаться</span>
       </a>
 
       <a
-        :href="$routes.orderPage"
+        href="/order-page"
         class="full-width h-128 i-catalog media-btn"
-        @click.prevent="goTo($routes.orderPage)"
+        @click.prevent="goTo('/order-page')"
       >
         <span class="h3">Заказать <br>домашний уход</span>
       </a>
 
       <a
-        :href="$routes.recommendations"
+        href="#"
         class="full-width h-64 media-btn"
-        @click.prevent="goTo($routes.recommendations)"
+        @click.prevent="goTo('/recommendations')"
       >
         <span class="h3">Рекомендации</span>
         <span class="h5">После процедур</span>
       </a>
 
       <a
-        :href="$routes.about"
+        href="#"
         class="full-width h-64 media-btn"
-        @click.prevent="goTo($routes.about)"
+        @click.prevent="goTo('/about')"
       >
         <span class="h3">Обо мне</span>
         <span class="h5">Дипломы Контакты</span>

@@ -1,5 +1,5 @@
 import { RouteOptions } from '@hapi/hapi';
-import { IS_PROD } from '@/constants/env';
+import { SITE_ORIGIN, IS_PROD } from '@/constants/env';
 
 export const getRouteOptions = (): RouteOptions => ({
   security: {
@@ -19,7 +19,7 @@ export const getRouteOptions = (): RouteOptions => ({
 
       if (IS_PROD && (
         !isNginxFrom
-        || !referer
+        || !referer.includes(SITE_ORIGIN)
         || /(postman|curl)/gi.test(userAgent)
         || postmanToken)
       ) {

@@ -15,7 +15,3 @@ export enum STORE_KEY {
   phone = 'user.phone',
   isConfirmed = 'user.isConfirmed'
 }
-
-export enum COOKIE_KEY {
-  token = 'tkn'
-}
