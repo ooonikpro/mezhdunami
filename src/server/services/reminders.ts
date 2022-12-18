@@ -1,6 +1,7 @@
+import { ADMIN_CHAT_ID } from '@/constants/tgChats';
 import { ObjectId } from 'mongodb';
 import cron from 'node-cron';
-import { ReminderPayload, PatientFormData } from '@/types';
+import { ReminderPayload, PatientFormData, NotificationType } from '@/types';
 import { deleteOneReminder, findNearestReminders, insertOneReminder } from '@/server/db/collections';
 import { notify } from '@/server/services/notifications';
 import { patientReminderMsg } from '@/templates/messages';
@@ -46,9 +47,18 @@ const sendReminders = async () => {
 
   reminders.forEach(addToQueue);
 
-  console.log(new Date(), '[Reminders] It\'s time to choose...', reminders.map((item) => item.deliveryDate));
+  notify({
+    method: NotificationType.Telegram,
+    to: ADMIN_CHAT_ID,
+    message: `[Reminders] It's time to choose... ${reminders.map((item) => item.deliveryDate)}`,
+  });
 };
 
 export const createCronJob = () => {
-  cron.schedule('0 11 1-31 * *', sendReminders);
+  sendReminders();
+
+  cron.schedule('0 11 1-31 * *', sendReminders, {
+    scheduled: true,
+    timezone: 'Europe/Kaliningrad',
+  });
 };
