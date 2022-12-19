@@ -35,12 +35,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import {
+  defineComponent, ref, computed, PropType,
+} from 'vue';
 import Modal from '@/components/Modal.vue';
 import Calendar from '@/components/Calendar.vue';
 import StickyBottom from '@/components/StickyBottom.vue';
 import Button from '@/components/Button.vue';
-import type { DateNumber, Procedure } from '@/types';
+import type { DateNumber } from '@/types';
+import { Procedure } from '@/constants';
 
 export default defineComponent({
   components: {
@@ -52,12 +55,12 @@ export default defineComponent({
 
   props: {
     modelValue: {
-      type: Number as () => DateNumber,
+      type: Number as PropType<DateNumber>,
       required: true,
     },
 
     selectedProcedures: {
-      type: Array as () => Procedure[],
+      type: Array as PropType<Procedure[]>,
       required: true,
     },
 

@@ -55,14 +55,14 @@
 
 <script lang="ts">
 import {
-  defineComponent, ref, watch, computed,
+  defineComponent, ref, watch, computed, PropType,
 } from 'vue';
 import Modal from '@/components/Modal.vue';
 import Checkbox from '@/components/Checkbox.vue';
 import StickyBottom from '@/components/StickyBottom.vue';
 import Button from '@/components/Button.vue';
 import { useProcedures } from '@/composables/useProcedures';
-import type { Procedure } from '@/types';
+import { Procedure } from '@/constants';
 
 export default defineComponent({
   components: {
@@ -79,7 +79,7 @@ export default defineComponent({
     },
 
     modelValue: {
-      type: Array as () => Procedure[],
+      type: Array as PropType<Procedure[]>,
       required: true,
     },
   },

@@ -19,11 +19,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import {
+  defineComponent, ref, computed, PropType,
+} from 'vue';
 import Input from '@/components/Input.vue';
 import ProcedureListModal from '@/components/ProcedureListModal.vue';
 import { useProcedures } from '@/composables/useProcedures';
-import type { Procedure } from '@/types';
+import { Procedure } from '@/constants';
 
 export default defineComponent({
   components: {
@@ -33,7 +35,7 @@ export default defineComponent({
 
   props: {
     modelValue: {
-      type: Array as () => Procedure[],
+      type: Array as PropType<Procedure[]>,
       required: true,
     },
 

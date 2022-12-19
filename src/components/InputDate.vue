@@ -21,12 +21,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import {
+  defineComponent, ref, computed, PropType,
+} from 'vue';
 import Input from '@/components/Input.vue';
 import CalendarModal from '@/components/CalendarModal.vue';
 import { useCalendar } from '@/composables/useCalendar';
-import type { DateNumber, Procedure } from '@/types';
+import type { DateNumber } from '@/types';
 import { useSchedules } from '@/composables/useSchedules';
+import { Procedure } from '@/constants';
 
 export default defineComponent({
   components: {
@@ -36,12 +39,12 @@ export default defineComponent({
 
   props: {
     modelValue: {
-      type: Number as () => DateNumber,
+      type: Number as PropType<DateNumber>,
       required: true,
     },
 
     selectedProcedures: {
-      type: Array as () => Procedure[],
+      type: Array as PropType<Procedure[]>,
       required: true,
     },
 

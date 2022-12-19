@@ -1,11 +1,11 @@
 import {
-  PROCEDURE, PROCEDURES, PROCEDURE_DURATION,
+  Procedure, PROCEDURES, PROCEDURE_DURATION,
 } from '@/constants';
-import type { DateNumber, Procedure } from '@/types';
+import type { DateNumber } from '@/types';
 
 const ONE_HOURS_MS = 3600000;
 
-export const getNames = (ids: Array<PROCEDURE | Procedure>) => PROCEDURES.reduce((names, p) => {
+export const getNames = (ids: Array<Procedure>) => PROCEDURES.reduce((names, p) => {
   if (ids.includes(p.id)) {
     names.push(p.name);
   }
@@ -16,7 +16,13 @@ export const getNames = (ids: Array<PROCEDURE | Procedure>) => PROCEDURES.reduce
 export const getDuration = (procedure: Procedure) => PROCEDURE_DURATION[procedure];
 
 export const getTotalDuration = (ids: Array<Procedure>) => ids.reduce(
-  (sum: number, id: Procedure) => sum + getDuration(id),
+  (sum: number, id: Procedure) => {
+    if (ids.length > 1 && id === Procedure.Consultation) {
+      return sum;
+    }
+
+    return sum + getDuration(id);
+  },
   0,
 );
 

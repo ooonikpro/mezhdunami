@@ -1,4 +1,5 @@
 import type { ObjectId } from 'mongodb';
+import { Procedure } from '@/constants';
 
 export interface HTMLDateInputElement extends HTMLInputElement {
     showPicker: () => void
@@ -6,16 +7,6 @@ export interface HTMLDateInputElement extends HTMLInputElement {
 
 export type PhoneNumber = string;
 export type TelegramChatId = string;
-
-export enum Procedure {
-    Peeling = 1,
-    Cleaning = 2,
-    Bio = 3,
-    Mezo = 4,
-    LipPlastic = 5,
-    FacePlastic = 6,
-    Botulinum = 7,
-}
 
 export type DateNumber = number;
 

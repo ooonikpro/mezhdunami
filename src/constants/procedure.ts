@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-export const enum PROCEDURE {
+export const enum Procedure {
   Peeling = 1,
   Cleaning = 2,
   Bio = 3,
@@ -9,23 +9,25 @@ export const enum PROCEDURE {
   Botulinum = 7,
   RemoveLip = 8,
   MezoFractional = 9,
+  Consultation = 10,
 }
 
-export const PROCEDURE_DURATION: { [key in PROCEDURE]: number } = {
-  [PROCEDURE.Peeling]: 36e5, // 1 hours
-  [PROCEDURE.Cleaning]: 72e5, // 2 hours
-  [PROCEDURE.Bio]: 36e5,
-  [PROCEDURE.Mezo]: 36e5,
-  [PROCEDURE.LipPlastic]: 36e5,
-  [PROCEDURE.FacePlastic]: 36e5,
-  [PROCEDURE.Botulinum]: 36e5,
-  [PROCEDURE.RemoveLip]: 36e5,
-  [PROCEDURE.MezoFractional]: 36e5,
+export const PROCEDURE_DURATION: { [key in Procedure]: number } = {
+  [Procedure.Peeling]: 36e5, // 1 hours
+  [Procedure.Cleaning]: 72e5, // 2 hours
+  [Procedure.Bio]: 36e5,
+  [Procedure.Mezo]: 36e5,
+  [Procedure.LipPlastic]: 36e5,
+  [Procedure.FacePlastic]: 36e5,
+  [Procedure.Botulinum]: 36e5,
+  [Procedure.RemoveLip]: 36e5,
+  [Procedure.MezoFractional]: 36e5,
+  [Procedure.Consultation]: 36e5,
 };
 
 export const PROCEDURES = [
   {
-    id: PROCEDURE.Cleaning,
+    id: Procedure.Cleaning,
     name: 'Чистка комбинированная',
     duration: '~ 2 часа',
     data: [
@@ -45,7 +47,7 @@ export const PROCEDURES = [
     price: 3000,
   },
   {
-    id: PROCEDURE.Peeling,
+    id: Procedure.Peeling,
     name: 'Пиллинг',
     duration: '~ 1 час',
     data: [
@@ -94,7 +96,7 @@ export const PROCEDURES = [
     price: 1700,
   },
   {
-    id: PROCEDURE.Botulinum,
+    id: Procedure.Botulinum,
     name: 'Ботулинотерапия',
     duration: 'до 30 мин',
     data: [
@@ -110,7 +112,7 @@ export const PROCEDURES = [
     price: 8000,
   },
   {
-    id: PROCEDURE.LipPlastic,
+    id: Procedure.LipPlastic,
     name: 'Контурная пластика губ',
     duration: '~ 45 минут',
     footnotes: 'Анестезия включена в стоимость.',
@@ -149,7 +151,7 @@ export const PROCEDURES = [
     price: 9000,
   },
   {
-    id: PROCEDURE.RemoveLip,
+    id: Procedure.RemoveLip,
     name: 'Удаление филлера',
     duration: '~ 30 минут',
     data: [{
@@ -163,7 +165,7 @@ export const PROCEDURES = [
     price: 4000,
   },
   {
-    id: PROCEDURE.Bio,
+    id: Procedure.Bio,
     name: 'Биоревитализация',
     duration: '~ 1 час',
     data: [
@@ -219,7 +221,7 @@ export const PROCEDURES = [
     price: 8000,
   },
   {
-    id: PROCEDURE.Mezo,
+    id: Procedure.Mezo,
     name: 'Мезотерапия',
     duration: '~ 1 час',
     footnotes:
@@ -246,7 +248,7 @@ export const PROCEDURES = [
     price: 1500,
   },
   {
-    id: PROCEDURE.MezoFractional,
+    id: Procedure.MezoFractional,
     name: 'Фракционная мезотерапия',
     duration: '~ 1 час',
     footnotes: '',
@@ -263,9 +265,9 @@ export const PROCEDURES = [
     price: 4000,
   },
   {
-    id: PROCEDURE.FacePlastic,
+    id: Procedure.FacePlastic,
     name: 'Контурная пластика лица',
-    footnote: '',
+    footnotes: '',
     duration: '~ 45 минут',
     data: [
       {
@@ -278,5 +280,22 @@ export const PROCEDURES = [
       },
     ],
     price: 10000,
+  },
+  {
+    id: Procedure.Consultation,
+    name: 'Консультация',
+    footnotes: 'Определение типа и состояния кожи, разбор домашнего ухода, план процедур',
+    duration: '~ 30 минут',
+    data: [
+      {
+        data: [
+          {
+            label: 'Консультация',
+            price: '500',
+          },
+        ],
+      },
+    ],
+    price: 500,
   },
 ];
