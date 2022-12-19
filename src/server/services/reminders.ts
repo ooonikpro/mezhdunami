@@ -52,13 +52,12 @@ const sendReminders = async () => {
   notify({
     method: NotificationType.Telegram,
     to: ADMIN_CHAT_ID,
-    message: `[${IS_PROD ? 'PROD' : 'DEV'}][Reminders] It's time to reminders... ${reminders.map((item) => item.notificationPayload.to).join(', ')}`,
+    message: `[${IS_PROD ? 'PROD' : 'DEV'}] It's time to reminders for [${reminders.map((item) => item.notificationPayload.to).join(', ')}]`,
   });
 };
 
 export const createCronJob = () => {
   deleteOldReminders();
-  sendReminders();
 
   cron.schedule('0 11 1-31 * *', sendReminders, {
     scheduled: true,
