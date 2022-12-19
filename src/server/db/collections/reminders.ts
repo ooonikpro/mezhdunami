@@ -11,8 +11,8 @@ export const findNearestReminders = async () => {
   return reminders.find<Reminder>({
     // c 10-18
     deliveryDate: {
-      $gte: createDate(Date.now() - 36e5).getTime(),
-      $lte: createDate(Date.now() + 288e5).getTime(),
+      $gte: createDate(Date.now(), 0).getTime(),
+      $lte: createDate(Date.now() + 864e5, 0).getTime(),
     },
   }).toArray();
 };
@@ -46,13 +46,9 @@ export const deleteOldReminders = async (): Promise<boolean> => {
 
   const result = await reminders.deleteMany({
     deliveryDate: {
-      $lte: Date.now(),
+      $lte: createDate(Date.now(), 0),
     },
   });
 
-  if (result.deletedCount > 0) {
-    return true;
-  }
-
-  throw new Error('Не удалось удалить записи!');
+  return result.deletedCount > 0;
 };

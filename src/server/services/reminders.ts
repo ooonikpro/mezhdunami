@@ -33,17 +33,15 @@ const addToQueue = (payload: ReminderPayload, timeoutInSec = 0) => {
   queue.set(payload.scheduleId, timer);
 };
 
-export const createReminder = (scheduleId: ObjectId, patient: PatientFormData) => {
-  insertOneReminder({
-    scheduleId,
-    deliveryDate: createDate(patient.date - 864e5, 11).getTime(),
-    notificationPayload: {
-      to: patient.phone,
-      method: patient.notificationType,
-      message: patientReminderMsg(patient),
-    },
-  });
-};
+export const createReminder = (scheduleId: ObjectId, patient: PatientFormData) => insertOneReminder({
+  scheduleId,
+  deliveryDate: createDate(patient.date - 864e5, 11).getTime(),
+  notificationPayload: {
+    to: patient.phone,
+    method: patient.notificationType,
+    message: patientReminderMsg(patient),
+  },
+});
 
 const sendReminders = async () => {
   const reminders = await findNearestReminders();
@@ -61,7 +59,7 @@ export const createCronJob = () => {
   deleteOldReminders();
   sendReminders();
 
-  cron.schedule('0 11 1-31 * *', sendReminders, {
+  cron.schedule('0 12 1-31 * *', sendReminders, {
     scheduled: true,
     timezone: 'Europe/Kaliningrad',
   });
