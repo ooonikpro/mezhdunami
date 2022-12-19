@@ -8,6 +8,7 @@ import {
 import { notify } from '@/server/services/notifications';
 import { patientReminderMsg } from '@/templates/messages';
 import { createDate } from '@/utils';
+import { IS_PROD } from '@/constants/env';
 
 const queue = new Map();
 
@@ -51,7 +52,7 @@ const sendReminders = async () => {
   notify({
     method: NotificationType.Telegram,
     to: ADMIN_CHAT_ID,
-    message: `[Reminders] It's time to reminders... ${reminders.map((item) => item.notificationPayload.to).join('')}`,
+    message: `[${IS_PROD ? 'PROD' : 'DEV'}][Reminders] It's time to reminders... ${reminders.map((item) => item.notificationPayload.to).join(', ')}`,
   });
 };
 
@@ -59,7 +60,7 @@ export const createCronJob = () => {
   deleteOldReminders();
   sendReminders();
 
-  cron.schedule('0 12 1-31 * *', sendReminders, {
+  cron.schedule('0 11 1-31 * *', sendReminders, {
     scheduled: true,
     timezone: 'Europe/Kaliningrad',
   });
