@@ -60,11 +60,9 @@ export const getScheduleForMonth = ({ excludedDates = [] }: ScheduleFilters): Sc
 
   let futureDays = getDaysInMonth() - day;
 
-  if (futureDays <= 7) {
-    futureDays += getDaysInMonth(month + 1);
-  }
+  futureDays += getDaysInMonth(month + 1);
 
-  for (let i = 0; i < futureDays; i++) {
+  for (let i = 0; i <= futureDays; i++) {
     const date = createDate(new Date(year, month, day + i + 1)).getTime();
 
     if (!isExcluded(date)) {
