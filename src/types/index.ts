@@ -50,12 +50,12 @@ export interface Patient {
     createdAt: Date,
     name: string;
     phone: PhoneNumber;
-    comments?: Array<{
+    comments: Array<{
         createdAt: Date,
         body: string
     }>;
-    gender?: 'male' | 'female';
-    birdthday?: Date;
+    gender: 'male' | 'female';
+    birthday?: Date;
 }
 
 export interface PatientFormData extends Pick<Patient, 'name' | 'phone'> {

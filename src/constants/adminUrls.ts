@@ -5,6 +5,6 @@ export const BASE_ADMIN_API_URL = <T extends string>(url = '' as T) => BASE_API_
 export const ADMIN_API_URL = {
   SCHEDULE: '/schedule',
   NON_WORKING_DATES: '/non-working-dates',
-  PATIENT: '/patient',
+  PATIENTS: '/patients',
   LOGIN: '/login',
 };

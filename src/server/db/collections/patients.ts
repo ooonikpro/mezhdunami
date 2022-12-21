@@ -4,6 +4,28 @@ import type { Patient } from '@/types';
 
 const collection = getCollection('patients');
 
+(async () => {
+  (await collection).createIndex({ name: 'text', phone: 'text' });
+})();
+
+export const findPatients = async (searchStr = ''): Promise<Patient[]> => {
+  const patients = await collection;
+
+  let result = [];
+
+  if (searchStr) {
+    result = await patients.find<Patient>({
+      $text: {
+        $search: searchStr,
+      },
+    }).toArray();
+  } else {
+    result = await patients.find<Patient>({}).toArray();
+  }
+
+  return result;
+};
+
 export const findOnePatient = async (phone: Patient['phone']): Promise<Patient | null> => {
   const patients = await collection;
 
