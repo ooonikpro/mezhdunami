@@ -1,14 +1,11 @@
 <template>
   <div class="patient-card-mini" :class="[gender]">
     <div class="card-name">
-      <p class="phone h3">{{ phone }}</p>
-      <p class="name h2">{{ name }}</p>
+      <p class="phone">{{ phone }}</p>
+      <p class="name h3">{{ name }} {{ lastName }}</p>
     </div>
 
-    <div class="created-at">
-      <b>Дата регистрации</b><br/>
-      <span>{{ getLocaleDate(createdAt) }}</span>
-    </div>
+    <span class="created-at">От {{ getLocaleDate(createdAt) }}</span>
   </div>
 </template>
 
@@ -21,6 +18,11 @@ export default defineComponent({
   props: {
     name: {
       type: String as PropType<Patient['name']>,
+      required: true,
+    },
+
+    lastName: {
+      type: String as PropType<Patient['lastName']>,
       required: true,
     },
 
@@ -76,6 +78,6 @@ export default defineComponent({
 
 .created-at {
   text-align: right;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 </style>

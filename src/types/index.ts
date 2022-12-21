@@ -49,6 +49,7 @@ export interface Patient {
     _id: string;
     createdAt: Date,
     name: string;
+    lastName?: string;
     phone: PhoneNumber;
     comments: Array<{
         createdAt: Date,

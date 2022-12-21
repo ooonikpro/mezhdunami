@@ -7,7 +7,7 @@ export const useAdminPatients = () => {
   const allPatients = ref<Patient[]>([]);
   const isFetching = ref(false);
 
-  const patients = computed(() => allPatients.value.filter(({ name, phone }) => name.includes(searchQuery.value) || phone.includes(searchQuery.value)));
+  const patients = computed(() => allPatients.value.filter(({ name, phone, lastName = '' }) => new RegExp(searchQuery.value, 'i').test([lastName, name, phone].join(''))));
 
   const fetchPatients = async () => {
     isFetching.value = true;
