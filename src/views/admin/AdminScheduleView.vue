@@ -4,7 +4,7 @@
       <Button
         outline
         small
-        @click="goToBack('/admin')"
+        @click="goToBack('/')"
         class="mb-24"
       >
         Назад

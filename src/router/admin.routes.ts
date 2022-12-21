@@ -1,9 +1,9 @@
-import { COOKIE_KEY } from '@/constants';
-import { ADMIN_ROUTES } from '@/constants/adminRoutes';
-import { getCookie } from '@/utils/cookies';
 import {
   createRouter, createWebHistory, RouteRecordRaw,
 } from 'vue-router';
+import { COOKIE_KEY } from '@/constants';
+import { ADMIN_ROUTES } from '@/constants/adminRoutes';
+import { getCookie } from '@/utils/cookies';
 
 const isAuth = () => getCookie(COOKIE_KEY.token);
 
@@ -43,6 +43,13 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: ADMIN_ROUTES.schedule,
     component: () => import('@/views/admin/AdminScheduleView.vue'),
+    meta: {
+      restricted: true,
+    },
+  },
+  {
+    path: ADMIN_ROUTES.patients,
+    component: () => import('@/views/admin/patients/AdminPatientsListView.vue'),
     meta: {
       restricted: true,
     },
