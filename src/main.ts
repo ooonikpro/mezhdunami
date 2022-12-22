@@ -9,6 +9,8 @@ const app = createApp(App);
 
 (async () => {
   if (IS_ADMIN_DOMAIN) {
+    document.getElementById('app')!.classList.add('full-width');
+
     const { default: adminRouter } = await import('@/router/admin.routes');
     const { ADMIN_ROUTES } = await import('@/constants/adminRoutes');
 

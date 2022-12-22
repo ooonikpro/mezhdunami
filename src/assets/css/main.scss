@@ -36,6 +36,10 @@ img {
     margin: auto;
     inset: 0;
     overflow: hidden;
+
+    &.full-width {
+        max-width: none;
+    }
 }
 
 .page-animate {
