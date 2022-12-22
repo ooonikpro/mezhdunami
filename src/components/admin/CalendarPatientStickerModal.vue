@@ -28,6 +28,7 @@
       </div>
       <InputDate
         v-model="date"
+        :from-hour="9"
         :selectedProcedures="formData.procedures"
       />
 
