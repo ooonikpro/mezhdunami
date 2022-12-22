@@ -1,3 +1,4 @@
+import { ADDRESS } from '@/constants';
 import { PatientFormData } from '@/types';
 import { getNames, getLocalizedShortDate, getLocalizedFullDate } from '@/utils';
 
@@ -13,7 +14,7 @@ export const newRegMsg = (data: PatientFormData) => {
   const date = getLocalizedShortDate(data.date);
   const procedures = getNames(data.procedures);
 
-  return `"${signature}". Вы записаны к косметологу, ${date}, ${procedures}`;
+  return `"${signature}". Вы записаны к косметологу, ${date}, ${procedures}. ${ADDRESS.street}, ${ADDRESS.office}`;
 };
 
 export const patientReminderMsg = (data: PatientFormData) => {
