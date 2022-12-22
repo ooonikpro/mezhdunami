@@ -1,6 +1,6 @@
 import { getCollection } from '@/server/db/mongo';
 import type { DateNumber, NotWorkingDates, TimePeriod } from '@/types';
-import { getTomorrow } from '@/utils';
+import { createDate } from '@/utils';
 
 const collection = getCollection('not_working_days');
 
@@ -9,7 +9,7 @@ export const findNonWorkingDates = async ({ from, until }: TimePeriod = {}): Pro
 
   const result = await schedule.find<{ date: DateNumber }>({
     date: {
-      $gte: from || getTomorrow(),
+      $gte: from || createDate(Date.now()).getTime(),
       ...(until ? { $lte: until } : {}),
     },
   }).sort('date', 'asc').toArray();

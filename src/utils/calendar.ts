@@ -109,7 +109,7 @@ export const getCalendarDates = (from: Date, until: Date): Date[] => {
 };
 
 export const zipNonWorkingDates = (allDates: DateNumber[]): DateNumber[] => {
-  const uniqDates = Array.from(new Set(allDates)).sort();
+  const uniqDates = Array.from(new Set(allDates)).sort((a, b) => a - b);
 
   const hashMap: Record<DateNumber, DateNumber[]> = {};
 

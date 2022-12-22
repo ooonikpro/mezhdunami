@@ -1,9 +1,9 @@
-import { ObjectId, OptionalId } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import { getCollection } from '@/server/db/mongo';
 import type {
   BookedDates, PatientFormData, ScheduleItem, TimePeriod,
 } from '@/types';
-import { getTomorrow, getReservedTimeSlots } from '@/utils';
+import { getTomorrow, getReservedTimeSlots, createDate } from '@/utils';
 
 const collection = getCollection('schedule');
 
@@ -14,7 +14,7 @@ export const findBookedDates = async (): Promise<BookedDates> => {
     date: {
       $gt: getTomorrow(),
     },
-  }).sort({ date: 1 }).toArray();
+  }).sort('date', 'asc').toArray();
 
   return result.reduce((response, { date: startDate, procedures }) => response.concat(getReservedTimeSlots(startDate, procedures)), [] as number[]);
 };
@@ -24,7 +24,7 @@ export const findSchedule = async ({ from, until }: TimePeriod = {}): Promise<Pa
 
   return schedule.find<PatientFormData>({
     date: {
-      $gte: from || getTomorrow(),
+      $gte: from || createDate(Date.now()).getTime(),
       ...(until ? { $lte: until } : {}),
     },
   }).sort({ date: 1 }).toArray();
