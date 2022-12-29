@@ -5,23 +5,24 @@ import { notifyPatientAboutUpdate } from '@/server/services';
 import { deleteReminder, createReminder } from '@/server/services/reminders';
 import { PatientFormData } from '@/types';
 import { getRouteOptions } from '@/utils/getRouteOptions';
+import { ObjectId } from 'mongodb';
 
 server.route({
   method: 'PUT',
-  path: BASE_ADMIN_API_URL(`${ADMIN_API_URL.SCHEDULE}/{_id}`),
+  path: BASE_ADMIN_API_URL(`${ADMIN_API_URL.SCHEDULE}/{id}`),
   handler: async (req) => {
-    const { _id } = req.params;
+    const { id } = req.params;
     const formData = req.payload as PatientFormData;
 
     try {
-      const success = await updateOneSchedule(_id, formData);
+      const success = await updateOneSchedule(id, formData);
 
       if (success) {
+        deleteReminder(new ObjectId(id));
         notifyPatientAboutUpdate(formData);
-        deleteReminder(_id);
 
         if (formData.notify) {
-          createReminder(_id, formData);
+          createReminder(id, formData);
         }
       }
 
