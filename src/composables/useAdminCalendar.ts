@@ -127,6 +127,13 @@ watch([from, until], () => {
   fetchSchedule();
 }, { immediate: true });
 
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    fetchNonWorkingDates();
+    fetchSchedule();
+  }
+});
+
 export const useAdminCalendar = () => ({
   from,
   until,
