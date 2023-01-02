@@ -38,6 +38,13 @@
       <div class="h3 mb-24">
         {{ getNames(formData.procedures) }}
       </div>
+
+      <div v-if="formData.comment" class="h4 label mb-8">
+        Комментарий:
+      </div>
+      <div class="h3 mb-24">
+        {{ formData.comment }}
+      </div>
     </div>
 
     <Button @click="saveFormData" class="mb-16" :disabled="!hasChanges">

@@ -3,6 +3,7 @@
     <b class="h5">{{ procedures }}</b>
     <span class="h6">{{ name }}</span>
     <span class="h6">{{ phone }}</span>
+    <i class="h6" :title="comment">{{ comment }}</i>
   </div>
 </template>
 
@@ -23,6 +24,7 @@ export default defineComponent({
     const isShow = computed(() => Object.keys(props.data).length);
     const name = computed(() => props.data?.name);
     const phone = computed(() => props.data?.phone);
+    const comment = computed(() => props.data?.comment);
     const procedures = computed(() => getNames(props.data?.procedures || []));
     const duration = computed(() => getTotalDurationInHours(props.data?.procedures));
 
@@ -41,6 +43,7 @@ export default defineComponent({
       procedures,
       color,
       styles,
+      comment,
     };
   },
 });
@@ -55,5 +58,7 @@ export default defineComponent({
   padding: 0.8rem;
   color: black;
   border-radius: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
