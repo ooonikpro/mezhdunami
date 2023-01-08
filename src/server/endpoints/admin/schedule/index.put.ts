@@ -1,5 +1,5 @@
 import { ADMIN_API_URL, BASE_ADMIN_API_URL } from '@/constants/adminUrls';
-import { updateOneSchedule } from '@/server/db/collections/schedule';
+import { updateOneSchedule, findOneScheduleById } from '@/server/db/collections/schedule';
 import { server } from '@/server/instance';
 import { notifyPatientAboutUpdate } from '@/server/services';
 import { deleteReminder, createReminder } from '@/server/services/reminders';
@@ -15,11 +15,12 @@ server.route({
     const formData = req.payload as PatientFormData;
 
     try {
+      const oldFormData = await findOneScheduleById(id);
       const success = await updateOneSchedule(id, formData);
 
       if (success) {
         deleteReminder(new ObjectId(id));
-        notifyPatientAboutUpdate(formData);
+        notifyPatientAboutUpdate(oldFormData, formData);
 
         if (formData.notify) {
           createReminder(id, formData);

@@ -65,11 +65,14 @@ export const notifyPatientOneTimeCode = (to: PhoneNumber, code: string) => {
   });
 };
 
-export const notifyPatientAboutUpdate = (patient: PatientFormData) => {
+export const notifyPatientAboutUpdate = (oldPatient: PatientFormData, patient: PatientFormData) => {
+  const oldDate = oldPatient.date;
+  const newDate = patient.date;
+
   notify({
     to: patient.phone,
     method: patient.notificationType,
-    message: patientScheduleUpdatedMsg(patient),
+    message: patientScheduleUpdatedMsg(oldDate, newDate),
   });
 };
 
@@ -77,6 +80,6 @@ export const notifyPatientAboutCancel = (patient: PatientFormData) => {
   notify({
     to: patient.phone,
     method: patient.notificationType,
-    message: patientScheduleRemoveMsg(),
+    message: patientScheduleRemoveMsg(patient),
   });
 };

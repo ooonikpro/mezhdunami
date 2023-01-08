@@ -1,5 +1,5 @@
 import { ADDRESS } from '@/constants';
-import { PatientFormData } from '@/types';
+import { DateNumber, PatientFormData } from '@/types';
 import { getNames, getLocalizedShortDate, getLocalizedFullDate } from '@/utils';
 
 const signature = 'Косметология для своих';
@@ -24,12 +24,18 @@ export const patientReminderMsg = (data: PatientFormData) => {
   return `Напоминаем, что Вы записаны к косметологу, ${date}, ${procedures}`;
 };
 
-export const patientScheduleUpdatedMsg = (data: PatientFormData) => {
-  const date = getLocalizedShortDate(data.date);
+export const patientScheduleUpdatedMsg = (oldDate: DateNumber, newDate: DateNumber) => {
+  const oldLocalizedDate = getLocalizedShortDate(oldDate);
+  const newLocalizedDate = getLocalizedShortDate(newDate);
 
-  return `Ваша запись к косметологу перенесена на ${date}.`;
+  return `Ваша запись к косметологу перенесена с ${oldLocalizedDate} на ${newLocalizedDate}.`;
 };
 
 export const oneTimeCodeMsg = (code: string) => `Тcс... "Между Нами". Код подтверждения: ${code}`;
 
-export const patientScheduleRemoveMsg = () => 'Ваша запись к косметологу отменена.';
+export const patientScheduleRemoveMsg = (data: PatientFormData) => {
+  const date = getLocalizedShortDate(data.date);
+  const procedures = getNames(data.procedures);
+
+  return `Ваша запись к косметологу (${date}, ${procedures}) отменена.`;
+};
