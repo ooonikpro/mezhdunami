@@ -1,5 +1,5 @@
 <template>
-  <CalendarBase :from="from" :until="until" :excludedDates="excludedDates" fullWidth>
+  <CalendarBase :from="from" :until="until" fullWidth>
     <template v-slot="{ date, hour }">
       <CalendarPatientSticker :data="getData(date, hour)" @open-modal="openModal"/>
     </template>
