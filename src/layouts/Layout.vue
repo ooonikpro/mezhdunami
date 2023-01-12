@@ -3,8 +3,6 @@
     class="layout"
     :class="{ white: !withGradient }"
   >
-    <Gradient v-if="withGradient" />
-
     <div class="layout-container">
       <template v-if="withGradient">
         <Logo class="logo" />
@@ -26,18 +24,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, onMounted } from 'vue';
-import Gradient from '@/components/Gradient.vue';
+import { defineComponent, onMounted } from 'vue';
 import Logo from '@/components/Logo.vue';
 import Head from '@/components/Head.vue';
 
 import { usePageAnimation } from '@/composables/usePageAnimation';
-import { useBodyBg } from '@/composables/useBodyBg';
-import { useStatusBar } from '@/composables/useStatusBar';
 
 export default defineComponent({
   components: {
-    Gradient,
     Logo,
     Head,
   },
@@ -54,20 +48,8 @@ export default defineComponent({
     },
   },
 
-  setup(props) {
+  setup() {
     const { turnOffAnimation } = usePageAnimation();
-    const setBodyColor = useBodyBg();
-    const statusBar = useStatusBar();
-
-    onBeforeMount(() => {
-      statusBar.setBlack();
-
-      if (props.withGradient) {
-        setBodyColor('#F3BAB3');
-      } else {
-        setBodyColor('#FFF2EC');
-      }
-    });
 
     onMounted(turnOffAnimation);
   },
@@ -78,7 +60,7 @@ export default defineComponent({
   .layout {
     position: absolute;
     inset: 0;
-    background-color: $color-pink-100;
+    background-color: var(--bg-color);
     overflow: hidden;
     z-index: 2;
 
@@ -93,12 +75,12 @@ export default defineComponent({
       background-position: center;
       background-repeat: no-repeat;
       transform: scale(1.5);
-      opacity: 0.5;
+      opacity: 0.8;
     }
 
     &:before {
       top: 2rem;
-      left: -6rem;
+      left: -12rem;
       width: 23rem;
       height: 43rem;
       background-image: url("@/assets/img/pero-1.webp");
@@ -110,6 +92,7 @@ export default defineComponent({
       width: 23rem;
       height: 39rem;
       background-image: url("@/assets/img/pero-2.webp");
+      opacity: 0.6;
     }
 
     &.white {

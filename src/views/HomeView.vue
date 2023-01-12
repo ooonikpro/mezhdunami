@@ -21,20 +21,20 @@
       </a>
 
       <a
-        :href="$routes.orderPage"
-        class="full-width h-128 i-catalog media-btn"
-        @click.prevent="goTo($routes.orderPage)"
-      >
-        <span class="h3">Заказать <br>домашний уход</span>
-      </a>
-
-      <a
         :href="$routes.recommendations"
         class="full-width h-64 media-btn"
         @click.prevent="goTo($routes.recommendations)"
       >
         <span class="h3">Рекомендации</span>
         <span class="h5">До и после процедур</span>
+      </a>
+
+      <a
+        :href="$routes.orderPage"
+        class="full-width h-128 media-btn i-catalog"
+        @click.prevent="goTo($routes.orderPage)"
+      >
+        <span class="h3">Заказать <br>домашний уход</span>
       </a>
 
       <a
@@ -104,8 +104,8 @@ export default defineComponent({
 
   .media-btn {
     flex: 1 1 auto;
-    border-radius: 4px;
-    border: 1px solid rgba($color-pink-700, 0.1);
+    border-radius: 8px;
+    box-shadow: 1px 1px rgba($color-pink-700, .1);
     outline: none;
     text-decoration: none;
     background-repeat: no-repeat;
@@ -115,6 +115,7 @@ export default defineComponent({
     padding: 0.8rem 1.2rem;
     background-repeat: no-repeat;
     background-position: calc(100% - 0.8rem) 0.8rem;
+    background-color: rgba($color-white, .5);
 
     &.action-btn {
       background-color: $color-white;

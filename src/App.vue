@@ -10,14 +10,9 @@
 
 <script lang="ts">
 import { defineComponent, onBeforeMount, watch } from 'vue';
-import Gradient from '@/components/Gradient.vue';
 import { usePageAnimation } from '@/composables/usePageAnimation';
 
 export default defineComponent({
-  components: {
-    Gradient,
-  },
-
   setup() {
     const { isAnimate, isReverse } = usePageAnimation();
 

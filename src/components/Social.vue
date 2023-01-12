@@ -45,8 +45,8 @@ export default defineComponent({
   .social-btn {
     height: 6.4rem;
     flex: 1 1 auto;
-    border-radius: 4px;
-    border: 1px solid rgba($color-pink-700, 0.1);
+    border-radius: 5px;
+    box-shadow: 1px 1px rgba($color-pink-700, .1);
     outline: none;
     text-decoration: none;
     background-repeat: no-repeat;
@@ -54,6 +54,7 @@ export default defineComponent({
     justify-content: space-between;
     align-items: flex-end;
     padding: 0.8rem 1.2rem;
+    background-color: rgba($color-white, .5);
     background-repeat: no-repeat;
     background-position: calc(100% - 0.8rem) 0.8rem;
 

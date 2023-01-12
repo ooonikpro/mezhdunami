@@ -14,10 +14,7 @@ module.exports = defineConfig({
   },
 
   devServer: {
-    allowedHosts: [
-      'localhost',
-      'dr-helen.localhost',
-    ],
+    allowedHosts: ['localhost', 'dr-helen.localhost'],
     proxy: {
       '^/api': {
         target: 'http://localhost:3000',
@@ -26,15 +23,15 @@ module.exports = defineConfig({
   },
 
   pwa: {
-    themeColor: '#F3BAB3',
-    msTileColor: '#F3BAB3',
+    themeColor: '#FFF2EC',
+    msTileColor: '#FFF2EC',
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'black',
     manifestOptions: {
       name: 'Между Нами. Косметология для своих',
       short_name: 'Между Нами',
       display: 'standalone',
-      background_color: '#F3BAB3',
+      background_color: '#FFF2EC',
       lang: 'ru',
       dir: 'ltr',
     },
