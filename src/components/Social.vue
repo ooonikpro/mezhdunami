@@ -45,7 +45,7 @@ export default defineComponent({
   .social-btn {
     height: 6.4rem;
     flex: 1 1 auto;
-    border-radius: 5px;
+    border-radius: 8px;
     box-shadow: 1px 1px rgba($color-pink-700, .1);
     outline: none;
     text-decoration: none;
