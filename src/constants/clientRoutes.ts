@@ -5,4 +5,6 @@ export const CLIENT_ROUTES = {
   priceList: '/price-list',
   orderPage: '/order-page',
   recommendations: '/recommendations',
+  recommendationsAfterProcedures: '/recommendations-after-procedures',
+  howToPrepareToProcedure: '/how-to-prepare-to-procedure',
 };

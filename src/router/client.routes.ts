@@ -27,7 +27,15 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: CLIENT_ROUTES.recommendations,
-    component: () => import('@/views/RecommendationsView.vue'),
+    component: () => import('@/views/recommendations/RecommendationsView.vue'),
+  },
+  {
+    path: CLIENT_ROUTES.howToPrepareToProcedure,
+    component: () => import('@/views/recommendations/RecommendationsBeforeView.vue'),
+  },
+  {
+    path: CLIENT_ROUTES.recommendationsAfterProcedures,
+    component: () => import('@/views/recommendations/RecommendationsAfterView.vue'),
   },
   {
     path: '/:pathMatch(.*)*',

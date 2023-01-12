@@ -45,6 +45,8 @@
       </div>
     </div>
 
+    <Button outline class="mb-16" @click="goTo($routes.howToPrepareToProcedure)">Как подготовиться к процедуре?</Button>
+
     <Button @click="close">
       Хорошо
     </Button>
@@ -59,6 +61,7 @@ import Button from '@/components/Button.vue';
 import { useCalendar } from '@/composables/useCalendar';
 import { useProcedures } from '@/composables/useProcedures';
 import type { PatientFormData } from '@/types';
+import { useAnimatedRouter } from '@/composables/useAnimatedRouter';
 
 export default defineComponent({
   components: {
@@ -84,6 +87,7 @@ export default defineComponent({
     const { getLocalizedFullDate } = useCalendar();
     const { getNames, getTotalDurationLocalized } = useProcedures();
     const close = () => emit('close');
+    const { goTo } = useAnimatedRouter();
 
     const procedureLabel = computed(() => {
       let label = 'процедур';
@@ -100,6 +104,7 @@ export default defineComponent({
       getNames,
       getTotalDurationLocalized,
       close,
+      goTo,
       procedureLabel,
     };
   },

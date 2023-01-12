@@ -34,7 +34,7 @@
         @click.prevent="goTo($routes.recommendations)"
       >
         <span class="h3">Рекомендации</span>
-        <span class="h5">После процедур</span>
+        <span class="h5">До и после процедур</span>
       </a>
 
       <a
@@ -146,6 +146,12 @@ export default defineComponent({
 
   .h6 {
     font-size: 1.1rem;
+  }
+
+  .h5 {
+    @media screen and (max-width: 375px) {
+      font-size: 1.2rem;
+    }
   }
 
   .profile {
