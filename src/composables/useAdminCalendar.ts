@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
   computed, ref, watch,
 } from 'vue';
-import { createDate, getNextMonth, today } from '@/utils';
+import { createDate, today } from '@/utils';
 import { DateNumber, PatientFormData, ResponseAPI } from '@/types';
 import { ADMIN_API_URL, BASE_ADMIN_API_URL } from '@/constants/adminUrls';
 
@@ -10,7 +10,7 @@ const scheduleUrl = BASE_ADMIN_API_URL(ADMIN_API_URL.SCHEDULE);
 const nonWorkingDatesUrl = BASE_ADMIN_API_URL(ADMIN_API_URL.NON_WORKING_DATES);
 
 const from = ref(createDate(today));
-const until = ref(getNextMonth());
+const until = ref(createDate(new Date().setMonth(11)));
 const nonWorkingDates = ref<Record<DateNumber, 1>>({});
 const schedule = ref<Record<DateNumber, PatientFormData>>({});
 
